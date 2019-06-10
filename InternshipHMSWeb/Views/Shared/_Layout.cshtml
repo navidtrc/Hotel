@@ -1,0 +1,906 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>هتل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+
+    @*<link rel="stylesheet" href="~/Content/CustomerArea/css/bootstrap.css">*@
+    <link rel="stylesheet" href="~/Content/bootstrap-rtl.css">
+    <link rel="stylesheet" href="~/Content/CustomerArea/css/animate.css">
+    <link rel="stylesheet" href="~/Content/CustomerArea/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/CustomerArea/css/aos.css">
+    <link rel="stylesheet" href="~/Content/CustomerArea/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="~/Content/CustomerArea/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="~/Content/CustomerArea/css/fancybox.min.css">
+
+    <link rel="stylesheet" href="~/Content/CustomerArea/fonts/ionicons/css/ionicons.min.css">
+    <link href="~/Content/persian-datepicker.css" rel="stylesheet" />
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="~/Content/CustomerArea/css/style.css">
+    <link rel="stylesheet" href="~/Content/fontawesomepro.css">
+
+    <link href="@Url.Content("~/Content/kendo/2019.1.220/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2019.1.220/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2019.1.220/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo/2019.1.220/kendo.rtl.min.css" rel="stylesheet" />
+
+    <link href="~/Content/iziModal.css" rel="stylesheet" />
+</head>
+
+
+
+
+
+
+
+
+<body class="rtl">
+
+    <header class="site-header js-site-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+
+
+                    <div class="site-menu-toggle js-site-menu-toggle" data-aos="fade">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <!-- END menu-toggle -->
+
+                    <div class="site-navbar js-site-navbar">
+                        <nav role="navigation">
+                            <div class="container">
+                                <div class="row full-height align-items-center">
+                                    <div class="col-md-6 mx-auto">
+                                        <ul class="list-unstyled menu">
+                                            <li class="active"><a href="index.html">خانه</a></li>
+                                            <li><a href="rooms.html">اتاق ها</a></li>
+                                            <li><a href="about.html">درباره ما</a></li>
+                                            <li><a href="events.html">رویداد ها</a></li>
+                                            <li><a href="contact.html">ارتباط با ما</a></li>
+                                            <li><a href="reservation.html">رزرواسیون</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+
+
+
+
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "col-md-6 site-logo text-right", style = "float:left" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input hidden value="@User.Identity.GetUserId()" id="UserId" />
+                        <div class="row" style="float:left">
+                        <div>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { style = "font-size:20px" })</div>
+                        <a href="javascript:document.getElementById('logoutForm').submit()" style="font-size:15px; margin-right:10px; margin-top:5px;"><i class="fa fa-sign-out"></i></a>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-md-6 site-logo text-right" style="float:left" data-aos="fade">@Html.ActionLink("ورود به حساب کاربری", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", style = "font-size:20px" })</div>
+                }
+
+            </div>
+        </div>
+    </header>
+    <!-- END head -->
+
+    <section class="site-hero overlay" style="background-image: url('/Content/CustomerArea/images/hero_4.jpg')" data-stellar-background-ratio="0.5">
+        <div class="container">
+            <div class="row site-hero-inner justify-content-center align-items-center">
+                <div class="col-md-10 text-center" data-aos="fade-up">
+                    <span class="custom-caption text-uppercase text-white d-block  mb-3">به هتل های 5 <span class="fa fa-star text-primary"></span>   خوش آمدید</span>
+                    <h2 class="heading">بهترین جا برای ماندن !</h2>
+                </div>
+            </div>
+        </div>
+
+        <a class="mouse smoothscroll" href="#next">
+            <div class="mouse-icon">
+                <span class="mouse-wheel"></span>
+            </div>
+        </a>
+    </section>
+    <!-- END section -->
+
+    <section class="section bg-light pb-0">
+        <div class="container">
+
+            <div class="row check-availabilty" id="next">
+                <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
+
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                                <label for="checkin_date" class="font-weight-bold text-black">تاریخ ورود</label>
+                                <div class="field-icon-wrap">
+                                    <div class="icon"><span class="icon-calendar"></span></div>
+                                    <input readonly type="text" id="checkin_date" class="form-control bg-white">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                                <label for="checkout_date" class="font-weight-bold text-black">تاریخ خروج</label>
+                                <div class="field-icon-wrap">
+                                    <div class="icon"><span class="icon-calendar"></span></div>
+                                    <input readonly type="text" id="checkout_date" class="form-control bg-white">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-lg-3 align-self-end">
+                                <button type="button" onclick="CheckReservation()" id="checkReservationBtn" class="btn btn-primary btn-block text-white">بررسی</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5" data-aos="fade-up">
+                    <figure class="img-absolute">
+                        <img src="/Content/CustomerArea/images/food-1.jpg" alt="Image" class="img-fluid">
+                    </figure>
+                    <img src="/Content/CustomerArea/images/img_1.jpg" alt="Image" class="img-fluid rounded">
+                </div>
+                <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
+                    <h2 class="heading">خوش آمدید!</h2>
+                    <p class="mb-4">در اینجا میتوانید با بررسی هتل های مختلف و خدمات آنها رزرو خود را انجام دهید.</p>
+                    <p><a href="#" class="btn btn-primary text-white py-2 mr-3">بیشتر بدانید</a> <span class="mr-3 font-family-serif"><em>یا</em></span> <a href="#" data-fancybox class="text-uppercase letter-spacing-1">تماشای فیلم</a></p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            @RenderBody()
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-7">
+                    <h2 class="heading" data-aos="fade-up">اتاق ها و سوییت ها</h2>
+                    <p data-aos="fade-up" data-aos-delay="100">بررسی اتاق ها و امکانات آنها برای اقامت لذت بخش.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <a href="#" class="room">
+                        <figure class="img-wrap">
+                            <img src="/Content/CustomerArea/images/img_1.jpg" alt="Free website template" class="img-fluid mb-3">
+                        </figure>
+                        <div class="p-3 text-center room-info">
+                            <h2>اتاق تک نفره</h2>
+                            <span class="text-uppercase letter-spacing-1">90$ / شبی</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <a href="#" class="room">
+                        <figure class="img-wrap">
+                            <img src="/Content/CustomerArea/images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
+                        </figure>
+                        <div class="p-3 text-center room-info">
+                            <h2>اتاق خانواده</h2>
+                            <span class="text-uppercase letter-spacing-1">120$ / شبی</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <a href="#" class="room">
+                        <figure class="img-wrap">
+                            <img src="/Content/CustomerArea/images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
+                        </figure>
+                        <div class="p-3 text-center room-info">
+                            <h2>اتاق لوکس</h2>
+                            <span class="text-uppercase letter-spacing-1">250$ / شبی</span>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="section bg-image overlay" style="background-image: url('/Content/CustomerArea/images/hero_3.jpg');">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-7">
+                    <h2 class="heading text-white" data-aos="fade">منوی رستوران</h2>
+                    <p class="text-white" data-aos="fade" data-aos-delay="100">بهترین کیفیت غذا را با ما تجربه خواهید کرد</p>
+                </div>
+            </div>
+            <div class="food-menu-tabs" data-aos="fade">
+                <ul class="nav nav-tabs mb-5" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a style="letter-spacing:0 !important" class="nav-link active letter-spacing-2" id="mains-tab" data-toggle="tab" href="#mains" role="tab" aria-controls="mains" aria-selected="true">غذای اصلی</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="letter-spacing:0 !important" class="nav-link letter-spacing-2" id="desserts-tab" data-toggle="tab" href="#desserts" role="tab" aria-controls="desserts" aria-selected="false">دسر</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="letter-spacing:0 !important" class="nav-link letter-spacing-2" id="drinks-tab" data-toggle="tab" href="#drinks" role="tab" aria-controls="drinks" aria-selected="false">نوشیدنی</a>
+                    </li>
+                </ul>
+                <div class="tab-content py-5" id="myTabContent">
+
+
+                    <div class="tab-pane fade in show active text-left" id="mains" role="tabpanel" aria-labelledby="mains-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$20.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Murgh Tikka Masala</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$35.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Fish Moilee</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$15.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Safed Gosht</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$10.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">French Toast Combo</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$8.35</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Vegie Omelet</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$22.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Chorizo &amp; Egg Omelet</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div> <!-- .tab-pane -->
+
+                    <div class="tab-pane fade in text-left" id="desserts" role="tabpanel" aria-labelledby="desserts-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$11.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Banana Split</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$72.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Sticky Toffee Pudding</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$26.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Pecan</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$42.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Apple Strudel</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$7.35</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Pancakes</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$22.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Ice Cream Sundae</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- .tab-pane -->
+                    <div class="tab-pane fade in text-left" id="drinks" role="tabpanel" aria-labelledby="drinks-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$32.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Spring Water</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$14.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Coke, Diet Coke, Coke Zero</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$93.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Orange Fanta</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$18.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Lemonade, Lemon Squash</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$38.35</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Sparkling Mineral Water</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                                <div class="food-menu mb-5">
+                                    <span class="d-block text-primary h4 mb-3">$69.00</span>
+                                    <h3 class="text-white"><a href="#" class="text-white">Lemon, Lime &amp; Bitters</a></h3>
+                                    @*<p class="text-white text-opacity-7">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- .tab-pane -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- END section -->
+    <section class="section testimonial-section">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-7">
+                    <h2 class="heading" data-aos="fade-up">نظرات مشتریان ما</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="js-carousel-2 owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
+
+                    <div class="testimonial text-center slider-item">
+                        <div class="author-image mb-3">
+                            <img src="/Content/CustomerArea/images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+                        </div>
+                        <blockquote>
+
+                            <p>&ldquo;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&rdquo;</p>
+                        </blockquote>
+                        <p><em>&mdash; Jean Smith</em></p>
+                    </div>
+
+                    <div class="testimonial text-center slider-item">
+                        <div class="author-image mb-3">
+                            <img src="/Content/CustomerArea/images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+                        </div>
+                        <blockquote>
+                            <p>&ldquo;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&rdquo;</p>
+                        </blockquote>
+                        <p><em>&mdash; John Doe</em></p>
+                    </div>
+
+                    <div class="testimonial text-center slider-item">
+                        <div class="author-image mb-3">
+                            <img src="/Content/CustomerArea/images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+                        </div>
+                        <blockquote>
+
+                            <p>&ldquo;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane.&rdquo;</p>
+                        </blockquote>
+                        <p><em>&mdash; John Doe</em></p>
+                    </div>
+
+
+                    <div class="testimonial text-center slider-item">
+                        <div class="author-image mb-3">
+                            <img src="/Content/CustomerArea/images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+                        </div>
+                        <blockquote>
+
+                            <p>&ldquo;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&rdquo;</p>
+                        </blockquote>
+                        <p><em>&mdash; Jean Smith</em></p>
+                    </div>
+
+                    <div class="testimonial text-center slider-item">
+                        <div class="author-image mb-3">
+                            <img src="/Content/CustomerArea/images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+                        </div>
+                        <blockquote>
+                            <p>&ldquo;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&rdquo;</p>
+                        </blockquote>
+                        <p><em>&mdash; John Doe</em></p>
+                    </div>
+
+                    <div class="testimonial text-center slider-item">
+                        <div class="author-image mb-3">
+                            <img src="/Content/CustomerArea/images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+                        </div>
+                        <blockquote>
+
+                            <p>&ldquo;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane.&rdquo;</p>
+                        </blockquote>
+                        <p><em>&mdash; John Doe</em></p>
+                    </div>
+
+                </div>
+                <!-- END slider -->
+            </div>
+
+        </div>
+    </section>
+
+
+    @*<section class="section blog-post-entry bg-light">
+            <div class="container">
+                <div class="row justify-content-center text-center mb-5">
+                    <div class="col-md-7">
+                        <h2 class="heading" data-aos="fade-up">Events</h2>
+                        <p data-aos="fade-up">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="100">
+
+                        <div class="media media-custom d-block mb-4 h-100">
+                            <a href="#" class="mb-4 d-block"><img src="/Content/CustomerArea/images/img_1.jpg" alt="Image placeholder" class="img-fluid"></a>
+                            <div class="media-body">
+                                <span class="meta-post">February 26, 2018</span>
+                                <h2 class="mt-0 mb-3"><a href="#">Travel Hacks to Make Your Flight More Comfortable</a></h2>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="200">
+                        <div class="media media-custom d-block mb-4 h-100">
+                            <a href="#" class="mb-4 d-block"><img src="/Content/CustomerArea/images/img_2.jpg" alt="Image placeholder" class="img-fluid"></a>
+                            <div class="media-body">
+                                <span class="meta-post">February 26, 2018</span>
+                                <h2 class="mt-0 mb-3"><a href="#">5 Job Types That Aallow You To Earn As You Travel The World</a></h2>
+                                <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="300">
+                        <div class="media media-custom d-block mb-4 h-100">
+                            <a href="#" class="mb-4 d-block"><img src="/Content/CustomerArea/images/img_3.jpg" alt="Image placeholder" class="img-fluid"></a>
+                            <div class="media-body">
+                                <span class="meta-post">February 26, 2018</span>
+                                <h2 class="mt-0 mb-3"><a href="#">30 Great Ideas On Gifts For Travelers</a></h2>
+                                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. t is a paradisematic country, in which roasted parts of sentences.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>*@
+
+    <section class="section bg-image overlay" style="background-image: url('/Content/CustomerArea/images/hero_4.jpg');">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-6 text-center mb-4 mb-md-0 text-md-left" data-aos="fade-up">
+                    <h2 class="text-white font-weight-bold">همین حالا رزرو کنید!</h2>
+                </div>
+                <div class="col-12 col-md-6 text-center text-md-right" data-aos="fade-up" data-aos-delay="200">
+                    <a href="reservation.html" class="btn btn-outline-white-primary py-3 text-white px-5">رزرو</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="section footer-section">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 mb-5">
+                    <ul class="list-unstyled link">
+                        <li><a href="#">درباره ما</a></li>
+                        <li><a href="#">قوانین و ضوابط</a></li>
+                        <li><a href="#">اتاق ها</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 mb-5 pr-md-5 contact-info">
+                    <p><span class="d-block"><span class="ion-ios-location h5 mr-3 text-primary"></span>آدرس دفتر مرکزی:</span> <span>ایران، تهران<br> خیابان ظفر، پلاک 175</span></p>
+                    <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span>تلفن:</span> <span>98-912-0501287+</span></p>
+                    <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span>ایمیل:</span> <span> navidtrc@gmail.com</span></p>
+                </div>
+                <div class="col-md-5 mb-5">
+                    <p>در خبر نامه ما ثبت نام کنید تا از جدید ترین پیشنهادات با خبر شوید</p>
+                    <form action="#" class="footer-newsletter">
+                        <div class="form-inline">
+                            <input type="email" class="form-control" placeholder="ایمیل">
+                            <input type="submit" value="ثبت" class="btn btn-dark" />
+                            @*<button type="submit" class="btn"><span class="fa fa-paper-plane"></span></button>*@
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row pt-5">
+                <p class="col-md-6 text-left">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+
+                @*<p class="col-md-6 text-right social">
+                        <a href="#"><span class="fa fa-tripadvisor"></span></a>
+                        <a href="#"><span class="fa fa-facebook"></span></a>
+                        <a href="#"><span class="fa fa-twitter"></span></a>
+                        <a href="#"><span class="fa fa-linkedin"></span></a>
+                        <a href="#"><span class="fa fa-vimeo"></span></a>
+                    </p>*@
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+    <div id="ReserveModal" class="" hidden>
+        <div class="iziModal-header bg-info" style="margin-bottom:20px">
+            <h2 class="iziModal-header-title"><i class="fa fa-user"></i> ثبت رزرو </h2>
+            <div class="iziModal-header-buttons">
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+            </div>
+        </div>
+        <div class="container">
+            <div style="margin-top:2%;">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-12">
+                                    <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#CreateReservationTab" class="nav-link text-primary"><i class="fa fa-handshake"></i> رزرواسیون</a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="#CreateFellowsTab" class="nav-link text-primary"><i class="fa fa-users"></i> همراهان</a>
+                                        </li>
+
+                                    </ul>
+                                    <div class="tab-content" style="font-size:15px">
+                                        <div id="CreateReservationTab" class="tab-pane active in">
+
+
+                                            <div class="bg-light pb-0">
+                                                <div class="container">
+                                                    <div class="row" id="next">
+                                                        <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
+                                                            <div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                                                                        <label for="checkin_date" class="font-weight-bold text-black">تاریخ ورود</label>
+                                                                        <div class="field-icon-wrap">
+                                                                            <div class="icon"><span class="icon-calendar"></span></div>
+                                                                            <input readonly disabled type="text" id="ModalCheckin_date" class="form-control bg-white">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                                                                        <label for="checkout_date" class="font-weight-bold text-black">تاریخ خروج</label>
+                                                                        <div class="field-icon-wrap">
+                                                                            <div class="icon"><span class="icon-calendar"></span></div>
+                                                                            <input readonly disabled type="text" id="ModalCheckout_date" class="form-control bg-white">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12 col-lg-3 align-self-end">
+                                                                        <button type="button" onclick="RefreshGrid()" id="checkReservationBtn" class="btn btn-primary btn-block text-white">بررسی</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="k-rtl" style="font-size:14px" id="ReservationGridParent">
+                                                <div id="ReservationGrid"></div>
+                                            </div>
+
+                                        </div>
+                                        <div id="CreateFellowsTab" class="tab-pane fade in in" style="font-size:12px">
+                                            <div id="DetailHostOrFellowInfoContent">
+                                                <button id="CreateNewFellowBtn" onclick="OpenFellowsList()" style="margin:10px 0 10px 0" class="btn btn-primary"><i class="fa fa-plus"></i> ثبت همراه جدید</button>
+                                                <div class="k-rtl" style="font-size:14px" id="FellowsGridParent">
+                                                    <div id="FellowsGrid"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div>
+                                            <span class="text-muted">مبلغ قابل پرداخت کل: <span class="text-black" id="TotalAmount"></span></span>
+                                            <br />
+                                            <span class="text-muted">مبلغ قابل پرداخت جهت رزرو: <span class="text-black" id="ReserveAmount"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <center style="" class="col-md-12">
+                                    <span class="text-danger" style="margin:10px;display:block;font-size:10px" id="ReservationCreateError"></span>
+
+                                    <button onclick="SubmitReservationPost()" style="width:120px;margin-top:20px" class="btn btn-success"><i class="fa fa-check"></i> ثبت</button>
+                                    <button data-izimodal-close="" style="width:140px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="SelectFellowModal" class="" hidden>
+        <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+            <h2 class="iziModal-header-title"><i class="fa fa-user"></i> انتخاب همراه </h2>
+            <div class="iziModal-header-buttons">
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+            </div>
+        </div>
+
+        <div class="container">
+            <button onclick="OpenCreateFellowModal()" style="margin-bottom:10px" class="btn btn-primary"><i class="fa fa-plus"></i> مسافر جدید</button>
+            <div class="k-rtl">
+                <div id="SelectAllFellowGrid"></div>
+            </div>
+        </div>
+        <hr />
+        <center style="margin-top:5px" class="col-md-12">
+            <button onclick="GenerateSelectedPassenger()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-check"></i> انتخاب</button>
+            <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+        </center>
+    </div>
+
+    <div id="CreateFellowModal" class="" hidden>
+        <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+            <h2 class="iziModal-header-title"><i class="fa fa-user"></i> ثبت همراه </h2>
+            <div class="iziModal-header-buttons">
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="" style="margin-top:2%;">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="nav nav-tabs nav-justified" style="font-size:13px;">
+                                        <li class="active">
+                                            <a style="color:#c75500" data-toggle="tab" href="#CreateFellowBasicInfo" class="nav-link"><i class="fa fa-user"></i> اطلاعات پایه</a>
+                                        </li>
+
+                                    </ul>
+                                    <div class="tab-content" style="font-size:15px">
+
+                                        <div id="CreateFellowBasicInfo" class="tab-pane active in">
+                                            <div class="table-responsive panel">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام</td>
+                                                            <td><input type="text" id="CreateFellowFirstName" class="form-control" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام خانوادگی</td>
+                                                            <td><input type="text" id="CreateFellowLastName" class="form-control" /></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-credit-card"></i> کد ملی </td>
+                                                            <td><input type="text" id="CreateFellowNationalCode" class="form-control" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> تولد</td>
+                                                            <td><input readonly type="text" id="CreateFellowBirthdate" class="form-control" /></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <center class="col-md-12">
+            <span class="text-danger" style="margin:10px;display:block;font-size:14px" id="CreateFellowError"></span>
+            <button onclick="SubmitNewFellow()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-pen"></i> ثبت</button>
+            <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+        </center>
+    </div>
+
+    <div id="DetailRoomModal" hidden>
+        <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+            <h2 class="iziModal-header-title"><i class="fa fa-hotel"></i> اطلاعات اتاق </h2>
+            <div class="iziModal-header-buttons">
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+                <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="" style="margin-top:2%;">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailRoomBasicInfo" class="nav-link"><i class="fa fa-list"></i> اطلاعات پایه</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailRoomFacilities" class="nav-link"><i class="fa fa-list"></i> امکانات</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+                                    <div id="DetailRoomBasicInfo" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-sort-numeric-up"></i> شماره</td>
+                                                        <td id="DetailRoomNumber"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-location"></i> مشخصات مکانی</td>
+                                                        <td id="DetailRoomLocation"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-list"></i> نوع اتاق </td>
+                                                        <td id="DetailRoomType"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-hotel"></i> در هتل</td>
+                                                        <td id="DetailRoomHotel"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div id="DetailRoomFacilities" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-space-shuttle"></i> متراژ</td>
+                                                        <td id="DetailFacilitiesSpace"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-users"></i> ظرفیت</td>
+                                                        <td id="DetailFacilitiesCapacity"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت یک نفره</td>
+                                                        <td id="DetailFacilitiesSingleBed"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت دو نفره</td>
+                                                        <td id="DetailFacilitiesDoubleBed"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-gamepad"></i>  امکانات دیگر</td>
+                                                        <td>
+                                                            <div class="container">
+                                                                <ul class="ks-cboxtags">
+                                                                    <li><input disabled type="checkbox" id="DetailFacilitiesKitchen" value="Kitchen"><label for="DetailFacilitiesKitchen">آشپزخونه</label></li>
+                                                                    <li><input disabled type="checkbox" id="DetailFacilitiesTerrace" value="Teracce"><label for="DetailFacilitiesTerrace">تراس</label></li>
+                                                                    <li><input disabled type="checkbox" id="DetailFacilitiesTV" value="TV"><label for="DetailFacilitiesTV">تلویزیون</label></li>
+                                                                    <li><input disabled type="checkbox" id="DetailFacilitiesSafeBox" value="SafeBox"><label for="DetailFacilitiesSafeBox">گاو صندوق</label></li>
+                                                                    <li><input disabled type="checkbox" id="DetailFacilitiesWiFi" value="WiFi"><label for="DetailFacilitiesWiFi">Wi-Fi</label></li>
+                                                                    <li><input disabled type="checkbox" id="DetailFacilitiesGamingConsole" value="Console"><label for="DetailFacilitiesGamingConsole">PlayStation</label></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <center>
+                                <span class="text-left">
+                                    <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                </span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ReservationStatusModal" hidden>
+        
+        <div class="container" style="margin:30px">
+            <h4 class="text-success">شماره رزرو شما: <span id="ReservationNumberStatus"></span></h4>
+            <p class="text-warning">شما 24 ساعت فرصت دارید تا رزرو خود را قطعی کنید</p>
+            <p class="text-warning">مبلغ قابل پرداخت شما 50% هزینه کل معادل <span class="text-danger" id="ReservationPriceStatus"></span> میباشد.</p>
+            <br />
+            <input type="button" class="btn btn-success" value="باشه" data-izimodal-close="" />
+
+        </div>
+    </div>
+
+    <script src="~/Content/CustomerArea/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/CustomerArea/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/CustomerArea/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="~/Content/CustomerArea/js/popper.min.js"></script>
+    <script src="~/Content/CustomerArea/js/bootstrap.min.js"></script>
+    <script src="~/Content/CustomerArea/js/owl.carousel.min.js"></script>
+    <script src="~/Content/CustomerArea/js/jquery.stellar.min.js"></script>
+    <script src="~/Content/CustomerArea/js/jquery.fancybox.min.js"></script>
+    <script src="~/Content/CustomerArea/js/aos.js"></script>
+    <script src="~/Content/CustomerArea/js/main.js"></script>
+
+
+    <script>var jq1124 = jQuery.noConflict();</script>
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/jquery.min.js")"></script>
+
+    <script src="~/Scripts/persian-date.js"></script>
+    <script src="~/Scripts/persian-datepicker.js"></script>
+
+
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/angular.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/kendo.all.min.js")"></script>
+    <script src="~/Scripts/kendo/2019.1.220/kendo.aspnetmvc.min.js"></script>
+    <script src="~/Scripts/iziModal.js"></script>
+    <script src="~/Scripts/iziToast.js"></script>
+    <script src="~/Scripts/PersianKendo.js"></script>
+
+
+
+    @RenderSection("scripts", false)
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+﻿@{
+    Layout = null;
+}
+@using InternshipHMSModels.ViewModels
+@using Microsoft.AspNet.Identity
+@model LoginViewModel
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>صفحه ورود کاربر</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="~/Content/Login/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="~/Content/bootstrap-rtl.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/css/main.css">
+    <link href="~/Content/fontawesomepro.css" rel="stylesheet" />
+</head>
+<body class="rtl">
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-more" style="background-image: url();"></div>
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", @role = "form", @id = "submitForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div style="font-family:IRANSans;">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger text-center" })
+                    </div>
+                    <span class="login100-form-title p-b-34">
+                        <i class="fa fa-sign-in"></i>
+                        ورود به سامانه
+                    </span>
+                    <div class="wrap-input100 rs1-wrap-input100 m-b-20">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "input100", @id = "Email", @placeholder = "ایمیل", @autofocus = "true", type = "email" })
+                    </div>
+                    <div class="wrap-input100 rs1-wrap-input100 m-b-20">
+                        @Html.TextBoxFor(m => m.Password, new { @class = "input100", @id = "Password", @placeholder = "رمز عبور", type = "password" })
+                    </div>
+                    <div class="container-login100-form-btn" style="margin-bottom:40px">
+                        <input id="signinBtn" style="font-size:18px" type="submit" class="login100-form-btn" value="ورود" />
+                    </div>
+                    <div class="w-full text-center">
+                        <a href="/Account/Register" class="txt3"><i class="fa fa-pen"></i> ثبت نام </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/Login/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/Content/Login/vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/Content/Login/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/Content/Login/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/Login/vendor/select2/select2.min.js"></script>
+    <script>
+        $(".selection-2").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+    </script>
+    <script src="~/Content/Login/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/Content/Login/vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Content/Login/vendor/countdowntime/countdowntime.js"></script>
+    <script src="~/Content/Login/vendor/js/main.js"></script>
+</body>
+</html>

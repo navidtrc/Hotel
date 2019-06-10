@@ -1,0 +1,60 @@
+﻿<h2 class="text-muted" style="margin:20px 0 20px 0;font-size:24px">نوع اتاق ها</h2>
+<hr />
+<div class="k-rtl">
+    <div id="grid"></div>
+</div>
+@section scripts{
+    <script src="~/Scripts/PersianKendo.js"></script>
+    <script>
+        $("#grid").kendoGrid({
+            height: 400,
+            columns: [
+                { field: "Type", title: "نوع اتاق", width: 200 },
+                { command: ["destroy"], width: 150 }
+            ],
+            toolbar: ["create", "save"],
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                batch: true,
+                transport: {
+                    read: {
+                        url: "RoomType_List_Read"
+                    },
+                    create: {
+                        url: "RoomType_List_Create"
+                    },
+                    update: {
+                        url: "RoomType_List_Update"
+                    },
+                    destroy: {
+                        url: "RoomType_List_Destroy"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            Type: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            columnMenu: true,
+            editable: "incell",
+            pageable: true,
+            navigatable: true,
+            selectable: "single row",
+            sortable: {
+                mode: "single"
+            },
+            filterable: true,
+            scrollable: true
+        })
+
+    </script>
+}

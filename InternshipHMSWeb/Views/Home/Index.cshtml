@@ -1,0 +1,784 @@
+﻿
+
+<style>
+
+
+    ul.ks-cboxtags {
+        list-style: none;
+        padding: 20px;
+    }
+
+        ul.ks-cboxtags li {
+            display: inline;
+        }
+
+            ul.ks-cboxtags li label {
+                display: inline-block;
+                background-color: rgba(255, 255, 255, .9);
+                border: 2px solid rgba(139, 139, 139, .3);
+                color: #adadad;
+                border-radius: 25px;
+                white-space: nowrap;
+                margin: 3px 0px;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+                transition: all .2s;
+            }
+
+            ul.ks-cboxtags li label {
+                padding: 8px 12px;
+                cursor: pointer;
+            }
+
+                ul.ks-cboxtags li label::before {
+                    display: inline-block;
+                    font-style: normal;
+                    font-variant: normal;
+                    text-rendering: auto;
+                    -webkit-font-smoothing: antialiased;
+                    font-family: "Font Awesome 5 Pro";
+                    font-weight: 900;
+                    font-size: 12px;
+                    padding: 2px 6px 2px 2px;
+                    content: "\f067";
+                    transition: transform .3s ease-in-out;
+                }
+
+            ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+                content: "\f00c";
+                transform: rotate(-360deg);
+                transition: transform .3s ease-in-out;
+            }
+
+            ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+                border: 2px solid #1bdbf8;
+                background-color: #12bbd4;
+                color: #fff;
+                transition: all .2s;
+            }
+
+            ul.ks-cboxtags li input[type="checkbox"] {
+                display: absolute;
+            }
+
+            ul.ks-cboxtags li input[type="checkbox"] {
+                position: absolute;
+                opacity: 0;
+            }
+
+                ul.ks-cboxtags li input[type="checkbox"]:focus + label {
+                    border: 2px solid #e9a1ff;
+                }
+</style>
+
+
+
+
+
+
+
+@section scripts{
+
+    <script>
+        var FellowsArray = [];
+        var SelectedFellows = '[]';
+        var SelectedFellowsArrayFromJson = [];
+
+        var RoomsArray = [];
+        var SelectedRooms = '[]';
+        var SelectedRoomsArrayFromJson = [];
+
+        var jwtToken;
+
+        $(document).ready(function myfunction() {
+
+
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + "token" + "=");
+            if (parts.length == 2) {
+                jwtToken = parts.pop().split(";").shift()
+            };
+
+            $("#checkin_date").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: false
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+                minDate: new persianDate().add('month', -1).valueOf(),
+                onSelect: function (date) {
+                    var selectedDate = new Date(date);
+                    var msecInDay = 86400000;
+                    var endDate = new persianDate(selectedDate.valueOf() + msecInDay);
+                    $("#checkout_date").persianDatepicker({
+                        initialValue: false,
+                        calendar: {
+                            persian: {
+                                locale: 'fa'
+                            }
+                        },
+                        initialValueType: 'persian',
+                        altField: '#inlineExampleAlt',
+                        altFormat: 'LLLL',
+                        toolbox: {
+                            calendarSwitch: {
+                                enabled: true
+                            }
+                        },
+                        navigator: {
+                            scroll: {
+                                enabled: false
+                            }
+                        },
+                        minDate: endDate,
+                        timePicker: {
+                            enabled: true,
+                            meridiem: {
+                                enabled: true
+                            }
+                        },
+                        observer: true,
+                        format: 'YYYY/MM/DD',
+                    });
+                },
+                timePicker: {
+                    enabled: false,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+            $("#ModalCheckin_date").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: false
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+                minDate: new persianDate().add('month', -1).valueOf(),
+                onSelect: function (date) {
+                    var selectedDate = new Date(date);
+                    var msecInDay = 86400000;
+                    var endDate = new persianDate(selectedDate.valueOf() + msecInDay);
+                    $("#ModalCheckout_date").persianDatepicker({
+                        initialValue: false,
+                        calendar: {
+                            persian: {
+                                locale: 'fa'
+                            }
+                        },
+                        initialValueType: 'persian',
+                        altField: '#inlineExampleAlt',
+                        altFormat: 'LLLL',
+                        toolbox: {
+                            calendarSwitch: {
+                                enabled: true
+                            }
+                        },
+                        navigator: {
+                            scroll: {
+                                enabled: false
+                            }
+                        },
+                        minDate: endDate,
+                        timePicker: {
+                            enabled: true,
+                            meridiem: {
+                                enabled: true
+                            }
+                        },
+                        observer: true,
+                        format: 'YYYY/MM/DD',
+                    });
+                },
+                timePicker: {
+                    enabled: false,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+        })
+
+
+
+        $("#ReserveModal").iziModal({
+            width: 900,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: true,
+            overlayClose: false,
+            onClosed: function () {
+                $("#ModalCheckin_date").attr('disabled', 'disabled');
+                $("#ModalCheckout_date").attr('disabled', 'disabled');
+
+                $("#ModalCheckin_date").val("");
+                $("#ModalCheckout_date").val("");
+
+            }
+
+        });
+
+        $("#SelectFellowModal").iziModal({
+            width: 500,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+
+            }
+        });
+
+        $("#CreateFellowModal").iziModal({
+            width: 500,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                $("#CreateFellowFirstName").val("");
+                $("#CreateFellowLastName").val("");
+                $("#CreateFellowNationalCode").val("");
+                $("#CreateFellowBirthdate").val("");
+                $("#CreateFellowError").html("");
+            }
+        });
+
+
+        $("#DetailRoomModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                $("#DetailRoomNumber").html("");
+                $("#DetailRoomLocation").html("");
+                $("#DetailRoomType").html("");
+                $("#DetailRoomHotel").html("");
+                $("#DetailFacilitiesSingleBed").html("");
+                $("#DetailFacilitiesDoubleBed").html("");
+                $("#DetailFacilitiesSpace").html("");
+                $("#DetailFacilitiesCapacity").html("");
+                $("#DetailFacilitiesKitchen").prop('checked', false);
+                $("#DetailFacilitiesTerrace").prop('checked', false);
+                $("#DetailFacilitiesTV").prop('checked', false);
+                $("#DetailFacilitiesWiFi").prop('checked', false);
+                $("#DetailFacilitiesSafeBox").prop('checked', false);
+                $("#DetailFacilitiesGamingConsole").prop('checked', false);
+
+            }
+        });
+
+        $("#ReservationStatusModal").iziModal({
+            width: 500,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: true,
+            overlayClose: false,
+            onClosed: function () {
+                $("#ReservationNumberStatus").html("")
+
+            }
+
+        });
+
+
+
+        function OpenFellowsList() {
+
+            $.ajax({
+                url: '/api/HomeApi/CheckAuthentication',
+                //url: '/Home/CheckAuthentication',
+                type: 'GET',
+                success: function (result) {
+                    OpenFellowListAccepted();
+
+                },
+                error: function (result) {
+                    window.location = '/Account/Login'
+                }
+            })
+
+        }
+
+        function OpenFellowListAccepted() {
+
+            $("#SelectFellowModal").removeAttr('hidden');
+            $("#SelectFellowModal").iziModal('open');
+            $("#SelectAllFellowGrid").kendoGrid({
+                height: 600,
+                columns: [
+                    { selectable: true, width: "50px" },
+                    { field: "FullName", title: "نام و نام خانوادگی" },
+                    { field: "NationalCode", title: "کد ملی" },
+                    { field: "PassportNumber", title: "شماره پاسپورت" }
+                ],
+                dataSource: {
+                    type: "webapi",
+                    transport: {
+                        idField: "ID",
+                        read: {
+                            url: "/api/HomeApi/Fellows_Read",
+                            //url: "/Home/Fellows_Read",
+                            data: {
+                                ParentID: $("#UserId").val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "string" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "string" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "multiple row",
+                filterable: true,
+                scrollable: true
+            })
+        }
+        function GenerateSelectedPassenger() {
+            SelectedFellows = '[]';
+            SelectedFellowsArrayFromJson = [];
+            FellowsArray = [];
+
+            entityGrid = $("#SelectAllFellowGrid").data("kendoGrid");
+            rows = entityGrid.select();
+            rows.each(function (index, row) {
+                var selectedItem = entityGrid.dataItem(row);
+                FellowsArray.push(selectedItem.ID);
+                var obj = JSON.parse(SelectedFellows);
+                obj.push({ "ID": selectedItem.ID, "FullName": selectedItem.FullName, "NationalCode": selectedItem.NationalCode, "PassportNumber": selectedItem.PassportNumber });
+
+                SelectedFellows = JSON.stringify(obj);
+            });
+            SelectedFellowsArrayFromJson = JSON.parse(SelectedFellows);
+            debugger;
+
+            $("#SelectFellowModal").iziModal('close');
+            $("#SelectFellowGrid").remove();
+
+            $("#DetailHostOrFellowInfoContent").append(
+                $("<div />").attr("id", "SelectFellowGrid").addClass("k-rtl")
+            )
+
+            $("#SelectFellowGrid").kendoGrid({
+                height: 400,
+                columns: [
+                    { selectable: true, width: 50 },
+                    { field: "FullName", title: "نام و نام خانوادگی", width: 200 },
+                    { field: "NationalCode", title: "کد ملی", width: 150 },
+                    { field: "PassportNumber", title: "شماره پاسپورت", width: 150 },
+                    {
+                        command: [{
+                            name: " حذف", imageClass: "k-icon k-i-close", click: function (e) {
+                                e.preventDefault();
+                                var dataItem = this.dataItem($(e.target).closest("tr"));
+                                if (confirm('آیا از حذف این همراه مطمئن هستید؟')) {
+                                    for (var i = 0; i < FellowsArray.length; i++) {
+                                        if (FellowsArray[i] === dataItem.ID) {
+                                            FellowsArray.splice(i, 1);
+                                        }
+                                    }
+                                    var dataSource = $("#SelectFellowGrid").data("kendoGrid").dataSource;
+                                    dataSource.remove(dataItem);
+                                    dataSource.sync();
+                                }
+                            }
+                        }], title: "&nbsp;", width: 80
+                    }
+                ],
+                dataSource: {
+                    data: SelectedFellowsArrayFromJson,
+                    schema: {
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "string" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "string" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "multiple row",
+                filterable: true,
+                scrollable: true
+            })
+        }
+
+        function RoomDetail(ID) {
+            debugger;
+            $.ajax({
+                url: '/api/HomeApi/Detail',
+                //url: '/Home/Detail',
+                type: 'GET',
+                data: {
+                    id: ID
+                },
+                success: function (result) {
+                    FillDetailModal(result);
+                },
+                error: function (result) {
+                }
+            })
+        }
+
+        function FillDetailModal(result) {
+            $("#RoomID").val(result.ID);
+            $("#DetailRoomNumber").html(result.Number);
+            $("#DetailRoomLocation").html(result.Location);
+            $("#DetailRoomType").html(result.Type);
+            $("#DetailRoomHotel").html(result.Hotel);
+            FillFacilitiesDetailModal(result)
+        }
+        function FillFacilitiesDetailModal(result) {
+            debugger;
+            $("#DetailFacilitiesSingleBed").html(result.SingleBed);
+            $("#DetailFacilitiesDoubleBed").html(result.DoubleBed);
+            $("#DetailFacilitiesSpace").html(result.Space);
+            $("#DetailFacilitiesCapacity").html(result.Capacity);
+            $("#DetailFacilitiesKitchen").prop('checked', Boolean(parseInt(result.Kitchen, 10)));
+            $("#DetailFacilitiesTerrace").prop('checked', Boolean(parseInt(result.Terrace, 10)));
+            $("#DetailFacilitiesTV").prop('checked', Boolean(parseInt(result.TV, 10)));
+            $("#DetailFacilitiesWiFi").prop('checked', Boolean(parseInt(result.WiFi, 10)));
+            $("#DetailFacilitiesSafeBox").prop('checked', Boolean(parseInt(result.SafeBox, 10)));
+            $("#DetailFacilitiesGamingConsole").prop('checked', Boolean(parseInt(result.GamingConsole, 10)));
+        }
+
+
+        function RoomInfo(ID) {
+            debugger;
+            $("#DetailRoomModal").removeAttr('hidden');
+            $("#DetailRoomModal").iziModal('open');
+            RoomDetail(ID);
+        }
+
+
+        function OpenCreateFellowModal() {
+            $("#CreateFellowModal").removeAttr('hidden');
+            $("#CreateFellowModal").iziModal('open');
+        }
+
+        function SubmitNewFellow() {
+            debugger;
+            $.ajax({
+                headers: { 'Authorization': 'Bearer ' + jwtToken },
+                url: '/api/HomeApi/CreateFellow',
+                //url: '/Home/CreateFellow',
+                type: 'POST',
+                data: {
+                    FirstName: $("#CreateFellowFirstName").val(),
+                    LastName: $("#CreateFellowLastName").val(),
+                    NationalCode: $("#CreateFellowNationalCode").val(),
+                    Birthdate: $("#CreateFellowBirthdate").val(),
+                    PassportNumber: $("#CreateFellowPassportNumber").val(),
+                    SubmitUser: "false",
+                    CreateUser: "false"
+                },
+                success: function (result) {
+                    $("#CreateFellowModal").iziModal('close');
+                    if (CreateModalIsOpen) {
+                        $("#SelectAllFellowGrid").data('kendoGrid').dataSource.read();
+                    }
+                    if (EditModalIsOpen) {
+                        $("#SelectAllFellowGridEditModal").data('kendoGrid').dataSource.read();
+                    }
+                    iziToast.success({
+                        rtl: true,
+                        title: 'همراه جدید ایجاد شد',
+                        pauseOnHover: false,
+                        timeout: 2500,
+                        position: 'bottomRight'
+                    });
+                },
+                error: function (result) {
+                    $("#CreateFellowError").html(result.responseText);
+                    iziToast.error({
+                        rtl: true,
+                        title: 'ثبت عملیات با خطا مواجه شد',
+                        pauseOnHover: false,
+                        timeout: 2500,
+                        position: 'bottomRight'
+                    });
+                }
+            })
+        }
+
+        //$("#ReservationGrid").on("click", "k-checkbox", function (event) {
+        //    var grid = $("#ReservationGrid").data("kendoGrid");
+        //    var row = grid.dataItem(grid.select());
+        //    debugger;
+        //});
+
+
+        let totalPrice = 0;
+        function RoomsReservationGrid() {
+            $("#ReservationGrid").kendoGrid({
+                height: 400,
+                columns: [
+                    { selectable: true, width: "30px" },
+                    { field: "Hotel", title: "هتل", width: 80 },
+                    { field: "Type", title: "نوع اتاق", width: 80 },
+                    { field: "Number", title: "شماره اتاق", width: 100 },
+                    { field: "Price", title: "قیمت هر شب", width: 100 },
+                    {
+                        template:
+                            '<button id="RoomInfoBtn" onclick="RoomInfo(' + "'#=ID#'" + ')" class="btn btn-info"><i class="fa fa-info"></i> اطلاعات </button> ', title: "عملیات", width: 100
+                    }
+                ],
+
+                dataSource: {
+                    type: "webapi",
+                    transport: {
+                        idField: "ID",
+                        read: {
+                            url: "/api/HomeApi/RoomsInDate_Read",
+                            //url: "/Home/RoomsInDate_Read",
+                            data: {
+                                FromDate: $("#ModalCheckin_date").val(),
+                                ToDate: $("#ModalCheckout_date").val()
+                            },
+                            
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                Hotel: { type: "string" },
+                                Type: { type: "string" },
+                                Number: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                columnMenu: true,
+                pageable: true,
+                navigatable: true,
+                selectable: "multiple row",
+                filterable: true,
+                scrollable: true,
+                change: function (e) {
+                    debugger;
+                    totalPrice = 0;
+                    var rows = e.sender.select();
+                    rows.each(function (e) {
+                        debugger;
+                        var grid = $("#ReservationGrid").data('kendoGrid');
+                        var dataItem = grid.dataItem(this);
+                        if (dataItem.Price != "") {
+                            let price = parseInt(dataItem.Price, 10);
+                            totalPrice = totalPrice + price;
+                        }
+                    })
+                    let reservePrice = totalPrice / 2;
+                    $("#TotalAmount").html(totalPrice.toString())
+                    $("#ReserveAmount").html(reservePrice.toString())
+                    debugger;
+                }
+            })
+
+            //$("#ReservationGrid").on('change', 'input[type=checkbox]', function () {
+            //    debugger;
+            //    totalPrice = 0;
+            //    var grid = $("#ReservationGrid").data("kendoGrid");
+            //    var gridData = grid._data
+            //    for (let i = 0; i < gridData.length; i++) {
+            //        if (gridData[i].Price != "") {
+            //            let price = parseInt(gridData[i].Price, 10);
+            //            totalPrice = totalPrice + price;
+            //        }
+            //    };
+            //    let reservePrice = totalPrice / 2;
+            //    $("#TotalAmount").html(totalPrice.toString())
+            //    $("#ReserveAmount").html(reservePrice.toString())
+
+            //    var row = grid.dataItem(grid.select());
+
+            //})
+        }
+
+        function CheckReservation() {
+            if ($("#checkin_date").val() == "" || $("#checkout_date").val() == "") {
+                alert("بازه ی تاریخی باید مشخص باشد");
+                return;
+            }
+
+            $("#ReserveModal").removeAttr('hidden');
+            $("#ReserveModal").iziModal('open');
+            $("#ModalCheckin_date").val($("#checkin_date").val());
+            $("#ModalCheckout_date").val($("#checkout_date").val());
+            $("#ModalCheckin_date").removeAttr('disabled');
+            $("#ModalCheckout_date").removeAttr('disabled');
+
+
+
+            RoomsReservationGrid();
+
+        }
+
+        function SubmitReservationPostAccepted() {
+            SelectedRooms = '[]';
+            SelectedRoomsArrayFromJson = [];
+            RoomsArray = [];
+
+            entityGrid = $("#ReservationGrid").data("kendoGrid");
+            rows = entityGrid.select();
+            rows.each(function (index, row) {
+                var selectedItem = entityGrid.dataItem(row);
+                RoomsArray.push(selectedItem.ID);
+            });
+            debugger;
+
+            if (RoomsArray.length != 0) {
+                $.ajax({
+                    url: '/api/HomeApi/Create',
+                    //url: '/Home/Create',
+                    type: 'POST',
+                    data: {
+                        FromDate: $("#ModalCheckin_date").val(),
+                        ToDate: $("#ModalCheckout_date").val(),
+                        ParentId: $("#UserId").val(),
+                        SelectedFellows: FellowsArray,
+                        SelectedRooms: RoomsArray
+                    },
+                    success: function (result) {
+                        debugger;
+                        $("#ReserveModal").iziModal('close');
+                        $("#ReservationStatusModal").removeAttr('hidden');
+                        $("#ReservationStatusModal").iziModal('open');
+                        $("#ReservationNumberStatus").html(result.number);
+                        $("#ReservationPriceStatus").html(result.price);
+
+
+                        //$("#ReserveModal").iziModal('close');
+
+                        //iziToast.success({
+                        //    rtl: true,
+                        //    title: 'رزرو شد',
+                        //    pauseOnHover: false,
+                        //    timeout: 2500,
+                        //    position: 'bottomRight'
+                        //});
+                    },
+                    error: function (result) {
+                        $("#ReservationCreateError").html(result.responseText);
+                        //iziToast.error({
+                        //    rtl: true,
+                        //    title: 'ثبت عملیات با خطا مواجه شد',
+                        //    pauseOnHover: false,
+                        //    timeout: 2500,
+                        //    position: 'bottomRight'
+                        //});
+                    }
+                })
+            }
+            else {
+                $("#ReservationCreateError").html("شما اتاقی برای ثبت رزرو انتخاب نکرده اید");
+            }
+        }
+
+
+        function SubmitReservationPost() {
+
+
+            $.ajax({
+                url: '/api/HomeApi/CheckAuthentication',
+                //url: '/Home/CheckAuthentication',
+                type: 'GET',
+                success: function (result) {
+                    SubmitReservationPostAccepted();
+
+                },
+                error: function (result) {
+                    window.location = '/Account/Login'
+                }
+            })
+
+
+
+        }
+
+        function RefreshGrid() {
+            $("#ReservationGrid").remove();
+            $("#ReservationGridParent").append($("<div />").attr('id', 'ReservationGrid'));
+            RoomsReservationGrid();
+        }
+
+
+
+    </script>
+
+
+
+}

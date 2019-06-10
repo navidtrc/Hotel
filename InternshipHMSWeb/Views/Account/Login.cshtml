@@ -1,0 +1,140 @@
+﻿@{
+    Layout = null;
+}
+@using InternshipHMSModels.ViewModels
+@using Microsoft.AspNet.Identity
+@model LoginViewModel
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <title>فرم ورود</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link href="~/Content/fontawesomepro.css" rel="stylesheet" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/fonts/iconic/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('../../Content/Login/images/bg-01.jpg');">
+            <div class="wrap-login100">
+
+                <span class="login100-form-logo">
+                    <i class="zmdi zmdi-landscape"></i>
+                </span>
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", @role = "form", @id = "submitForm", autocomplete = "off", enctype = "multipart/form-data" }))
+                {
+
+                    @Html.AntiForgeryToken()
+                    <input hidden autocomplete="off" />
+
+                    <span class="login100-form-title p-b-34 p-t-27">
+                        ورود
+                    </span>
+                    <div class="wrap-input100 validate-input">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "input100 text-right", style = "padding-right:30px", @id = "Email", @placeholder = "ایمیل", @autofocus = "true", type = "email" })
+                        <span class="focus-input100 text-right" data-placeholder="&#xf207;"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        @Html.TextBoxFor(m => m.Password, new { @class = "input100 text-right", style = "padding-right:30px", @id = "Password", @placeholder = "رمز عبور", type = "password" })
+                        <span class="focus-input100 text-right" data-placeholder="&#xf191;"></span>
+                    </div>
+                    <div class="container-login100-form-btn" id="signinBtnParent">
+                        <input id="signinBtn" style="color:white" type="button" class="login100-form-btn" value="ورود" />
+                    </div>
+
+                    <div style="font-family:IRANSansWeb_Black;margin-top:20px">
+                        @Html.ValidationSummary(true, "", new { @class = "text-white text-center", })
+                    </div>
+
+                    <div class="text-center p-t-90">
+                        <a href="/Account/Register" style="color:white" class="txt3"><i class="fa fa-pen"></i> ثبت نام </a>
+                    </div>
+                    @Html.TextBoxFor(m => m.token, new { @hidden = "hidden", @id = "formToken" })
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+    <script src="~/Content/Login/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Login/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Login/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/Content/Login/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Login/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Login/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/Content/Login/vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Login/vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Login/js/main.js"></script>
+
+    <script type="text/javascript">
+        var jwtToken;
+        var refreshToken;
+
+        $("#signinBtn").click(function () {
+            $.ajax({
+                url: "/login", // web.config --> appConfiguration -> tokenPath
+                data: {
+                    username: $("#Email").val(),
+                    password: $("#Password").val(),
+                    grant_type: "password",
+                    "my-very-special-key1": "value1" // how to send additional parameters
+                },
+                type: 'POST',
+                contentType: 'application/x-www-form-urlencoded',
+                success: function (response) {
+                    jwtToken = response.access_token;
+                    refreshToken = response.refresh_token;
+                    $("#formToken").val(response.access_token);
+
+                    $("#signinBtnParent").append($("<input />").attr('hidden', 'hidden').attr('type', 'submit').attr('id', 'finalSubmit'));
+                    $("#finalSubmit").click();
+
+
+                    //setHeadersOfAllRequests();
+                    //showDecodedToken();
+                },
+                error: function (xhr, status, error) {
+                    debugger;
+                    var response = xhr.responseText;
+                    alert(JSON.stringify(JSON.parse(response), null, ' '));
+                }
+            })
+        });
+
+    </script>
+</body>
+</html>

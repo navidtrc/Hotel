@@ -1,0 +1,1307 @@
+﻿<h3 class="h3 text-muted"><i class="fa fa-exchange"></i> لیست پذیرش ورود و خروج</h3>
+<hr />
+<div class="k-rtl">
+    <div id="grid"></div>
+</div>
+
+
+
+
+
+
+
+<div id="CreateModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> ثبت پذیرش </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row panel" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#CreateCheckingTab" class="nav-link"><i class="fa fa-handshake"></i> پذیرش</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#CreatePassengerTab" class="nav-link"><i class="fa fa-users"></i> مسافران</a>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="CreateCheckingTab" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> اتاق</td>
+                                                        <td>
+                                                            <button onclick="OpenRoomSelectModal()" class="btn btn-primary"><i class="fa fa-hand-point-up"></i> انتخاب اتاق</button>
+                                                            <span hidden style="padding:8px;margin:0 5px 0 5px;background-color:#efefef;border-radius:10px" id="SelectedRoomNumber"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> رزرو <span class="text-warning">در صورت داشتن</span></td>
+
+                                                        <td>
+                                                            <button onclick="OpenReserveSelectModal()" class="btn btn-primary"><i class="fa fa-hand-point-up"></i> انتخاب رزرو</button>
+                                                            <span hidden style="padding:8px;margin:0 5px 0 5px;background-color:#efefef;border-radius:10px" id="SelectedReserveNumber"></span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-out"></i>  تاریخ ورود</td>
+                                                        <td><input readonly disabled type="text" id="CreateCheckingFromDate" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar-alt"></i> تاریخ خروج</td>
+                                                        <td><input readonly disabled type="text" id="CreateCheckingToDate" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="CreatePassengerTab" class="tab-pane fade in" style="font-size:12px">
+                                        <div id="">
+                                            <h6 style="font-size:16px;margin-top:20px" id="SelectRoomErrorSpan" class="text-danger">اول باید اتاق مشخص شده باشد</h6>
+                                            <button hidden id="NewPassengerBtn" onclick="OpenSelectPassengersModal()" style="margin:10px 0 10px 0" class="btn btn-primary"><i class="fa fa-plus"></i> ثبت مسافر </button>
+                                            <div class="k-rtl" id="SelectedPassengersGridParent">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr />
+                            <center style="" class="col-md-12">
+                                <span class="text-danger" style="margin:10px;display:block;font-size:14px" id="CreateCheckingErrorSpan"></span>
+                                <button onclick="SubmitChecking()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-check"></i> ثبت</button>
+                                <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="SelectRoomModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> انتخاب اناق </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="k-rtl" id="AllRoomsGridParent"></div>
+    </div>
+    <hr />
+    <center style="margin-top:5px" class="col-md-12">
+        <button onclick="SelectRoom()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-check"></i> انتخاب</button>
+        <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+    </center>
+</div>
+
+<div id="SelectReservationModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> انتخاب رزرو قبلی </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="k-rtl" id="AllReservationGridParent"></div>
+    </div>
+    <hr />
+    <center style="margin-top:5px" class="col-md-12">
+        <button onclick="SelectReserve()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-check"></i> انتخاب</button>
+        <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+    </center>
+</div>
+
+<div id="SelectPassengersModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> انتخاب مسافران اتاق </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="k-rtl" id="AllPassengersGridParent">
+            <div id="AllPassengersGrid"></div>
+        </div>
+    </div>
+    <hr />
+    <center style="margin-top:5px" class="col-md-12">
+        <button onclick="GenerateSelectedPassengers()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-check"></i> انتخاب</button>
+        <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+    </center>
+</div>
+
+<div id="DetailModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> جزئیات پذیرش </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailCheckingTab" class="nav-link"><i class="fa fa-handshake"></i> پذیرش</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailPassengerTab" class="nav-link"><i class="fa fa-users"></i> مسافران</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="DetailCheckingTab" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> اتاق</td>
+                                                        <td id="DetailSelectedRoomNumber"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> رزرو <span class="text-warning">در صورت داشتن</span></td>
+                                                        <td id="DetailSelectedReserveNumber"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-out"></i>  تاریخ ورود</td>
+                                                        <td id="DetailCheckingFromDate"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar-alt"></i> تاریخ خروج</td>
+                                                        <td id="DetailCheckingToDate"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="DetailPassengerTab" class="tab-pane fade in" style="font-size:12px">
+                                        <div class="k-rtl">
+                                            <div id="DetailSelectedPassengersGrid"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr />
+                            <center style="" class="col-md-12">
+                                <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="EditModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> ویرایش پذیرش </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <input hidden id="EditCheckingID" />
+        <input hidden id="EditRoomID" />
+        <input hidden id="EditReservationID" />
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#EditCheckingTab" class="nav-link"><i class="fa fa-handshake"></i> پذیرش</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#EditPassengerTab" class="nav-link"><i class="fa fa-users"></i> مسافران</a>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="EditCheckingTab" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> اتاق</td>
+                                                        <td id="EditSelectedRoomNumber"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> رزرو <span class="text-warning">در صورت داشتن</span></td>
+                                                        <td id="EditSelectedReserveNumber"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-out"></i>  تاریخ ورود</td>
+                                                        <td><input readonly disabled type="text" id="EditCheckingFromDate" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar-alt"></i> تاریخ خروج</td>
+                                                        <td><input readonly disabled type="text" id="EditCheckingToDate" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="EditPassengerTab" class="tab-pane fade in" style="font-size:12px">
+                                        <div id="">
+                                            <button id="EditNewPassengerBtn" onclick="OpenSelectPassengersModal()" style="margin:10px 0 10px 0" class="btn btn-primary"><i class="fa fa-plus"></i> ثبت مسافر </button>
+                                            <div class="k-rtl" id="EditSelectedPassengersGridParent">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr />
+                            <center style="" class="col-md-12">
+                                <span class="text-danger" style="margin:10px;display:block;font-size:14px" id="CreateCheckingErrorSpan"></span>
+                                <button onclick="SubmitEditedChecking()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-check"></i> ثبت</button>
+                                <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/PersianKendo.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#CreateCheckingFromDate").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: true
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+                minDate: new persianDate().add('month', -1).valueOf(),
+                onSelect: function (date) {
+                    var selectedDate = new Date(date);
+                    var msecInDay = 86400000;
+                    var endDate = new persianDate(selectedDate.valueOf() + msecInDay);
+                    $("#CreateCheckingToDate").persianDatepicker({
+                        initialValue: false,
+                        calendar: {
+                            persian: {
+                                locale: 'fa'
+                            }
+                        },
+                        initialValueType: 'persian',
+                        altField: '#inlineExampleAlt',
+                        altFormat: 'LLLL',
+                        toolbox: {
+                            calendarSwitch: {
+                                enabled: true
+                            }
+                        },
+                        navigator: {
+                            scroll: {
+                                enabled: false
+                            }
+                        },
+                        minDate: endDate,
+                        timePicker: {
+                            enabled: true,
+                            meridiem: {
+                                enabled: true
+                            }
+                        },
+                        observer: true,
+                        format: 'YYYY/MM/DD',
+                    });
+                },
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+            $("#EditCheckingFromDate").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: true
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+                minDate: new persianDate().add('month', -1).valueOf(),
+                onSelect: function (date) {
+                    var selectedDate = new Date(date);
+                    var msecInDay = 86400000;
+                    var endDate = new persianDate(selectedDate.valueOf() + msecInDay);
+                    $("#EditCheckingToDate").persianDatepicker({
+                        initialValue: false,
+                        calendar: {
+                            persian: {
+                                locale: 'fa'
+                            }
+                        },
+                        initialValueType: 'persian',
+                        altField: '#inlineExampleAlt',
+                        altFormat: 'LLLL',
+                        toolbox: {
+                            calendarSwitch: {
+                                enabled: false
+                            }
+                        },
+                        navigator: {
+                            scroll: {
+                                enabled: false
+                            }
+                        },
+                        minDate: endDate,
+                        timePicker: {
+                            enabled: false,
+                            meridiem: {
+                                enabled: true
+                            }
+                        },
+                        observer: true,
+                        format: 'YYYY/MM/DD',
+                    });
+
+                },
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+        var CreateModalIsOpen = false;
+        var DetailModalIsOpen = false;
+        var EditModalIsOpen = false;
+        var RoomId = "";
+        var RoomNumber = "";
+        var ReservationId = "";
+        var ReservationNumber = "";
+        var PassengersArrayID = [];
+        var SelectedPassengersArray = [];
+        var CheckingCreateUrl = '@Url.Action("Create", "Checking")';
+        var CheckingEditUrl = '@Url.Action("Edit", "Checking")';
+        var CheckingDetailUrl = '@Url.Action("Detail","Checking")';
+        var RoomIdArrayHelper = [];
+        var RoomNumberArrayHelper = [];
+        var PassengersArrayTemp = [];
+        var PassengersArrayJSONTemp = '[]';
+
+        function OpenCreateModal() {
+            debugger;
+            $("#CreateModal").removeAttr('hidden');
+            $("#CreateModal").iziModal('open');
+        }
+        function OpenRoomSelectModal() {
+            
+            if (($("#CreateCheckingFromDate").val() != "") && ($("#CreateCheckingToDate").val() != "")) {
+                $("#SelectRoomModal").removeAttr('hidden');
+                $("#SelectRoomModal").iziModal('open');
+                $("#AllRoomsGridParent").append($("<div />").attr("id", "AllRoomsGrid"));
+                GenerateAllRoomsGrid("#AllRoomsGrid", $("#CreateCheckingFromDate").val(), $("#CreateCheckingToDate").val(), ReservationId);
+            }
+            else {
+                alert("بازه تاریخ انتخاب شود")
+            }
+        }
+        function OpenReserveSelectModal() {
+            $("#SelectReservationModal").removeAttr('hidden');
+            $("#SelectReservationModal").iziModal('open');
+            $("#AllReservationGridParent").append($("<div />").attr("id", "AllReservationGrid"));
+            GenerateReservationGrid("#AllReservationGrid");
+
+        }
+        function OpenSelectPassengersModal() {
+            debugger;
+            $("#SelectPassengersModal").removeAttr('hidden');
+            $("#SelectPassengersModal").iziModal('open');
+        }
+        function RemoveSelectedRoom() {
+
+
+            RoomId = "";
+            RoomNumber = "";
+            SelectedPassengersArray = [];
+
+
+            $("#SelectedRoomNumber").html("");
+            $("#SelectedRoomNumber").attr('hidden', 'hidden');
+            $("#SelectRoomErrorSpan").removeAttr('hidden');
+            $("#NewPassengerBtn").attr('hidden', 'hidden');
+            $("#SelectedPassengersGrid").remove();
+        }
+        function RemoveSelectedReservation() {
+            ReservationId = "";
+            ReservationNumber = "";
+            $("#SelectedReserveNumber").html("");
+            $("#SelectedReserveNumber").attr('hidden', 'hidden');
+        }
+        function SelectReserve() {
+            var ReservationIdArrayHelper = [];
+            var ReservationNumberArrayHelper = [];
+            RemoveSelectedReservation()
+            entityGrid = $("#AllReservationGrid").data("kendoGrid");
+            rows = entityGrid.select();
+            rows.each(function (index, row) {
+                var selectedItem = entityGrid.dataItem(row);
+                ReservationIdArrayHelper.push(selectedItem.ID)
+                ReservationNumberArrayHelper.push(selectedItem.Number)
+            });
+            ReservationId = ReservationIdArrayHelper[0];
+            ReservationNumber = ReservationNumberArrayHelper[0];
+            if (ReservationId != null) {
+                $("#SelectedReserveNumber").removeAttr("hidden");
+                $("#SelectedReserveNumber").html(ReservationNumber + ' <i onclick="RemoveSelectedReservation()" class="fa fa-times"></i> ');
+
+            }
+            $("#SelectReservationModal").iziModal('close');
+
+        }
+        function SelectRoom() {
+            
+            RemoveSelectedRoom();
+            entityGrid = $("#AllRoomsGrid").data("kendoGrid");
+            rows = entityGrid.select();
+            rows.each(function (index, row) {
+                var selectedItem = entityGrid.dataItem(row);
+                RoomIdArrayHelper.push(selectedItem.ID)
+                RoomNumberArrayHelper.push(selectedItem.Number)
+            });
+            RoomId = RoomIdArrayHelper[0];
+            RoomNumber = RoomNumberArrayHelper[0];
+            if (RoomId != null) {
+                $("#SelectedRoomNumber").removeAttr("hidden");
+                $("#SelectedRoomNumber").html(RoomNumber + ' <i onclick="RemoveSelectedRoom()" class="fa fa-times"></i> ');
+                $("#SelectRoomErrorSpan").attr('hidden', 'hidden');
+                $("#NewPassengerBtn").removeAttr('hidden');
+
+                $("#SelectRoomModal").iziModal('close');
+                GenerateAllPassengers();
+            }
+            else if (RoomId == null) {
+                iziToast.show({
+                    rtl: true,
+                    title: 'مسافر مورد نظر انتخاب نشده',
+                    color: 'red',
+                    pauseOnHover: false,
+                    timeout: 2000,
+                    position: 'bottomRight'
+
+                });
+            }
+        }
+        function GenerateSelectedPassengers() {
+           
+            entityGrid = $("#AllPassengersGrid").data("kendoGrid");
+            rows = entityGrid.select();
+            rows.each(function (index, row) {
+                debugger;
+                var selectedItem = entityGrid.dataItem(row);
+                PassengersArrayID.push(selectedItem.ID);
+
+                PassengersArrayTemp.push({ "ID": selectedItem.ID, "FullName": selectedItem.FullName, "NationalCode": selectedItem.NationalCode });
+                PassengersArrayJSONTemp = JSON.stringify(PassengersArrayTemp);
+            });
+            SelectedPassengersArray = JSON.parse(PassengersArrayJSONTemp);
+            $("#SelectPassengersModal").iziModal('close');
+
+            if (CreateModalIsOpen) {
+                $("#SelectedPassengersGrid").remove();
+                $("#SelectedPassengersGridParent").append($("<div />").attr("id", "SelectedPassengersGrid"));
+                $("#SelectedPassengersGrid").kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "FullName", title: "نام و نام خانوادگی" },
+                    { field: "NationalCode", title: "کد ملی" },
+                    { field: "PassportNumber", title: "شماره پاسپورت" },
+                    {
+                        command: [{
+                            name: "حذف", imageClass: "k-icon k-i-close", click: function (e) {
+                                e.preventDefault();
+                                var dataItem = this.dataItem($(e.target).closest("tr"));
+                                if (confirm('آیا از حذف این مسافر اطمینان دارید؟')) {
+
+                                    for (let i = 0; i < PassengersArrayID.length; i++) {
+                                        if (PassengersArrayID[i] === dataItem.ID) {
+                                            PassengersArrayID.splice(i, 1);
+                                        }
+                                    }
+                                    for (let i = 0; i < SelectedPassengersArray.length; i++) {
+                                        if (SelectedPassengersArray[i].ID === dataItem.ID) {
+                                            SelectedPassengersArray.splice(i, 1);
+                                        }
+                                    }
+
+                                    let tempPassengersJson = JSON.parse(PassengersArrayJSONTemp);
+                                    for (let i = 0; i < tempPassengersJson.length; i++) {
+                                        if (tempPassengersJson[i].ID === dataItem.ID) {
+                                            tempPassengersJson.splice(i, 1);
+                                        }
+                                    }
+                                    PassengersArrayJSONTemp = JSON.stringify(tempPassengersJson);
+
+                                    for (let i = 0; i < PassengersArrayTemp.length; i++) {
+                                        if (PassengersArrayTemp[i].ID === dataItem.ID) {
+                                            PassengersArrayTemp.splice(i, 1);
+                                        }
+                                    }
+
+                                    var dataSource = $("#SelectedPassengersGrid").data("kendoGrid").dataSource;
+                                    dataSource.remove(dataItem);
+                                    dataSource.sync();
+                                }
+                            }
+                        }], title: "&nbsp;", width: "200px"
+                    }
+                ],
+                dataSource: {
+                    data: SelectedPassengersArray,
+                    schema: {
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "string" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "string" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "multiple row",
+                filterable: true,
+                scrollable: true
+            })
+            }
+            if (EditModalIsOpen) {
+                $("#EditSelectedPassengersGrid").remove();
+                $("#EditSelectedPassengersGridParent").append($("<div />").attr("id", "EditSelectedPassengersGrid"));
+                $("#EditSelectedPassengersGrid").kendoGrid({
+                    height: 400,
+                    columns: [
+                        { field: "FullName", title: "نام و نام خانوادگی" },
+                        { field: "NationalCode", title: "کد ملی" },
+                        { field: "PassportNumber", title: "شماره پاسپورت" },
+                        {
+                            command: [{
+                                name: "حذف", imageClass: "k-icon k-i-close", click: function (e) {
+                                    e.preventDefault();
+                                    var dataItem = this.dataItem($(e.target).closest("tr"));
+                                    if (confirm('آیا از حذف این مسافر اطمینان دارید؟')) {
+
+                                        for (var i = 0; i < PassengersArrayID.length; i++) {
+                                            if (PassengersArrayID[i] === dataItem.ID) {
+                                                PassengersArrayID.splice(i, 1);
+                                            }
+                                        }
+                                        for (var i = 0; i < SelectedPassengersArray.length; i++) {
+                                            if (SelectedPassengersArray[i].ID === dataItem.ID) {
+                                                SelectedPassengersArray.splice(i, 1);
+                                            }
+                                        }
+
+                                        var dataSource = $("#SelectedPassengersGrid").data("kendoGrid").dataSource;
+                                        dataSource.remove(dataItem);
+                                        dataSource.sync();
+                                    }
+                                }
+                            }], title: "&nbsp;", width: "200px"
+                        }
+                    ],
+                    dataSource: {
+                        data: SelectedPassengersArray,
+                        schema: {
+                            model: {
+                                id: "ID",
+                                fields: {
+                                    ID: { type: "string" },
+                                    FirstName: { type: "string" },
+                                    LastName: { type: "string" },
+                                    NationalCode: { type: "string" },
+                                    Birthdate: { type: "string" },
+                                    Nationality: { type: "string" },
+                                    LivingPlace: { type: "string" },
+                                    CustomerCode: { type: "string" },
+                                    PassportNumber: { type: "string" },
+                                    ParentID: { type: "string" }
+                                }
+                            }
+                        },
+                        serverPaging: true,
+                        serverSorting: true,
+                        serverSorting: true,
+                    },
+                    pageable: true,
+                    selectable: "multiple row",
+                    filterable: true,
+                    scrollable: true
+                })
+            }
+          
+        }
+        function SubmitChecking() {
+            CreateChecking();
+            $("#CreateModal").iziModal('close');
+
+        }
+        function OpenDetailModal(ID) {
+            DetailModalIsOpen = true;
+            $("#DetailModal").removeAttr('hidden');
+            $("#DetailModal").iziModal('open');
+            GetChecking(ID)
+        }
+        function FillDetailModal(result) {
+            $("#DetailSelectedRoomNumber").html(result.RoomNumber);
+            $("#DetailSelectedReserveNumber").html(result.ReservationNumber);
+            $("#DetailCheckingFromDate").html(result.FromDate);
+            $("#DetailCheckingToDate").html(result.ToDate);
+            let PassengersArrayTemp = [];
+            let PassengersJsonTemp = '[]';
+            for (let i = 0; i < result.Passengers.Total; i++) {
+                PassengersArrayID.push(result.Passengers.Data[i].ID);
+
+                PassengersArrayTemp.push({ "ID": result.Passengers.Data[i].ID, "FullName": result.Passengers.Data[i].FullName, "NationalCode": result.Passengers.Data[i].NationalCode });
+                PassengersJsonTemp = JSON.stringify(PassengersArrayTemp);
+            }
+            SelectedPassengersArray = JSON.parse(PassengersJsonTemp);
+            DetailGenerateSelectedPassengers();
+        }
+        function OpenEditModal(ID) {
+            debugger;
+            EditModalIsOpen = true
+            $("#EditModal").removeAttr('hidden');
+            $("#EditModal").iziModal('open');
+            GetChecking(ID)
+        }
+        function FillEditModal(result) {
+
+            $("#EditCheckingID").val(result.ID);
+            $("#EditRoomID").val(result.RoomID);
+            $("#EditReservationID").val(result.ReservationID);
+
+
+            $("#EditSelectedRoomNumber").html(result.RoomNumber);
+            $("#EditSelectedReserveNumber").html(result.ReservationNumber);
+            $("#EditCheckingFromDate").val(result.FromDate);
+            $("#EditCheckingToDate").val(result.ToDate);
+            PassengersArrayTemp = [];
+            PassengersArrayJSONTemp = '[]';
+            for (let i = 0; i < result.Passengers.Total; i++) {
+                PassengersArrayID.push(result.Passengers.Data[i].ID);
+
+                PassengersArrayTemp.push({ "ID": result.Passengers.Data[i].ID, "FullName": result.Passengers.Data[i].FullName, "NationalCode": result.Passengers.Data[i].NationalCode });
+                PassengersArrayJSONTemp = JSON.stringify(PassengersArrayTemp);
+            }
+            SelectedPassengersArray = JSON.parse(PassengersArrayJSONTemp);
+            
+            $("#EditSelectedPassengersGridParent").append($("<div />").attr("id", "EditSelectedPassengersGrid"));
+
+            EditGenerateSelectedPassengers();
+
+            GenerateAllPassengers();
+        }
+
+        function SubmitEditedChecking() {
+            EditChecking();
+            $("#EditModal").iziModal('close');
+        }
+
+        
+    </script>
+
+    <script type="text/javascript">
+        function GetChecking(ID) {
+            $.ajax({
+                url: CheckingDetailUrl,
+                type: 'GET',
+                data: {
+                    id: ID
+                },
+                success: function (result) {
+                    debugger;
+                    if (DetailModalIsOpen) {
+                        FillDetailModal(result);
+                    }
+                    if (EditModalIsOpen) {
+                        FillEditModal(result);
+                    }
+                },
+                error: function (result) {
+                }
+            })
+        }
+        function CreateChecking() {
+
+            $.ajax({
+                url: CheckingCreateUrl,
+                type: 'POST',
+                data: {
+                    FromDate: $("#CreateCheckingFromDate").val(),
+                    ToDate: $("#CreateCheckingToDate").val(),
+                    RoomID: RoomId,
+                    ReservationID: ReservationId,
+                    Passengers: PassengersArrayID
+                },
+                success: function (result) {
+                    debugger;
+                    $("#grid").data('kendoGrid').dataSource.read()
+
+                    iziToast.show({
+                        rtl: true,
+                        title: 'ثبت شد',
+                        color: 'green',
+                        pauseOnHover: false,
+                        timeout: 1100,
+                        position: 'bottomRight',
+                        onClosed: function () {
+
+                        }
+
+                    });
+                },
+                error: function (result) {
+
+
+                }
+            })
+
+        }
+        function EditChecking() {
+
+            $.ajax({
+                url: CheckingEditUrl,
+                type: 'POST',
+                data: {
+                    ID: $("#EditCheckingID").val(),
+                    FromDate: $("#EditCheckingFromDate").val(),
+                    ToDate: $("#EditCheckingToDate").val(),            
+                    Passengers: PassengersArrayID,
+                    RoomID: $("#EditRoomID").val(),
+                    ReservationID: $("#EditReservationID").val()
+                },
+                success: function (result) {
+                    debugger;
+                    $("#grid").data('kendoGrid').dataSource.read()
+
+                    iziToast.show({
+                        rtl: true,
+                        title: 'ویرایش شد',
+                        color: 'green',
+                        pauseOnHover: false,
+                        timeout: 1100,
+                        position: 'bottomRight',
+                        onClosed: function () {
+
+                        }
+
+                    });
+                },
+                error: function (result) {
+
+
+                }
+            })
+
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        $("#CreateModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+                CreateModalIsOpen = true;
+                $("#CreateCheckingFromDate").removeAttr('disabled');
+                $("#CreateCheckingToDate").removeAttr('disabled');
+
+            },
+            onClosed: function () {
+                CreateModalIsOpen = false;
+                $("#CreateCheckingFromDate").attr('disabled', 'disabled');
+                $("#CreateCheckingToDate").attr('disabled', 'disabled');
+                $("#CreateCheckingFromDate").val("");
+                $("#CreateCheckingToDate").val("");
+                RemoveSelectedRoom();
+                RemoveSelectedReservation();
+                PassengersArrayID = [];
+                SelectedPassengersArray = [];
+
+                RoomIdArrayHelper = [];
+                RoomNumberArrayHelper = [];
+                PassengersArrayTemp = [];
+                PassengersArrayJSONTemp = '[]';
+            }
+        });
+        $("#EditModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+                EditModalIsOpen = true;
+                $("#EditCheckingFromDate").removeAttr('disabled');
+                $("#EditCheckingToDate").removeAttr('disabled');
+
+            },
+            onClosed: function () {
+                EditModalIsOpen = false;
+                $("#EditCheckingFromDate").attr('disabled', 'disabled');
+                $("#EditCheckingToDate").attr('disabled', 'disabled');
+                $("#EditCheckingFromDate").val("");
+                $("#EditCheckingToDate").val("");
+                RemoveSelectedRoom();
+                RemoveSelectedReservation();
+                PassengersArrayID = [];
+                SelectedPassengersArray = [];
+                $("#EditSelectedPassengersGrid").remove();
+
+                RoomIdArrayHelper = [];
+                RoomNumberArrayHelper = [];
+                PassengersArrayTemp = [];
+                PassengersArrayJSONTemp = '[]';
+                $("#EditRoomID").val("");
+                $("#EditReservationID").val("");
+                $("#EditCheckingID").val("");
+
+            }
+        });
+        $("#SelectRoomModal").iziModal({
+            width: 400,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+
+            },
+            onClosed: function () {
+                $("#AllRoomsGrid").remove();
+            }
+        });
+        $("#SelectReservationModal").iziModal({
+            width: 400,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+
+            },
+            onClosed: function () {
+                $("#AllReservationGrid").remove();
+            }
+        });
+        $("#SelectPassengersModal").iziModal({
+            width: 400,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+
+            },
+            onClosed: function () {
+            }
+        });
+        $("#DetailModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+            },
+            onClosed: function () {
+                DetailModalIsOpen = false;
+                PassengersArrayID = [];
+                SelectedPassengersArray = [];
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $("#grid").kendoGrid({
+            height: 800,
+            columns: [
+                { field: "RoomNumber", title: "اتاق", width: 70 },
+                { field: "State", title: "وضعیت", width: 70 },
+                { field: "FromDate", title: "از تاریخ", width: 100 },
+                { field: "ToDate", title: "تا تاریخ", width: 100 },
+                {
+                    template:
+                        '<button id="CheckingInfoBtn" onclick="OpenDetailModal(' + "'#=ID#'" + ')" class="btn btn-primary"><i class="fa fa-info"></i> اطلاعات </button> | <button id="CheckingEditBtn" onclick="OpenEditModal(' + "'#=ID#'" + ')" class="btn btn-warning"><i class="fa fa-pen"></i> ویرایش </button> ', title: "عملیات", width: 200
+                }
+            ],
+            toolbar: [
+                {
+                    template:
+                        '<button onclick="OpenCreateModal()" class="k-button k-button-icontext"><i style="margin-left:5px" class="fa fa-plus"></i> جدید </button>'
+                },
+                { name: "excel" },
+                { name: "pdf" }
+            ],
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                transport: {
+                    read: {
+                        url: "Checking_List_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            FromDate: { type: "string" },
+                            ToDate: { type: "string" },
+                            RoomNumber: { type: "string" },
+                            State: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            columnMenu: true,
+            pageable: true,
+            navigatable: true,
+            selectable: "single row",
+            sortable: {
+                mode: "single"
+            },
+            filterable: true,
+            scrollable: true
+        })
+        function GenerateAllRoomsGrid(divId,fromDate,toDate,reservationId) {
+            $(divId).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "Number", title: "شماره اتاق" },
+                    { field: "Type", title: "نوع اتاق" }
+
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "RoomsInDate_Read",
+                            data: {
+                                FromDate: fromDate,
+                                ToDate: toDate,
+                                ReservationId: reservationId
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                Number: { type: "string" },
+                                Type: { type: "string" }
+
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "single row",
+                filterable: true,
+                scrollable: true
+            })
+        }
+        function GenerateReservationGrid(divId) {
+            $(divId).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "Number", title: "شماره رزرو" },
+                    { field: "CustomerFullName", title: "مسافر" }
+
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "Reservation_Read"
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                Number: { type: "string" },
+                                CustomerFullName: { type: "string" }
+
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "single row",
+                filterable: true,
+                scrollable: true
+            })
+
+        }
+        function GenerateAllPassengers() {
+            $("#AllPassengersGrid").kendoGrid({
+                height: 600,
+                columns: [
+                    { selectable: true, width: "50px" },
+                    { field: "FullName", title: "نام و نام خانوادگی" },
+                    { field: "NationalCode", title: "کد ملی" },
+                    { field: "PassportNumber", title: "شماره پاسپورت" }
+
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "Passengers_Read"
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "string" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "string" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "multiple row",
+                filterable: true,
+                scrollable: true
+            })
+        }
+        function DetailGenerateSelectedPassengers() {
+            $("#DetailSelectedPassengersGrid").kendoGrid({
+                height: 400,
+                columns: [
+
+                    { field: "FullName", title: "نام و نام خانوادگی", width: 200 },
+                    { field: "NationalCode", title: "کد ملی", width: 150 }
+
+                ],
+                dataSource: {
+                    data: SelectedPassengersArray,
+                    schema: {
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "string" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "string" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: false,
+                filterable: true,
+                scrollable: true
+            })
+        }
+        function EditGenerateSelectedPassengers() {
+            $("#EditSelectedPassengersGrid").kendoGrid({
+                height: 400,
+                columns: [
+
+                    { field: "FullName", title: "نام و نام خانوادگی", width: 200 },
+                    { field: "NationalCode", title: "کد ملی", width: 150 },
+                    {
+                        command: [{
+                            name: "حذف", imageClass: "k-icon k-i-close", click: function (e) {
+                                e.preventDefault();
+                                var dataItem = this.dataItem($(e.target).closest("tr"));
+                                if (confirm('آیا از حذف این مسافر اطمینان دارید؟')) {
+
+                                    for (let i = 0; i < PassengersArrayID.length; i++) {
+                                        if (PassengersArrayID[i] === dataItem.ID) {
+                                            PassengersArrayID.splice(i, 1);
+                                        }
+                                    }
+                                    for (let i = 0; i < SelectedPassengersArray.length; i++) {
+                                        if (SelectedPassengersArray[i].ID === dataItem.ID) {
+                                            SelectedPassengersArray.splice(i, 1);
+                                        }
+                                    }
+
+
+                                    let tempPassengersJson = JSON.parse(PassengersArrayJSONTemp);
+                                    for (let i = 0; i < tempPassengersJson.length; i++) {
+                                        if (tempPassengersJson[i].ID === dataItem.ID) {
+                                            tempPassengersJson.splice(i, 1);
+                                        }
+                                    }
+                                    PassengersArrayJSONTemp = JSON.stringify(tempPassengersJson);
+
+                                    for (let i = 0; i < PassengersArrayTemp.length; i++) {
+                                        if (PassengersArrayTemp[i].ID === dataItem.ID) {
+                                            PassengersArrayTemp.splice(i, 1);
+                                        }
+                                    }
+
+
+                                    var dataSource = $("#EditSelectedPassengersGrid").data("kendoGrid").dataSource;
+                                    dataSource.remove(dataItem);
+                                    dataSource.sync();
+                                }
+                            }
+                        }], title: "&nbsp;", width: "200px"
+                    }
+
+                ],
+                dataSource: {
+                    data: SelectedPassengersArray,
+                    schema: {
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "string" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "string" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "single row",
+                filterable: true,
+                scrollable: true
+            })
+        }
+    </script>
+}

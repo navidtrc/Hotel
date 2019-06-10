@@ -1,0 +1,874 @@
+﻿<div class="form-group">
+    <h3 class="h3 text-muted"><i class="fa fa-user-lock"></i> لیست کارمندان</h3>
+    <hr />
+    <input type="button" id="NewEmployee" class="btn btn-info" value="کاربر جدید" />
+</div>
+
+<div class="k-rtl">
+    <div id="grid"></div>
+</div>
+
+<div id="modal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="    fa fa-user"></i> مشخصات کاربر</h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <span class="text-danger" style="margin:10px;display:block;font-size:14px" id="EmployeeCreateError"></span>
+        <input type="hidden" id="EmployeeID" />
+        <div class="form-group">
+            <input type="text" autocomplete="off" id="FirstName" class="form-control" placeholder="نام" />
+        </div>
+        <div class="form-group">
+            <input type="text" autocomplete="off" id="LastName" class="form-control" placeholder="نام خانوادگی" />
+        </div>
+        <div class="form-group">
+            <input type="text" autocomplete="off" id="NationalCode" class="form-control" placeholder="کد ملی" />
+        </div>
+        <div class="form-group">
+            <input type="text" autocomplete="off" id="EmployeeCode" class="form-control" placeholder="شماره کارمندی" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-warning" id="ShowContactBtn" onclick="GetContactInfo()"><i class="fa fa-phone"></i> اطلاعات تماس</button>
+        </div>
+        <div class="form-group">
+            <label style="font-size:15px">
+                <input type="checkbox" id="UserCheck" class="checkbox" />
+                دسترسی کاربر به سیستم
+            </label>
+        </div>
+        <div class="form-group">
+            <input type="text" autocomplete="off" id="Email" class="form-control" placeholder="ایمیل" hidden />
+        </div>
+        <div class="form-group">
+            <input type="password" autocomplete="off" id="Password" class="form-control" placeholder="پسورد" hidden />
+        </div>
+        <div class="form-group">
+            <input type="password" autocomplete="off" id="ConfirmPassword" class="form-control" placeholder="تکرار پسورد" hidden />
+        </div>
+        <div class="form-group" id="EmployeeDiv">
+            <select id="Role" class="form-control" hidden>
+                <option value="0">مدیر ارشد</option>
+                <option value="1">مدیر</option>
+                <option value="2">کارمند</option>
+                <option value="3">مشتری</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <a href="#" id="ResetPassword" hidden><i class="fa fa-key"></i> تغییر پسورد</a>
+        </div>
+        <div class="form-group">
+            <button id="SubmitEmployee" onclick="PostEmployee()" class="btn btn-success"><i class="fa fa-check"></i> ثبت </button>
+            <button data-izimodal-close="" class="btn btn-danger"><i class="fa fa-times"></i> انصراف </button>
+        </div>
+    </div>
+</div>
+
+<div id="ResetPasswordModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-key"></i> تغییر پسورد</h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <span class="text-danger" style="margin:10px;display:block;font-size:14px" id="ResetPasswordError"></span>
+        <div class="form-group">
+            <input type="password" autocomplete="off" id="ResetPasswordInput" class="form-control" placeholder="پسورد" />
+        </div>
+        <div class="form-group">
+            <input type="password" autocomplete="off" id="ResetConfirmPasswordInput" class="form-control" placeholder="تکرار پسورد" />
+        </div>
+
+
+        <div class="form-group">
+            <button id="" onclick="ResetPasswordFunction()" class="btn btn-success"><i class="fa fa-check"></i> ذخیره </button>
+            <button data-izimodal-close="" class="btn btn-danger"><i class="fa fa-times"></i> انصراف </button>
+        </div>
+    </div>
+</div>
+
+<div id="ContactModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-phone"></i> اطلاعات تماس و آدرس</h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="k-rtl">
+            <span class="text-danger" style="margin:10px;display:block;font-size:14px" id="ContactInformationError"></span>
+
+            <div id="ContactGrid"></div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    @*Kendo grid scripts*@
+    <script type="text/javascript">
+        // Kendo grid scripts
+        $("#grid").kendoGrid({
+            height: 400,
+            columns: [
+                { field: "LastName", title: "نام خانوادگی" },
+                { field: "FirstName", title: "نام" },
+                { field: "EmployeeCode", title: "شماره پرسنلی" },
+                { field: "NationalCode", title: "کد ملی" }
+            ],
+            toolbar: [
+                { name: "excel", text: "نمایش در Excel" },
+                { name: "pdf", text: "نمایش در PDF" }
+            ],
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                transport: {
+                    read: {
+                        url: "People_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            FirstName: { type: "string" },
+                            LastName: { type: "string" },
+                            NationalCode: { type: "string" },
+                            EmployeeCode: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            pageable: {
+                pageSize: 50,
+                buttonCount: 1,
+                messages: {
+                    empty: "موردی وجود ندارد",
+                    display:"تعداد کل {2}"
+                }
+            },
+            navigatable: true,
+            selectable: "single row",
+            sortable: {
+                mode: "single"
+            },
+            filterable: true,
+            scrollable: true
+        })
+        function GetContactInfo() {
+
+            $("#ContactModal").removeAttr('hidden');
+            $("#ContactModal").iziModal('open');
+            $("#ContactGrid").kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "Type", title: "نوع" },
+                    { field: "PhoneNumber", title: "شماره" },
+                    { field: "Country", title: "کشور" },
+                    { field: "City", title: "شهر" },
+                    { field: "Address", title: "آدرس" },
+                    { command: ["destroy"], width: 100 }
+                ],
+                toolbar: [
+                    { name: "create", text: "جدید" },
+                    { name: "save", text: "ذخیره تغییرات" }
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    batch: true,
+                    transport: {
+                        read: {
+                            url: "ContactInformations_Read",
+                            data: {
+                                id: $("#EmployeeID").val()
+                            }
+                        },
+                        create: {
+                            url: "ContactInformations_Create",
+                            data: {
+                                personId: $("#EmployeeID").val()
+                            }
+                        },
+                        update: {
+                            url: "ContactInformations_Update",
+                            data: {
+                                personId: $("#EmployeeID").val()
+                            }
+                        },
+                        destroy: {
+                            url: "ContactInformations_Destroy",
+                            data: {
+                                personId: $("#EmployeeID").val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                Type: { type: "string" },
+                                PhoneNumber: { type: "string" },
+                                Country: { type: "string" },
+                                City: { type: "string" },
+                                Address: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                editable: "incell",
+                pageable: {
+                    pageSize: 50,
+                    buttonCount: 1,
+                    messages: {
+                        empty: "موردی وجود ندارد",
+                        display: "تعداد کل {2}"
+                    }
+                },
+                navigatable: true,
+                selectable: "single cell",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            })
+
+
+        }
+
+    </script>
+
+    @*Kendo scripts*@
+    <script type="text/javascript">
+        // Kendo scripts
+        $("#grid").on("dblclick", "tr.k-state-selected", function (event) {
+            EditModal = true;
+            $("#modal").removeAttr('hidden');
+            $("#modal").iziModal('open');
+            var grid = $("#grid").data("kendoGrid");
+            var row = grid.dataItem(grid.select());
+            EmployeeDetail(row.ID);
+        });
+
+    </script>
+
+    @*IziModal Scripts*@
+    <script type="text/javascript">
+        //IziModal Scripts
+
+
+        $("#modal").iziModal({
+            rtl: true,
+            background: '#eaebed',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+                if (CreateModal) {
+                    $("#ShowContactBtn")
+                        .attr('disabled', 'disabled')
+                        .attr('data-toggle', 'tooltip')
+                        .attr('data-placement', 'top')
+                        .attr('title', 'ثبت اطلاعات تماس بعد از ذخیره شدن کاربر امکان پذیر میباشد');
+                }
+            },
+            onClosed: function () {
+                $("#Password").removeAttr('hidden');
+                $("#ConfirmPassword").removeAttr('hidden');
+                $("#Role").removeAttr('hidden');
+                $("#RoleSelect").remove();
+
+                $("#FirstName").val("");
+                $("#LastName").val("");
+                $("#NationalCode").val("");
+                $("#EmployeeCode").val("");
+                $("#Email").val("");
+
+                $("#UserCheck").prop('checked', false);
+                $("#Email").attr('hidden', 'hidden');
+                $("#Password").attr('hidden', 'hidden');
+                $("#ConfirmPassword").attr('hidden', 'hidden');
+                $("#Role").attr('hidden', 'hidden');
+
+                $("#ResetPassword").attr('hidden', 'hidden');
+                $("#ShowContactBtn")
+                    .removeAttr('disabled')
+                    .removeAttr('data-toggle')
+                    .removeAttr('data-placement')
+                    .removeAttr('title');
+
+                CreateModal = false;
+                EditModal = false;
+                IsUser = false;
+                Lockout = false;
+                $("#EmployeeCreateError").html("");
+                $("#ResetPasswordError").html("");
+                $("#ContactInformationError").html("");
+
+            }
+        });
+       
+        $("#ContactModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#eaebed',
+            overlayClose: false,
+            closeOnEscape: false,
+            onClosed: function () {
+
+            }
+
+        });
+        $("#ResetPasswordModal").iziModal({
+            width: 300,
+            rtl: true,
+            background: '#eaebed',
+            overlayClose: false,
+            closeOnEscape: false,
+            onClosed: function () {
+                $("#ResetPasswordInput").val("");
+                $("#ResetConfirmPasswordInput").val("");
+            }
+
+        });
+
+    </script>
+
+    @*Ajax*@
+    <script type="text/javascript">
+        // Ajax
+
+        function ResetPasswordFunction() {
+
+
+
+            var ResetPasswordUrl = '@Url.Action("ResetPass", "Employee")';
+            $.ajax({
+                url: ResetPasswordUrl,
+                type: 'POST',
+                data: {
+                    ID: $("#EmployeeID").val(),
+                    Password: $("#ResetPasswordInput").val(),
+                    ConfirmPassword: $("#ResetConfirmPasswordInput").val()
+                },
+                success: function (result) {
+                    $("#modal").iziModal('close');
+                    iziToast.show({
+                        rtl: true,
+                        title: 'پسورد تغییر یافت',
+                        color: 'green',
+                        pauseOnHover: false,
+                        timeout: 1500,
+                        position: 'bottomRight',
+                        onClosed: function () {
+                            $("#ResetPasswordModal").iziModal('close');
+                        }
+
+                    });
+                },
+                error: function (result) {
+                    iziToast.show({
+                        rtl: true,
+                        title: 'عملیت با خطا مواجه شد',
+                        color: 'red',
+                        pauseOnHover: false,
+                        timeout: 1500,
+                        position: 'bottomRight'
+                    });
+                    $("#ResetPasswordError").html(result.responseText);
+                }
+            })
+        }
+
+        function PostEmployee() {
+            var EmployeeCreateUrl = '@Url.Action("Create","Employee")';
+            var EmployeeEditUrl = '@Url.Action("Edit","Employee")';
+
+            if (CreateModal) {
+
+                if ($("#UserCheck").is(':checked')) { // Create Employee with user
+                    $.ajax({
+                        url: EmployeeCreateUrl,
+                        type: 'POST',
+                        data: {
+                            FirstName: $("#FirstName").val(),
+                            LastName: $("#LastName").val(),
+                            NationalCode: $("#NationalCode").val(),
+                            EmployeeCode: $("#EmployeeCode").val(),
+                            SubmitUser: $("#UserCheck").prop('checked'),
+                            LockoutEnabledGet : "false",
+                            Email: $("#Email").val(),
+                            Password: $("#Password").val(),
+                            ConfirmPassword: $("#ConfirmPassword").val(),
+                            Role: $("#Role").find(":selected").text()
+                        },
+                        success: function (result) {
+                            $("#modal").iziModal('close');
+                            iziToast.show({
+                                rtl: true,
+                                title: 'ایجاد شد',
+                                color: 'green',
+                                pauseOnHover: false,
+                                timeout: 1500,
+                                position: 'bottomRight',
+                                onClosed: function () {
+                                    location.reload();
+                                }
+
+                            });
+                        },
+                        error: function (result) {
+                            iziToast.show({
+                                rtl: true,
+                                title: 'عملیت با خطا مواجه شد',
+                                color: 'red',
+                                pauseOnHover: false,
+                                timeout: 1500,
+                                position: 'bottomRight'
+                            });
+                            $("#EmployeeCreateError").html(result.responseText);
+
+                        }
+                    })
+                }
+                else { // Create Employee without user
+                    $.ajax({
+                        url: EmployeeCreateUrl,
+                        type: 'POST',
+                        data: {
+                            FirstName: $("#FirstName").val(),
+                            LastName: $("#LastName").val(),
+                            NationalCode: $("#NationalCode").val(),
+                            EmployeeCode: $("#EmployeeCode").val(),
+                            LockoutEnabledGet: "false",
+                            SubmitUser: $("#UserCheck").prop('checked')
+                        },
+                        success: function (result) {
+                            $("#modal").iziModal('close');
+                            iziToast.show({
+                                rtl: true,
+                                title: 'ایجاد شد',
+                                color: 'green',
+                                pauseOnHover: false,
+                                timeout: 1500,
+                                position: 'bottomRight',
+                                onClosed: function () {
+                                    location.reload();
+                                }
+
+                            });
+                        },
+                        error: function (result) {
+                            iziToast.show({
+                                rtl: true,
+                                title: 'عملیت با خطا مواجه شد',
+                                color: 'red',
+                                pauseOnHover: false,
+                                timeout: 1500,
+                                position: 'bottomRight'
+                            });
+                            $("#EmployeeCreateError").html(result.responseText);
+
+                        }
+                    })
+                }
+
+            }
+            if (EditModal) {
+                if (IsUser) {
+                    if ($("#UserCheck").is(':checked')) { // update employee and update user
+                        EditMode = "1";
+                        $.ajax({
+                            url: EmployeeEditUrl,
+                            type: 'POST',
+                            data: {
+                                ID: $("#EmployeeID").val(),
+                                FirstName: $("#FirstName").val(),
+                                LastName: $("#LastName").val(),
+                                NationalCode: $("#NationalCode").val(),
+                                EmployeeCode: $("#EmployeeCode").val(),
+                                SubmitUser: "false", // This is wrong...Check in future...!!!!!!!!!!!!!!!
+                                EditModeStr: EditMode,
+                                Email: $("#Email").val(),
+                                Role: $("#RoleSelect").find(":selected").text(),
+                                LockoutEnabledGet: Lockout.toString()
+                            },
+                            success: function (result) {
+                                $("#modal").iziModal('close');
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'تغییرات مورد نظر اعمال شد',
+                                    color: 'green',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight',
+                                    onClosed: function () {
+                                        location.reload();
+                                    }
+
+                                });
+                            },
+                            error: function (result) {
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'عملیت با خطا مواجه شد',
+                                    color: 'red',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight'
+
+
+                                });
+                                $("#EmployeeCreateError").html(result.responseText);
+
+                            }
+                        })
+
+                    }
+                    else { // update employee and update user (LOCK USER)
+                        EditMode = "1";
+                        $.ajax({
+                            url: EmployeeEditUrl,
+                            type: 'POST',
+                            data: {
+                                ID: $("#EmployeeID").val(),
+                                FirstName: $("#FirstName").val(),
+                                LastName: $("#LastName").val(),
+                                NationalCode: $("#NationalCode").val(),
+                                EmployeeCode: $("#EmployeeCode").val(),
+                                SubmitUser: "false", // This is wrong...Check in future...!!!!!!!!!!!!!!!
+                                EditModeStr: EditMode,
+                                Email: $("#Email").val(),
+                                Role: $("#RoleSelect").find(":selected").text(),
+                                LockoutEnabledGet: Lockout.toString()
+                            },
+                            success: function (result) {
+                                $("#modal").iziModal('close');
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'تغییرات مورد نظر اعمال شد',
+                                    color: 'green',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight',
+                                    onClosed: function () {
+                                        location.reload();
+                                    }
+
+                                });
+                            },
+                            error: function (result) {
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'عملیت با خطا مواجه شد',
+                                    color: 'red',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight'
+
+
+                                });
+                                $("#EmployeeCreateError").html(result.responseText);
+
+                            }
+                        })
+
+                    }
+
+                }
+                else {
+                    if ($("#UserCheck").is(':checked')) { //Update Employee and create user
+                        EditMode = "3";
+                        $.ajax({
+                            url: EmployeeEditUrl,
+                            type: 'POST',
+                            data: {
+                                ID: $("#EmployeeID").val(),
+                                FirstName: $("#FirstName").val(),
+                                LastName: $("#LastName").val(),
+                                NationalCode: $("#NationalCode").val(),
+                                EmployeeCode: $("#EmployeeCode").val(),
+                                SubmitUser: "true",
+                                EditModeStr: EditMode,
+                                LockoutEnabledGet: "false",
+                                Email: $("#Email").val(),
+                                Password: $("#Password").val(),
+                                ConfirmPassword: $("#ConfirmPassword").val(),
+                                Role: $("#RoleSelect").find(":selected").text()
+                            },
+                            success: function (result) {
+                                $("#modal").iziModal('close');
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'تغییرات مورد نظر اعمال شد',
+                                    color: 'green',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight',
+                                    onClosed: function () {
+                                        location.reload();
+                                    }
+
+                                });
+                            },
+                            error: function (result) {
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'عملیت با خطا مواجه شد',
+                                    color: 'red',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight'
+
+
+                                });
+                                $("#EmployeeCreateError").html(result.responseText);
+
+                            }
+                        })
+
+                    }
+                    else { // Just update Employee
+                        EditMode = "4";
+                        $.ajax({
+                            url: EmployeeEditUrl,
+                            type: 'POST',
+                            data: {
+                                ID: $("#EmployeeID").val(),
+                                FirstName: $("#FirstName").val(),
+                                LastName: $("#LastName").val(),
+                                NationalCode: $("#NationalCode").val(),
+                                EmployeeCode: $("#EmployeeCode").val(),
+                                SubmitUser: "false",
+                                EditModeStr: EditMode
+                            },
+                            success: function (result) {
+                                $("#modal").iziModal('close');
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'تغییرات مورد نظر اعمال شد',
+                                    color: 'green',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight',
+                                    onClosed: function () {
+                                        location.reload();
+                                    }
+
+                                });
+                            },
+                            error: function (result) {
+                                iziToast.show({
+                                    rtl: true,
+                                    title: 'عملیت با خطا مواجه شد',
+                                    color: 'red',
+                                    pauseOnHover: false,
+                                    timeout: 1500,
+                                    position: 'bottomRight'
+
+
+                                });
+                                $("#EmployeeCreateError").html(result.responseText);
+
+                            }
+                        })
+                    }
+                }
+
+            }
+
+        }
+
+        function EmployeeDetail(id) {
+
+            var EmployeeDetailUrl = '@Url.Action("Detail","Employee")';
+            $.ajax({
+                url: EmployeeDetailUrl,
+                type: 'GET',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.Email != "" && result.Lock == "True") {
+                        IsUser = true;
+                        Lockout = true;
+                        $("#modal").iziModal('open');
+                        $("#EmployeeID").val(result.ID);
+                        $("#Password").attr('hidden', 'hidden');
+                        $("#ConfirmPassword").attr('hidden', 'hidden');
+                        $("#Role").attr('hidden', 'hidden');
+                        $("#UserCheck").prop('checked', false);
+                        $("#Email").removeAttr('hidden');
+                        $("#Email").val(result.Email);
+                        $("#Email").attr('disabled', 'disabled');
+
+                        $("#FirstName").val(result.FirstName);
+                        $("#LastName").val(result.LastName);
+                        $("#NationalCode").val(result.NationalCode);
+                        $("#EmployeeCode").val(result.EmployeeCode);
+
+                        $("#ResetPassword").removeAttr('hidden');
+
+                        var EmployeeDiv = $("#EmployeeDiv");
+                        var select = $("<select />").attr("id", "RoleSelect").addClass("form-control");
+
+                        if (result.Role == "مدیر ارشد")
+                            select.append($("<option />").attr("value", "0").attr("selected", "selected").html("مدیر ارشد"));
+                        else
+                            select.append($("<option />").attr("value", "0").html("مدیر ارشد"));
+                        if (result.Role == "مدیر")
+                            select.append($("<option />").attr("value", "1").attr("selected", "selected").html("مدیر"));
+                        else
+                            select.append($("<option />").attr("value", "1").html("مدیر"));
+                        if (result.Role == "کارمند")
+                            select.append($("<option />").attr("value", "2").attr("selected", "selected").html("کارمند"));
+                        else
+                            select.append($("<option />").attr("value", "2").html("کارمند"));
+                        if (result.Role == "مشتری")
+                            select.append($("<option />").attr("value", "3").attr("selected", "selected").html("مشتری"));
+                        else
+                            select.append($("<option />").attr("value", "3").html("مشتری"));
+                        select.appendTo(EmployeeDiv);
+                        $("#RoleSelect").attr('disabled', 'disabled');
+                    }
+                    else if (result.Email != "" && result.Lock == "False") {
+                        IsUser = true;
+                        Lockout = false;
+                        $("#modal").iziModal('open');
+                        $("#EmployeeID").val(result.ID);
+                        $("#Password").attr('hidden', 'hidden');
+                        $("#ConfirmPassword").attr('hidden', 'hidden');
+                        $("#Role").attr('hidden', 'hidden');
+                        $("#UserCheck").prop('checked', true);
+                        $("#Email").removeAttr('hidden');
+                        $("#Email").removeAttr('disabled');
+
+                        $("#FirstName").val(result.FirstName);
+                        $("#LastName").val(result.LastName);
+                        $("#NationalCode").val(result.NationalCode);
+                        $("#EmployeeCode").val(result.EmployeeCode);
+                        $("#Email").val(result.Email);
+
+                        $("#ResetPassword").removeAttr('hidden');
+
+
+                        var EmployeeDiv = $("#EmployeeDiv");
+                        var select = $("<select />").attr("id", "RoleSelect").addClass("form-control");
+
+                        if (result.Role == "مدیر ارشد")
+                            select.append($("<option />").attr("value", "0").attr("selected", "selected").html("مدیر ارشد"));
+                        else
+                            select.append($("<option />").attr("value", "0").html("مدیر ارشد"));
+                        if (result.Role == "مدیر")
+                            select.append($("<option />").attr("value", "1").attr("selected", "selected").html("مدیر"));
+                        else
+                            select.append($("<option />").attr("value", "1").html("مدیر"));
+                        if (result.Role == "کارمند")
+                            select.append($("<option />").attr("value", "2").attr("selected", "selected").html("کارمند"));
+                        else
+                            select.append($("<option />").attr("value", "2").html("کارمند"));
+                        if (result.Role == "مشتری")
+                            select.append($("<option />").attr("value", "3").attr("selected", "selected").html("مشتری"));
+                        else
+                            select.append($("<option />").attr("value", "3").html("مشتری"));
+                        select.appendTo(EmployeeDiv);
+                    }
+                    else  {
+                        IsUser = false;
+                        $("#modal").iziModal('open');
+                        $("#EmployeeID").val(result.ID);
+
+                        $("#Email").attr('hidden', 'hidden');
+                        $("#Password").attr('hidden', 'hidden');
+                        $("#ConfirmPassword").attr('hidden', 'hidden');
+                        $("#Role").attr('hidden', 'hidden');
+
+                        $("#FirstName").val(result.FirstName);
+                        $("#LastName").val(result.LastName);
+                        $("#NationalCode").val(result.NationalCode);
+                        $("#EmployeeCode").val(result.EmployeeCode);
+                    }
+                },
+                error: function (result) {
+                }
+            })
+        }
+
+    </script>
+
+    @*JavaScripts*@
+    <script type="text/javascript">
+        //JavaScripts
+        var CreateModal = false;
+        var EditModal = false;
+        var IsUser = false;
+        var EditMode = "";
+        var Lockout = false;
+
+        $("#NewEmployee").click(function () {
+            $("#modal").removeAttr('hidden');
+            $("#modal").iziModal('open');
+            CreateModal = true;
+        });
+
+        $("#ResetPassword").click(function () {
+            $("#ResetPasswordModal").removeAttr('hidden');
+            $("#ResetPasswordModal").iziModal('open');
+        })
+
+
+
+        $("#UserCheck").change(function () {
+            if ($(this).is(':checked')) {
+                if (EditModal == true && IsUser == true) {
+                    Lockout = false;
+                    $("#Email").removeAttr('hidden');
+                    $("#Email").removeAttr('disabled');
+                    $("#RoleSelect").removeAttr('disabled');
+                }
+                else if (EditModal == true && IsUser == false) {
+                    $("#Email").removeAttr('hidden');
+                    $("#Role").removeAttr('hidden');
+                    $("#Password").removeAttr('hidden');
+                    $("#ConfirmPassword").removeAttr('hidden');
+                }
+                else {
+                    $("#Email").removeAttr('hidden');
+                    $("#Email").removeAttr('disabled');
+                    $("#Role").removeAttr('hidden');
+                    $("#Password").removeAttr('hidden');
+                    $("#ConfirmPassword").removeAttr('hidden');
+                }
+            }
+            else {
+                if (EditModal == true && IsUser == true) {
+                    Lockout = true;
+                    $("#Email").attr('disabled', 'disabled');
+                    $("#RoleSelect").attr('disabled', 'disabled');
+
+                }
+                else {
+                    $("#Email").attr('hidden', 'hidden');
+                    $("#Password").attr('hidden', 'hidden');
+                    $("#ConfirmPassword").attr('hidden', 'hidden');
+                    $("#Role").attr('hidden', 'hidden');
+                    $("#RoleSelect").attr('hidden', 'hidden');
+                }
+            }
+        })
+    </script>
+}

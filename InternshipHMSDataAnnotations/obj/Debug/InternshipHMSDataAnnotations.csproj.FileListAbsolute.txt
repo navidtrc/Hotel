@@ -1,0 +1,6 @@
+C:\Users\Navid\Desktop\TN\NavidTafreshiHotel\InternshipHMSDataAnnotations\bin\Debug\InternshipHMSDataAnnotations.dll
+C:\Users\Navid\Desktop\TN\NavidTafreshiHotel\InternshipHMSDataAnnotations\bin\Debug\InternshipHMSDataAnnotations.pdb
+C:\Users\Navid\Desktop\TN\NavidTafreshiHotel\InternshipHMSDataAnnotations\obj\Debug\InternshipHMSDataAnnotations.csprojAssemblyReference.cache
+C:\Users\Navid\Desktop\TN\NavidTafreshiHotel\InternshipHMSDataAnnotations\obj\Debug\InternshipHMSDataAnnotations.csproj.CoreCompileInputs.cache
+C:\Users\Navid\Desktop\TN\NavidTafreshiHotel\InternshipHMSDataAnnotations\obj\Debug\InternshipHMSDataAnnotations.dll
+C:\Users\Navid\Desktop\TN\NavidTafreshiHotel\InternshipHMSDataAnnotations\obj\Debug\InternshipHMSDataAnnotations.pdb

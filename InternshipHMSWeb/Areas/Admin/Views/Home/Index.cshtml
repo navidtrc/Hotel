@@ -1,0 +1,1174 @@
+﻿<style>
+    th:hover {
+        background-color: #bfedfb;
+    }
+</style>
+<link href="~/Content/kendo/2019.1.220/kendo.uniform.min.css" rel="stylesheet" />
+
+<div class="form-inline justify-content-center">
+    <div class="bg-success" style="width:300px;height:140px;margin:30px;border-radius:15px 15px 0 0">
+        <div>
+            <section class="col-md-12 text-white">
+
+                <div style="margin-top:20px">
+                    <span style="font-size:24px"> کارمندان </span>
+                </div>
+
+                <div style="margin-top:20px">
+                    <span style="font-size:30px;display:block" class="text-right">@ViewBag.AllEmployee</span>
+                </div>
+                <div>
+                    <i style="transform:rotate(320deg);color:#708f62" class="fa fa-3x fa-user"></i>
+                </div>
+            </section>
+            <footer style="margin-top:10px;display:block">
+                <div style="background-color:#ededed;height:45px;border-radius:0 0 15px 15px;border:solid #28a745">
+                    <a href="/Admin/Employee/Index" style="font-size:15px;display:block;padding-top:12px;" class="text-center text-success"> بیشتر بدانید <i class="fa fa-arrow-alt-circle-left"></i></a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div class="bg-primary" style="width:300px;height:140px;margin:30px;border-radius:15px 15px 0 0">
+        <div>
+            <section class="col-md-12 text-white">
+
+                <div style="margin-top:20px">
+                    <span style="font-size:24px"> رزرو های امروز </span>
+                </div>
+
+                <div style="margin-top:20px">
+                    <span style="font-size:30px;display:block" class="text-right">@ViewBag.TodayReserve</span>
+                </div>
+                <div>
+                    <i style="transform:rotate(320deg);color:#7a81ff" class="fa fa-3x fa-home"></i>
+                </div>
+            </section>
+            <footer style="margin-top:10px;display:block">
+                <div style="background-color:#ededed;height:45px;border-radius:0 0 15px 15px;border:solid #17a2b8">
+                    <a href="#" style="font-size:15px;display:block;padding-top:12px;" class="text-center text-primary"> بیشتر بدانید <i class="fa fa-arrow-alt-circle-left"></i></a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div class="bg-danger" style="width:300px;height:140px;margin:30px;border-radius:15px 15px 0 0">
+        <div>
+            <section class="col-md-12 text-white">
+
+                <div style="margin-top:20px">
+                    <span style="font-size:24px"> مسافران </span>
+                </div>
+
+                <div style="margin-top:20px">
+                    <span style="font-size:30px;display:block" class="text-right">@ViewBag.AllCustomer</span>
+                </div>
+                <div>
+                    <i style="transform:rotate(320deg);color:#ed6a6a" class="fa fa-3x fa-suitcase"></i>
+                </div>
+            </section>
+            <footer style="margin-top:10px;display:block">
+                <div style="background-color:#ededed;height:45px;border-radius:0 0 15px 15px;border:solid #dc3545">
+                    <a href="/Admin/Customer/Index" style="font-size:15px;display:block;padding-top:12px;" class="text-center text-danger"> بیشتر بدانید <i class="fa fa-arrow-alt-circle-left"></i></a>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+<hr style="margin-top:50px" />
+
+
+<div style="margin-top:50px;" class="col-md-12">
+    <h2 class="text-muted text-center" style="margin:20px 0 20px 0;font-size:24px"><i class="fa fa-bed"></i> وضعیت اتاق ها</h2>
+
+    <div class="text-center" style="margin:20px">
+        <a id="tableOption" style="cursor:pointer" class="text-center"><span class="fa fa-2x fa-cog"></span></a>
+    </div>
+    <div class="container">
+        <div class="row h-100 justify-content-center align-items-center">
+            <table class="table table-responsive-lg">
+                <thead>
+                    <tr>
+                        <th class="text-center" colspan="9">
+                            <a style="font-size:14px" onclick="CurrentWeek()" href="#">هفته جاری</a>
+                        </th>
+                    </tr>
+                    <tr class="text-muted">
+                        <th class="text-center bg-primary" style="border-radius:0 20px 20px 0">
+                            <button onclick="PreviousWeek()" class="btn btn-primary">
+                                <i class="fa fa-chevron-right"></i> قبل
+                            </button>
+                        </th>
+                        <th class="text-center">
+                            <a class="text-primary" style="font-size:20px">شنبه</a>
+                            <br />
+                            <span style="margin-top:8px;display:block;font-size:15px" id="saturdaySpan"></span>
+                        </th>
+                        <th class="text-center">
+                            <a class="text-primary" style="font-size:20px">یکشنبه</a>
+                            <br />
+                            <span style="margin-top:8px;display:block;font-size:15px" id="sundaySpan"></span>
+                        </th>
+                        <th class="text-center">
+                            <a class="text-primary" style="font-size:20px">دوشنبه</a>
+                            <br />
+                            <span style="margin-top:8px;display:block;font-size:15px" id="mondaySpan"></span>
+                        </th>
+                        <th class="text-center">
+                            <a class="text-primary" style="font-size:20px">سه شنبه</a>
+                            <br />
+                            <span style="margin-top:8px;display:block;font-size:15px" id="tuesdaySpan"></span>
+                        </th>
+                        <th class="text-center">
+                            <a class="text-primary" style="font-size:20px">چهار شنبه</a>
+                            <br />
+                            <span style="margin-top:8px;display:block;font-size:15px" id="wednsdaySpan"></span>
+                        </th>
+                        <th class="text-center">
+                            <a class="text-primary" style="font-size:20px">پنج شنبه</a>
+                            <br />
+                            <span style="margin-top:8px;display:block;font-size:15px" id="thursdaySpan"></span>
+                        </th>
+                        <th class="text-center">
+                            <a class="text-primary" style="font-size:20px">جمعه</a>
+                            <br />
+                            <span style="margin-top:8px;display:block;font-size:15px" id="fridaySpan"></span>
+                        </th>
+                        <th class="text-center bg-primary" style="border-radius:20px 0 0 20px">
+                            <button onclick="NextWeek()" class="btn btn-primary">
+                                بعد
+                                <i class="fa fa-chevron-left"></i>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="text-center">
+                    <tr>
+                        <td></td>
+                        <td style="border:1px solid #d3d2d2" id="SatRooms"></td>
+                        <td style="border:1px solid #d3d2d2" id="SunRooms"></td>
+                        <td style="border:1px solid #d3d2d2" id="MonRooms"></td>
+                        <td style="border:1px solid #d3d2d2" id="TueRooms"></td>
+                        <td style="border:1px solid #d3d2d2" id="WedRooms"></td>
+                        <td style="border:1px solid #d3d2d2" id="ThuRooms"></td>
+                        <td style="border:1px solid #d3d2d2" id="FriRooms"></td>
+                        <td></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<h2 class="text-muted text-center" style="margin:75px 0 20px 0;font-size:24px"><i class="fa fa-shopping-bag"></i> مسافرین داخل هتل</h2>
+<hr />
+<div class="container col-md-12">
+    <div class="k-rtl">
+        <div id="AvailablePassengersGrid"></div>
+    </div>
+</div>
+
+
+<div id="DetailModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> جزئیات رزرو </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <input hidden id="DetailReservationID" />
+        <input hidden id="DetailCustomerID" />
+        <div class="row panel" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailReservationTab" class="nav-link"><i class="fa fa-handshake"></i> رزرواسیون</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailFellowsTab" class="nav-link"><i class="fa fa-users"></i> همراهان</a>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+                                    <div id="DetailReservationTab" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> شماره رزرو</td>
+                                                        <td id="DetailNumber"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-backpack"></i> مسافر</td>
+                                                        <td id="DetailCustomer"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-home-heart"></i> نوع رزرو</td>
+                                                        <td id="DetailState"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> از تاریخ</td>
+                                                        <td id="DetailReservationFromDate"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar-alt"></i> تا تاریخ</td>
+                                                        <td id="DetailReservationToDate"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="DetailFellowsTab" class="tab-pane fade in" style="font-size:12px">
+                                        <div class="k-rtl" id="DetailFellowGrid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <center style="" class="col-md-12">
+                                <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="TableOptionModal" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-calendar"></i> تنظیمات تقویم </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+        </div>
+    </div>
+    <div class="container h-100" style="font-size:17px">
+        <h2 style="font-size:23px"><i class="fa fa-eye"></i> راهنما </h2>
+        <hr />
+
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="form-group col-md-12">
+                <button class="form-control btn btn-warning">رزرو موقت</button>
+            </div>
+            <div class="form-group col-md-12">
+                <button class="form-control btn btn-primary">رزرو قطعی</button>
+            </div>
+            <div class="form-group col-md-12">
+                <button class="form-control btn btn-success">رزرو پرداخت شده</button>
+            </div>
+            <div class="form-group col-md-12">
+                <button class="form-control btn btn-danger">رزرو لغوی</button>
+            </div>
+            <div class="form-group col-md-12">
+                <button class="form-control btn btn-dark">اتاق پر</button>
+            </div>
+            <div class="form-group col-md-12">
+                <button class="form-control btn btn-secondary">اتاق خالی</button>
+            </div>
+        </div>
+
+        <h2 style="margin-top:40px;font-size:23px"><i class="fa fa-cog"></i> تظیمات نمایش </h2>
+        <hr />
+
+        <div class="form-check" style="margin:10px 0 10px 0">
+            <label class="form-check-label">
+                <input type="checkbox" id="reservationOpt" class="form-check-input" checked onchange="reservationOptFunc()"> اتاق های رزروی
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" style="margin:10px 0 10px 0">
+                <input type="checkbox" id="checkingOpt" class="form-check-input" checked onchange="checkingOptFunc()"> اتاق های پر
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" style="margin:10px 0 10px 0">
+                <input type="checkbox" id="freeRoomsOpt" class="form-check-input" checked onchange="freeRoomsOptFunc()"> اتاق های خالی
+            </label>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="/signalr/signalr/hubs"></script>
+
+
+    <script src="~/Scripts/PersianKendo.js"></script>
+    <script type="text/javascript">
+
+
+
+
+
+
+        var CurrentWeekUrl = '@Url.Action("PersianCurrentWeek", "Home")';
+        var NextWeekUrl = '@Url.Action("PersianNextWeek", "Home")';
+        var PreviousWeekUrl = '@Url.Action("PersianPreviousWeek", "Home")';
+        var ReservationDetailUrl = '@Url.Action("Detail","Reservation")';
+        var firstDayOfWeek = "";
+        var currentDay = "";
+        var ShowReservationInTable = true;
+        var ShowCheckingInTable = true;
+        var ShowFreeRoomsInTable = true;
+
+
+
+
+        $(document).ready(function () {
+
+
+
+
+
+
+
+
+
+            //var instances =
+            //    [
+            //         {
+            //            ID: null, 
+            //            FromDate: '1398/04/01', 
+            //            ToDate: '1398/04/07', 
+            //            ParentId: '1b4ce2f4-7bda-4976-bbde-044f16d29547', 
+            //          //SelectedFellows: ['c554f137-93ce-4708-bfb1-8a9bcb9ea941', 'b33616cf-4b63-4473-abc7-464b781051d4'],
+            //            SelectedRooms: ['d375ed98-3b53-4977-a36b-3602c2e7ee69', '92a5fe5c-021a-4a54-a850-d62de803c243']
+            //         }
+            //    ];
+
+                //    {
+                //        ID: null,
+                //        FromDate: '1398/02/15',
+                //        ToDate: '1398/02/30',
+                //        ParentId: '79a3eb2c-bb15-4d5b-8c66-e31de9463f7a',
+                //        SelectedFellows: ['c554f137-93ce-4708-bfb1-8a9bcb9ea941', 'b33616cf-4b63-4473-abc7-464b781051d4'],
+                //        SelectedRooms: ['8dd122e5-a4c4-4542-a0da-cacab5825310', '266650f9-d507-49b2-8a44-0160b5ada1f0']
+                //    }
+
+
+
+
+            //debugger;
+            //instances = JSON.stringify(instances);
+            //$.ajax({
+            //        url: '/api/ReservationApi/AddReservation',
+            //        type: 'POST',
+            //        contentType: 'application/json; charset=utf-8',
+            //        dataType: 'json',
+            //        data: instances,
+            //        success: function(result) {
+
+            //              debugger;
+            //         },
+            //        error: function(result) {
+            //              debugger;
+
+            //         }
+            //})
+
+
+
+
+            //debugger;
+            //$.ajax({
+            //    url: '/api/ReservationApi/ChangeToFixReserve?ReserveNumber=6',
+            //    type: 'POST',
+            //    success: function (result) {
+            //        debugger;
+            //    },
+            //    error: function (result) {
+            //        debugger;
+            //    }
+            //})
+
+
+            
+
+            //$.ajax({
+            //    url: '/api/RoomApi/GetFreeRooms',
+            //    type: 'GET',
+            //    data: {
+            //        FromDate: "2019/05/20",
+            //        ToDate:"2019/05/30"
+            //    },
+            //    success: function (result) {
+
+            //        //window.location = '/Admin/Reservation/Index'
+
+            //        debugger;
+            //    },
+            //    error: function (result) {
+            //        debugger;
+
+            //    }
+            //})
+
+
+            CurrentWeek();
+
+
+            debugger;
+            var dashboardHub = $.connection.dashboardHub;
+            $.connection.hub.start(function () {
+                dashboardHub.client.activate(function (response) {
+
+                })
+            })
+            dashboardHub.client.refresh = function (Id, State, ReservationNumber,FromDate,ToDate) {
+                if ($("#DetailReservationID").val() == Id) {
+                    $("#DetailState").html(State);
+                    $("#DetailReservationFromDate").html(FromDate);
+                    $("#DetailReservationToDate").html(ToDate);
+                }
+                for (var i = 0; i < $('button.btn:contains('+ '- ' + ReservationNumber + ')').length; i++) {
+                    var button = $('button.btn:contains(' + '- ' + ReservationNumber + ')')[i];
+
+
+                    if (State == "رزرو موقت") {
+                        button.className = "btn btn-warning"
+                    }
+                    if (State == "رزرو قطعی") {
+                        button.className = "btn btn-primary"
+                    }
+                    if (State == "پرداخت شده") {
+                        button.className = "btn btn-success"
+                    }
+                    if (State == "لغو") {
+                        button.className = "btn btn-danger"
+                    }
+                }
+            }
+        })
+
+
+        $("#DetailModal").iziModal({
+            width: 500,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+
+            }
+        });
+        $("#TableOptionModal").iziModal({
+            width: 230,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: true,
+            overlayClose: true,
+            onClosed: function () {
+
+            }
+        });
+
+        $('#tableOption').hover(function () {
+            $(this).addClass('fas fa-spin');
+            //$(this).attr('background-color','aqua');
+        }, function () {
+            $(this).removeClass('fas fa-spin');
+        });
+        $("#tableOption").click(function myfunction() {
+            $(this).removeClass('fas fa-spin');
+
+            $("#TableOptionModal").removeAttr('hidden');
+            $("#TableOptionModal").iziModal('open');
+        })
+
+        function GetReservationDetail(ID) {
+            debugger;
+            $("#DetailModal").removeAttr('hidden');
+            $("#DetailModal").iziModal('open');
+            GetReservationInfo(ID);
+
+
+
+        }
+
+        function reservationOptFunc() {
+            if ($("#reservationOpt").prop('checked') == true) {
+                ShowReservationInTable = true;
+            }
+            else
+                ShowReservationInTable = false;
+            CurrentWeek();
+        }
+
+        function checkingOptFunc() {
+            if ($("#checkingOpt").prop('checked') == true) {
+                ShowCheckingInTable = true;
+            }
+            else
+                ShowCheckingInTable = false;
+            CurrentWeek();
+        }
+
+        function freeRoomsOptFunc() {
+            if ($("#freeRoomsOpt").prop('checked') == true) {
+                ShowFreeRoomsInTable = true;
+            }
+            else
+                ShowFreeRoomsInTable = false;
+            CurrentWeek();
+        }
+
+        function GetReservationInfo(ID) {
+            debugger;
+            $.ajax({
+                url: ReservationDetailUrl,
+                type: 'GET',
+                data: {
+                    id: ID
+                },
+                success: function (result) {
+                    debugger;
+                      FillDetailModal(result);
+                },
+                error: function (result) {
+                }
+            })
+        }
+        function FillDetailModal(result) {
+            debugger;
+            $("#DetailReservationID").val(result.ID);
+            $("#DetailCustomerID").val(result.CustomerID);
+            $("#DetailNumber").html(result.Number);
+            $("#DetailCustomer").html(result.CustomerFullName);
+            $("#DetailState").html(result.State);
+            $("#DetailReservationFromDate").html(result.FromDate);
+            $("#DetailReservationToDate").html(result.ToDate);
+            $("#DetailFellowGrid").append($("<div />").attr("id", "FellowsGrid2"))
+            DetailModalFellowsGrid("#FellowsGrid2");
+        }
+        function DetailModalFellowsGrid(divId) {
+            debugger;
+            $(divId).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "FullName", title: "نام و نام خانوادگی" },
+                    { field: "NationalCode", title: "کد ملی" },
+                    { field: "PassportNumber", title: "شماره پاسپورت" }
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "DetailFellows_Read",
+                            data: {
+                                id: $("#DetailCustomerID").val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "date" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "number" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "single row",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            })
+        }
+        function FillTable(result) {
+            ClearTable();
+            // Reserve rooms
+            if (ShowReservationInTable) {
+                for (let i = 0; i < 7; i++) {
+                if (typeof (result.dateRoom[i].Data[0]) == "object") {
+                    if (i == 0) {
+                        $("#saturdaySpan").html(result.dateRoom[i].Data[0].RequeestDate);
+                        firstDayOfWeek = result.dateRoom[i].Data[0].RequeestDate;
+                        for (var j = 0; j < result.dateRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.dateRoom[i].Data[j].RoomNumber + " - " + result.dateRoom[i].Data[j].ReservationNumber)
+                                .attr("id", result.dateRoom[i].Data[j].ReservationID)
+                                .attr("onclick", "GetReservationDetail(id)")
+
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو موقت") {
+                                roomToggle.addClass("btn btn-warning");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو قطعی") {
+                                roomToggle.addClass("btn btn-primary");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "پرداخت شده") {
+                                roomToggle.addClass("btn btn-success");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "لغو") {
+                                roomToggle.addClass("btn btn-danger");
+                            }
+
+                            div.append(roomToggle);
+
+                            $("#SatRooms").append(div)
+
+                        }
+                    }
+                    else if (i == 1) {
+                        $("#sundaySpan").html(result.dateRoom[i].Data[0].RequeestDate);
+
+                        for (var j = 0; j < result.dateRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+
+
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.dateRoom[i].Data[j].RoomNumber + " - " + result.dateRoom[i].Data[j].ReservationNumber)
+                                .attr("id", result.dateRoom[i].Data[j].ReservationID)
+                                .attr("onclick", "GetReservationDetail(id)")
+
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو موقت") {
+                                roomToggle.addClass("btn btn-warning");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو قطعی") {
+                                roomToggle.addClass("btn btn-primary");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "پرداخت شده") {
+                                roomToggle.addClass("btn btn-success");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "لغو") {
+                                roomToggle.addClass("btn btn-danger");
+                            }
+                            div.append(roomToggle);
+                            $("#SunRooms").append(div)
+
+
+                        }
+
+                    }
+                    else if (i == 2) {
+                        $("#mondaySpan").html(result.dateRoom[i].Data[0].RequeestDate);
+
+
+
+                        for (var j = 0; j < result.dateRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+
+
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.dateRoom[i].Data[j].RoomNumber + " - " + result.dateRoom[i].Data[j].ReservationNumber)
+                                .attr("id", result.dateRoom[i].Data[j].ReservationID)
+                                .attr("onclick", "GetReservationDetail(id)")
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو موقت") {
+                                roomToggle.addClass("btn btn-warning");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو قطعی") {
+                                roomToggle.addClass("btn btn-primary");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "پرداخت شده") {
+                                roomToggle.addClass("btn btn-success");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "لغو") {
+                                roomToggle.addClass("btn btn-danger");
+                            }
+
+                            div.append(roomToggle);
+                            $("#MonRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 3) {
+                        $("#tuesdaySpan").html(result.dateRoom[i].Data[0].RequeestDate);
+
+                        for (var j = 0; j < result.dateRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+
+
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.dateRoom[i].Data[j].RoomNumber + " - " + result.dateRoom[i].Data[j].ReservationNumber)
+                                .attr("id", result.dateRoom[i].Data[j].ReservationID)
+                                .attr("onclick", "GetReservationDetail(id)")
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو موقت") {
+                                roomToggle.addClass("btn btn-warning");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو قطعی") {
+                                roomToggle.addClass("btn btn-primary");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "پرداخت شده") {
+                                roomToggle.addClass("btn btn-success");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "لغو") {
+                                roomToggle.addClass("btn btn-danger");
+                            }
+
+                            div.append(roomToggle);
+                            $("#TueRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 4) {
+                        $("#wednsdaySpan").html(result.dateRoom[i].Data[0].RequeestDate);
+
+                        for (var j = 0; j < result.dateRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.dateRoom[i].Data[j].RoomNumber + " - " + result.dateRoom[i].Data[j].ReservationNumber)
+                                .attr("id", result.dateRoom[i].Data[j].ReservationID)
+                                .attr("onclick", "GetReservationDetail(id)")
+
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو موقت") {
+                                roomToggle.addClass("btn btn-warning");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو قطعی") {
+                                roomToggle.addClass("btn btn-primary");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "پرداخت شده") {
+                                roomToggle.addClass("btn btn-success");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "لغو") {
+                                roomToggle.addClass("btn btn-danger");
+                            }
+                            div.append(roomToggle);
+                            $("#WedRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 5) {
+                        $("#thursdaySpan").html(result.dateRoom[i].Data[0].RequeestDate);
+
+                        for (var j = 0; j < result.dateRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.dateRoom[i].Data[j].RoomNumber + " - " + result.dateRoom[i].Data[j].ReservationNumber)
+                                .attr("id", result.dateRoom[i].Data[j].ReservationID)
+                                .attr("onclick", "GetReservationDetail(id)")
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو موقت") {
+                                roomToggle.addClass("btn btn-warning");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو قطعی") {
+                                roomToggle.addClass("btn btn-primary");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "پرداخت شده") {
+                                roomToggle.addClass("btn btn-success");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "لغو") {
+                                roomToggle.addClass("btn btn-danger");
+                            }
+                            div.append(roomToggle);
+                            $("#ThuRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 6) {
+                        $("#fridaySpan").html(result.dateRoom[i].Data[0].RequeestDate);
+
+                        for (var j = 0; j < result.dateRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.dateRoom[i].Data[j].RoomNumber + " - " + result.dateRoom[i].Data[j].ReservationNumber)
+                                .attr("id", result.dateRoom[i].Data[j].ReservationID)
+                                .attr("onclick", "GetReservationDetail(id)")
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو موقت") {
+                                roomToggle.addClass("btn btn-warning");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "رزرو قطعی") {
+                                roomToggle.addClass("btn btn-primary");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "پرداخت شده") {
+                                roomToggle.addClass("btn btn-success");
+                            }
+                            if (result.dateRoom[i].Data[j].ReservationType == "لغو") {
+                                roomToggle.addClass("btn btn-danger");
+                            }
+                            div.append(roomToggle);
+                            $("#FriRooms").append(div)
+
+
+                        }
+                    }
+                }
+                if (typeof (result.dateRoom[i].Data[0]) == "string") {
+                    if (i == 0) {
+                        $("#saturdaySpan").html(result.dateRoom[i].Data[0]);
+                        firstDayOfWeek = result.dateRoom[i].Data[0];
+
+                    }
+                    else if (i == 1) {
+                        $("#sundaySpan").html(result.dateRoom[i].Data[0]);
+                    }
+                    else if (i == 2) {
+                        $("#mondaySpan").html(result.dateRoom[i].Data[0]);
+                    }
+                    else if (i == 3) {
+                        $("#tuesdaySpan").html(result.dateRoom[i].Data[0]);
+                    }
+                    else if (i == 4) {
+                        $("#wednsdaySpan").html(result.dateRoom[i].Data[0]);
+                    }
+                    else if (i == 5) {
+                        $("#thursdaySpan").html(result.dateRoom[i].Data[0]);
+                    }
+                    else if (i == 6) {
+                        $("#fridaySpan").html(result.dateRoom[i].Data[0]);
+                    }
+                }
+            }
+            }
+
+            //Checking Rooms
+            if (ShowCheckingInTable) {
+                for (let i = 0; i < 7; i++) {
+                if (typeof (result.checkedRoom[i].Data[0]) == "object") {
+                    if (i == 0) {
+
+
+                        for (let j = 0; j < result.checkedRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.checkedRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.checkedRoom[i].Data[j].ID)
+                                .attr("onclick", "GetCheckingDetail(id)")
+                                .addClass("btn btn-dark")
+                            div.append(roomToggle);
+
+                            $("#SatRooms").append(div)
+
+                        }
+                    }
+                    else if (i == 1) {
+
+                        for (let j = 0; j < result.checkedRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.checkedRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.checkedRoom[i].Data[j].ID)
+                                .attr("onclick", "GetCheckingDetail(id)")
+                                .addClass("btn btn-dark");
+                            div.append(roomToggle);
+                            $("#SunRooms").append(div)
+
+
+                        }
+
+                    }
+                    else if (i == 2) {
+
+
+
+                        for (var j = 0; j < result.checkedRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.checkedRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.checkedRoom[i].Data[j].ID)
+                                .attr("onclick", "GetCheckingDetail(id)")
+                                .addClass("btn btn-dark");
+                            div.append(roomToggle);
+                            $("#MonRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 3) {
+
+                        for (var j = 0; j < result.checkedRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.checkedRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.checkedRoom[i].Data[j].ID)
+                                .attr("onclick", "GetCheckingDetail(id)")
+                                .addClass("btn btn-dark");
+                            div.append(roomToggle);
+                            $("#TueRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 4) {
+
+                        for (var j = 0; j < result.checkedRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.checkedRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.checkedRoom[i].Data[j].ID)
+                                .attr("onclick", "GetCheckingDetail(id)")
+                                .addClass("btn btn-dark");
+                            div.append(roomToggle);
+                            $("#WedRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 5) {
+
+                        for (var j = 0; j < result.checkedRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.checkedRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.checkedRoom[i].Data[j].ID)
+                                .attr("onclick", "GetCheckingDetail(id)")
+                                .addClass("btn btn-dark");
+                            div.append(roomToggle);
+                            $("#ThuRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 6) {
+
+                        for (var j = 0; j < result.checkedRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.checkedRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.checkedRoom[i].Data[j].ID)
+                                .attr("onclick", "GetCheckingDetail(id)")
+                                .addClass("btn btn-dark");
+                            div.append(roomToggle);
+                            $("#FriRooms").append(div)
+
+
+                        }
+                    }
+                }
+
+            }
+            }
+
+            //Fre Rooms
+            if (ShowFreeRoomsInTable) {
+                for (let i = 0; i < 7; i++) {
+                if (typeof (result.freeRoom[i].Data[0]) == "object") {
+                    if (i == 0) {
+
+
+                        for (let j = 0; j < result.freeRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.freeRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.freeRoom[i].Data[j].ID)
+                                .attr("onclick", "GetRoomDetail(id)")
+                                .addClass("btn btn-secondary")
+                            div.append(roomToggle);
+
+                            $("#SatRooms").append(div)
+
+                        }
+                    }
+                    else if (i == 1) {
+
+                        for (let j = 0; j < result.freeRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.freeRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.freeRoom[i].Data[j].ID)
+                                .attr("onclick", "GetRoomDetail(id)")
+                                .addClass("btn btn-secondary")
+                            div.append(roomToggle);
+                            $("#SunRooms").append(div)
+
+
+                        }
+
+                    }
+                    else if (i == 2) {
+
+
+
+                        for (var j = 0; j < result.freeRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.freeRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.freeRoom[i].Data[j].ID)
+                                .attr("onclick", "GetRoomDetail(id)")
+                                .addClass("btn btn-secondary")
+                            div.append(roomToggle);
+                            $("#MonRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 3) {
+
+                        for (var j = 0; j < result.freeRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.freeRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.freeRoom[i].Data[j].ID)
+                                .attr("onclick", "GetRoomDetail(id)")
+                                .addClass("btn btn-secondary")
+                            div.append(roomToggle);
+                            $("#TueRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 4) {
+
+                        for (var j = 0; j < result.freeRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.freeRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.freeRoom[i].Data[j].ID)
+                                .attr("onclick", "GetRoomDetail(id)")
+                                .addClass("btn btn-secondary")
+                            div.append(roomToggle);
+                            $("#WedRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 5) {
+
+                        for (var j = 0; j < result.freeRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.freeRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.freeRoom[i].Data[j].ID)
+                                .attr("onclick", "GetRoomDetail(id)")
+                                .addClass("btn btn-secondary")
+                            div.append(roomToggle);
+                            $("#ThuRooms").append(div)
+
+
+                        }
+                    }
+                    else if (i == 6) {
+
+                        for (var j = 0; j < result.freeRoom[i].Data.length; j++) {
+                            let div = $("<div />").addClass("col-md-12");
+                            let roomToggle = $("<button />").attr("style", "margin:2px").html(result.freeRoom[i].Data[j].RoomNumber)
+                                .attr("id", result.freeRoom[i].Data[j].ID)
+                                .attr("onclick", "GetRoomDetail(id)")
+                                .addClass("btn btn-secondary")
+                            div.append(roomToggle);
+                            $("#FriRooms").append(div)
+
+
+                        }
+                    }
+                }
+
+            }
+            }
+
+        }
+        function ClearTable() {
+            $("#SatRooms").empty()
+            $("#SunRooms").empty()
+            $("#MonRooms").empty()
+            $("#TueRooms").empty()
+            $("#WedRooms").empty()
+            $("#ThuRooms").empty()
+            $("#FriRooms").empty()
+        }
+        function CurrentWeek() {
+            ClearTable()
+            $.ajax({
+                url: CurrentWeekUrl,
+                type: 'GET',
+                success: function (result) {
+
+                    debugger;
+                    FillTable(result)
+
+                },
+                error: function (result) {
+                }
+            });
+        }
+        function NextWeek() {
+            ClearTable();
+
+            $.ajax({
+                url: NextWeekUrl,
+                type: 'GET',
+                data: {
+                    firstDay: firstDayOfWeek
+                },
+                success: function (result) {
+                    FillTable(result);
+                },
+                error: function (result) {
+                    debugger;
+                    //alert('ERROR');
+                }
+            });
+        }
+        function PreviousWeek() {
+            ClearTable();
+            $.ajax({
+                url: PreviousWeekUrl,
+                type: 'GET',
+                data: {
+                    firstDay: firstDayOfWeek
+                },
+                success: function (result) {
+                    FillTable(result);
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+
+    </script>
+    <script type="text/javascript">
+        $("#AvailablePassengersGrid").kendoGrid({
+            height: 650,
+            columns: [
+                { field: "CustomerFullName", title: "نام و نام خانوادگی" },
+                { field: "NationalCode", title: "کد ملی" },
+                { field: "PassportNumber", title: "شماره پاسپورت" }
+            ],
+
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                transport: {
+                    read: {
+                        url: "Available_Passengers"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            CustomerFullName: { type: "string" },
+                            FirstName: { type: "string" },
+                            LastName: { type: "string" },
+                            NationalCode: { type: "string" },
+                            CustomerCode: { type: "number" },
+                            PassportNumber: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            pageable: {
+                pageSize: 50,
+                buttonCount: 1
+            },
+            navigatable: true,
+            selectable: "single row",
+            sortable: {
+                mode: "single"
+            },
+            filterable: true,
+            scrollable: true
+        });
+    </script>
+
+}

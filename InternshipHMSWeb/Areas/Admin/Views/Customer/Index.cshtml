@@ -1,0 +1,1761 @@
+﻿<div class="form-group">
+    <h3 class="h3 text-muted"><i class="fa fa-users"></i> لیست مسافران</h3>
+    <hr />
+    <input type="button" id="NewCustomerBtn" class="btn btn-info" value="مسافر جدید" />
+</div>
+
+
+<div class="k-rtl">
+    <div id="grid"></div>
+</div>
+
+<!-- IZIMODAL _ START -->
+<div id="DetailModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> مشخصات مسافر </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <input type="hidden" id="DetailCustomerID" />
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <center>
+                                    <span class="text-left">
+                                        <img src="~/Content/Images/ProfilePhoto.png" class="img-responsive img-thumbnail">
+                                        <button onclick="EditCustomer($('#DetailCustomerID').val())" style="width:100px;margin-top:20px" class="btn btn-warning"><i class="fa fa-pen"></i> ویرایش</button>
+                                        <button onclick="DetailCancelBtn()" data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                    </span>
+                                </center>
+                            </div>
+                            <div class="col-md-10">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailBasicInfo" class="nav-link"><i class="fa fa-user"></i> اطلاعات پایه</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailOtherInfo" class="nav-link"><i class="fa fa-address-book"></i> اطلاعات تکمیلی</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailContactInfo" class="nav-link"><i class="fa fa-phone"></i> تماس</a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailReservationInfo" class="nav-link"><i class="fa fa-handshake"></i> رزرواسیون</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#DetailUserInfo" class="nav-link"><i class="fa fa-lock"></i> اطلاعات حساب کاربری</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="DetailBasicInfo" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام و نام خانوادگی</td>
+                                                        <td id="DetailFullName"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-sort-numeric-down"></i> شماره مشتری </td>
+                                                        <td id="DetailCustomerCode"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-credit-card"></i> کد ملی </td>
+                                                        <td id="DetailNationalCode"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> تولد</td>
+                                                        <td id="DetailBirthdate"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div id="DetailOtherInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-at"></i> ایمیل</td>
+                                                        <td id="DetailEmail"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-flag"></i> ملیت</td>
+                                                        <td id="DetailNationality"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-home"></i> محل زندگی</td>
+                                                        <td id="DetailLivingPlace"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-passport"></i> شماره پاسپورت</td>
+                                                        <td id="DetailPassportNumber"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                    <div id="DetailContactInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <div class="k-rtl">
+                                                <div id="DetailContactGrid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   
+
+                                    <div id="DetailReservationInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <div class="k-rtl">
+                                                <div id="DetailReservationGrid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="DetailUserInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                   
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-lock"></i> غیر فعال</td>
+                                                        <td id="DetailLockOutEnabled"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-at"></i> نام کاربری / ایمیل</td>
+                                                        <td id="DetailUserEmail"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="FellowsDetailModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> مشخصات همراه </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <input type="hidden" id="FellowDetailCustomerID" />
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <center>
+                                    <span class="text-left">
+                                        <img src="~/Content/Images/ProfilePhoto.png" class="img-responsive img-thumbnail">
+                                        <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                    </span>
+                                </center>
+                            </div>
+                            <div class="col-md-10">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#FellowDetailBasicInfo" class="nav-link"><i class="fa fa-user"></i> اطلاعات پایه</a>
+                                    </li>
+
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#FellowDetailContactInfo" class="nav-link"><i class="fa fa-phone"></i> تماس</a>
+                                    </li>
+
+
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="FellowDetailBasicInfo" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام و نام خانوادگی</td>
+                                                        <td id="FellowDetailFullName"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-sort-numeric-down"></i> شماره مشتری </td>
+                                                        <td id="FellowDetailCustomerCode"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-credit-card"></i> کد ملی </td>
+                                                        <td id="FellowDetailNationalCode"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> تولد</td>
+                                                        <td id="FellowDetailBirthdate"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div id="FellowDetailContactInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <div class="k-rtl">
+                                                <div id="FellowDetailContactGrid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="HostDetailModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> مشخصات میزبان </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <input type="hidden" id="HostDetailCustomerID" />
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <center>
+                                    <span class="text-left">
+                                        <img src="~/Content/Images/ProfilePhoto.png" class="img-responsive img-thumbnail">
+                                        <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                    </span>
+                                </center>
+                            </div>
+                            <div class="col-md-10">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#HostDetailBasicInfo" class="nav-link"><i class="fa fa-user"></i> اطلاعات پایه</a>
+                                    </li>
+
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#HostDetailContactInfo" class="nav-link"><i class="fa fa-phone"></i> تماس</a>
+                                    </li>
+
+
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="HostDetailBasicInfo" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام و نام خانوادگی</td>
+                                                        <td id="HostDetailFullName"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-sort-numeric-down"></i> شماره مشتری </td>
+                                                        <td id="HostDetailCustomerCode"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-credit-card"></i> کد ملی </td>
+                                                        <td id="HostDetailNationalCode"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> تولد</td>
+                                                        <td id="HostDetailBirthdate"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div id="HostDetailContactInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <div class="k-rtl">
+                                                <div id="HostDetailContactGrid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="CreateModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> ثبت مسافر </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row panel" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <center>
+                                    <span class="text-left">
+                                        <img src="~/Content/Images/ProfilePhoto.png" class="img-responsive img-thumbnail">
+                                        <button onclick="SubmitNewUser()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-pen"></i> ثبت</button>
+                                        <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                    </span>
+                                </center>
+                            </div>
+                            <div class="col-md-10">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#CreateBasicInfo" class="nav-link"><i class="fa fa-user"></i> اطلاعات پایه</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#CreateOtherInfo" class="nav-link"><i class="fa fa-address-book"></i> اطلاعات تکمیلی</a>
+                                    </li>
+                                   
+                                   
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#CreateUserInfo" class="nav-link"><i class="fa fa-lock"></i> اطلاعات حساب کاربری</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="CreateBasicInfo" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام</td>
+                                                        <td><input type="text" id="CreateFirstName" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام خانوادگی</td>
+                                                        <td><input type="text" id="CreateLastName" class="form-control" /></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-credit-card"></i> کد ملی </td>
+                                                        <td><input type="text" id="CreateNationalCode" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> تولد</td>
+                                                        <td><input readonly type="text" id="CreateBirthdate" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div id="CreateOtherInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                   
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-flag"></i> ملیت</td>
+                                                        <td><input type="text" id="CreateNationality" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-home"></i> محل زندگی</td>
+                                                        <td><input type="text" id="CreateLivingPlace" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-passport"></i> شماره پاسپورت</td>
+                                                        <td><input type="text" id="CreatePassportNumber" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                   
+
+                                    <div id="CreateUserInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> فعال سازی</td>
+                                                        <td><input type="checkbox" id="CreateUserWithCustomer" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-at"></i> ایمیل</td>
+                                                        <td><input disabled type="email" id="CreateUserEmail" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-lock"></i> پسورد</td>
+                                                        <td><input disabled type="password" id="CreateUserPassword" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-key"></i> تکرار پسورد </td>
+                                                        <td><input disabled type="password" id="CreateUserConfirmPassword" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="EditModal" class="" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-user"></i> ویرایش مسافر </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <input type="hidden" id="EditCustomerID" />
+        <div class="row panel" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <center>
+                                    <span class="text-left">
+                                        <img src="~/Content/Images/ProfilePhoto.png" class="img-responsive img-thumbnail">
+                                        <button onclick="EditCustomerPostSubmit()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-pen"></i> ثبت</button>
+                                        <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                    </span>
+                                </center>
+                            </div>
+                            <div class="col-md-10">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#EditBasicInfo" class="nav-link"><i class="fa fa-user"></i> اطلاعات پایه</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#EditOtherInfo" class="nav-link"><i class="fa fa-address-book"></i> اطلاعات تکمیلی</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#EditContactInfo" class="nav-link"><i class="fa fa-phone"></i> تماس</a>
+                                    </li>
+                                   
+                                   
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#EditUserInfo" class="nav-link"><i class="fa fa-lock"></i> اطلاعات حساب کاربری</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+
+                                    <div id="EditBasicInfo" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام</td>
+                                                        <td><input type="text" id="EditFirstName" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> نام خانوادگی</td>
+                                                        <td><input type="text" id="EditLastName" class="form-control" /></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-credit-card"></i> کد ملی </td>
+                                                        <td><input type="text" id="EditNationalCode" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> تولد</td>
+                                                        <td><input readonly type="text" id="EditBirthdate" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div id="EditOtherInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-at"></i> ایمیل</td>
+                                                        <td><input type="email" id="EditEmail" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-flag"></i> ملیت</td>
+                                                        <td><input type="text" id="EditNationality" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-home"></i> محل زندگی</td>
+                                                        <td><input type="text" id="EditLivingPlace" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-passport"></i> شماره پاسپورت</td>
+                                                        <td><input type="text" id="EditPassportNumber" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                    <div id="EditContactInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <div class="k-rtl">
+                                                <div id="EditContactGrid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   
+                                    
+                                    <div id="EditUserInfo" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-user"></i> فعال سازی</td>
+                                                        <td><input type="checkbox" id="EditUserExsit" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-at"></i> ایمیل</td>
+                                                        <td><input disabled type="email" id="EditUserEmail" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr hidden id="EditPasswordTr">
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-lock"></i> پسورد</td>
+                                                        <td><input type="password" id="EditUserPassword" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr hidden id="EditConfirmPasswordTr">
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-key"></i> تکرار پسورد </td>
+                                                        <td><input type="password" id="EditUserConfirmPassword" class="form-control" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- IZIMODAL _ END -->
+
+
+@section scripts{
+    <script src="~/Scripts/PersianKendo.js">//Persian kendo</script>
+
+    <script type="text/javascript">
+        // Custom js
+
+
+        //variables
+        var DetailModalIsOpen = false;
+        var EditModalIsOpen = false;
+        var CreateModalIsOpen = false;
+        var FellowDetailModalIsOpen = false;
+        var HostDetailModalIsOpen = false;
+        var EditWasUser = false;
+        var EditIsLockOut = false;
+        var EditUserCreate = false;
+        var FellowGridID = "";
+        //document ready
+        $(document).ready(function () {
+            $("#CreateBirthdate").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: false
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+                maxDate: new persianDate().add('month', 0).valueOf(),
+
+                timePicker: {
+                    enabled: false,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+            $("#EditBirthdate").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: false
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+                maxDate: new persianDate().add('month', 0).valueOf(),
+
+                timePicker: {
+                    enabled: false,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+        });
+
+        //functions
+
+        function GetEditLockOutState() {
+            if ($("#EditUserExsit").prop("checked").toString() == "false") {
+                return "true"
+            }
+            if ($("#EditUserExsit").prop("checked").toString() == "true") {
+                return "false"
+            }
+
+        }
+
+
+        function DeleteCustomer(ID) {
+            if (confirm('آیا از حذف این اتاق مطمئن هستید؟')) {
+                $.ajax({
+                    url: CustomerDeleteUrl,
+                    type: 'POST',
+                    data: {
+                        id: ID
+                    },
+                    success: function (result) {
+                        $("#grid").data('kendoGrid').dataSource.read();
+                    },
+                    error: function (result) {
+                    }
+                })
+            }
+        }
+
+        function EditCustomerPostSubmit() {
+            EditCustomerAjax();
+        }
+        $("#NewCustomerBtn").click(function () {
+            CreateModalIsOpen = true;
+            $("#CreateModal").removeAttr('hidden');
+            $("#CreateModal").iziModal('open');
+
+
+            $("#CreateUserWithCustomer").change(function () {
+                if ($(this).is(':checked')) {
+                    debugger;
+                    $("#CreateUserEmail").removeAttr('disabled');
+                    $("#CreateUserPassword").removeAttr('disabled');
+                    $("#CreateUserConfirmPassword").removeAttr('disabled');
+                }
+                else {
+                    $("#CreateUserEmail").attr('disabled', 'disabled');
+                    $("#CreateUserPassword").attr('disabled', 'disabled');
+                    $("#CreateUserConfirmPassword").attr('disabled', 'disabled');
+                }
+            })
+
+        });
+        function SubmitNewUser() {
+            // call ajax
+            CreateCustomer();
+        }
+        function DetailCustomer(ID) {
+            DetailModalIsOpen = true;
+            $("#DetailModal").removeAttr('hidden');
+            $("#DetailModal").iziModal('open');
+            GetCustomerDetail(ID);
+
+        }
+        function HostLinkModalClick(ID) {
+            HostDetailModalIsOpen = true;
+            DetailModalIsOpen = false;
+            $("#HostDetailModal").removeAttr('hidden');
+            $("#HostDetailModal").iziModal('open');
+            GetCustomerDetail(ID);
+
+        }
+        function EditCustomer(ID) {
+            debugger;
+            EditModalIsOpen = true;
+            $("#EditModal").removeAttr('hidden');
+            $("#EditModal").iziModal('open');
+            GetCustomerDetail(ID);
+
+
+        }
+        function FillEditModal(result) {
+            $("#EditCustomerID").val(result.ID);
+            $("#EditFirstName").val(result.FirstName);
+            $("#EditLastName").val(result.LastName);
+            $("#EditCustomerCode").val(result.CustomerCode);
+            $("#EditNationalCode").val(result.NationalCode);
+            $("#EditBirthdate").val(result.Birthdate);
+            $("#EditNationality").val(result.Nationality);
+            $("#EditLivingPlace").val(result.LivingPlace);
+            $("#EditPassportNumber").val(result.PassportNumber);
+
+            if (result.Email != "") {
+                EditWasUser = true;
+                if (result.LockoutEnabled = "False") {
+                    EditIsLockOut = false;
+                }
+                else if (result.LockoutEnabled = "True") {
+                    EditIsLockOut = true;
+                }
+            }
+
+
+
+            if (EditWasUser && !EditIsLockOut) {
+                $("#EditUserExsit").prop("checked", true);
+                $("#EditUserEmail").removeAttr("disabled");
+                $("#EditUserEmail").val(result.Email);
+            }
+            if (EditWasUser && EditIsLockOut) {
+                $("#EditUserExsit").prop("checked", false);
+                $("#EditUserEmail").val(result.Email);
+            }
+            EditContactInformationGrid("#EditContactGrid", "#EditCustomerID");
+
+           
+
+
+            $("#EditUserExsit").change(function () {
+                if ($(this).is(':checked')) {
+
+
+                    if (EditWasUser) {
+                        $("#EditUserEmail").removeAttr('disabled');
+                    }
+                    else if (!EditWasUser) {
+                        $("#EditUserEmail").removeAttr('disabled');
+                        $("#EditPasswordTr").removeAttr('hidden');
+                        $("#EditConfirmPasswordTr").removeAttr('hidden');
+                        EditUserCreate = true;
+                    }
+
+
+                }
+                else {
+
+                    if (EditWasUser) {
+                        $("#EditUserEmail").attr('disabled', 'disabled');
+
+                    }
+                    else if (!EditWasUser) {
+                        $("#EditUserEmail").attr('disabled', 'disabled');
+                        $("#EditPasswordTr").attr('hidden', 'hidden');
+                        $("#EditConfirmPasswordTr").attr('hidden', 'hidden');
+                        EditUserCreate = false;
+
+                    }
+
+
+
+
+                }
+            })
+
+
+        }
+        function FillDetailModal(result) {
+            $("#DetailCustomerID").val(result.ID);
+            $("#DetailFullName").html(result.FullName);
+            $("#DetailCustomerCode").html(result.CustomerCode);
+            $("#DetailNationalCode").html(result.NationalCode);
+            $("#DetailBirthdate").html(result.Birthdate);
+            $("#DetailEmail").html(result.Email);
+            $("#DetailNationality").html(result.Nationality);
+            $("#DetailLivingPlace").html(result.LivingPlace);
+            $("#DetailPassportNumber").html(result.PassportNumber);
+          
+
+            DetailContactInformationGrid("#DetailContactGrid", "#DetailCustomerID");
+            // بررسی مهمان یا میزبان بودن
+            if (result.ParentID == "") { // میزبان
+                var mainDiv = $("#DetailHostOrFellowInfoContent");
+                var gridDiv = $("<div />").addClass("k-rtl").attr("id", "FellowGridInDetail")
+                    .append($("<h6 />").attr("style", "margin:20px 0 20px 0").html("این شخص همراهان زیر را دارد"))
+                    .append($("<div />").attr("id", "DetailFellowGrid"));
+                gridDiv.appendTo(mainDiv);
+                DetailFellowGrid("#FellowGridInDetail");
+            }
+            if (result.ParentID != "") { // میهمان
+                var mainDiv = $("#DetailHostOrFellowInfoContent");
+                var hostLink = $("<h6 />").addClass("text-muted").html("میزبان این شخص: ").attr("id", "HostInfoInDetail").attr("style", "margin-top:20px")
+                    .append($("<input />").attr('onclick', 'HostLinkModalClick(' + '"' + result.ParentID + '"' + ')').attr("id", "DetailHostInfo").attr('type', 'button').attr('value', result.ParentFullName).addClass("btn btn-basic"))
+                hostLink.appendTo(mainDiv);
+            }
+
+            if (result.Email != "") {
+                debugger;
+                $("#DetailLockOutEnabled").html(result.LockoutEnabled)
+                $("#DetailUserEmail").html(result.Email);
+
+                if (result.LockoutEnabled == "False") {
+                    var span = $("<i />").addClass("fa fa-check").attr("id", "LockOutIcon");
+                    $("#DetailActiveStatus").append(span);
+                }
+                if (result.LockoutEnabled == "True") {
+                    var span = $("<i />").addClass("fa fa-times").attr("id", "LockOutIcon");
+                    $("#DetailActiveStatus").append(span);
+                }
+            }
+
+            $("#DetailReservationGrid").kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "Number", title: "شماره رزرو", width: 100 },
+                    { field: "State", title: "نوع", width: 100 },
+                    { field: "FromDate", title: "از تاریخ", width: 150 },
+                    { field: "ToDate", title: "تا تاریخ", width: 150 },
+                    
+                ],
+                toolbar: [
+                   
+                    { name: "excel" },
+                    { name: "pdf" }
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "Reservations_Read",
+                            data: {
+                                id: result.ID
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                Number: { type: "string" },
+                                CustomerFullName: { type: "string" },
+                                DatePeriod: { type: "string" },
+                                FromDate: { type: "string" },
+                                ToDate: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                columnMenu: true,
+                pageable: true,
+                navigatable: true,
+                selectable: "single row",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            })
+
+
+        }
+        function FillHostDetailModal(result) {
+            $("#HostDetailCustomerID").val(result.ID);
+            $("#HostDetailFullName").html(result.FullName);
+            $("#HostDetailCustomerCode").html(result.CustomerCode);
+            $("#HostDetailNationalCode").html(result.NationalCode);
+            $("#HostDetailBirthdate").html(result.Birthdate);
+            DetailContactInformationGrid("#HostDetailContactGrid", "#HostDetailCustomerID");
+        }
+        function FillFellowDetailModal(result) {
+            $("#FellowDetailCustomerID").val(result.ID);
+            $("#FellowDetailFullName").html(result.FullName);
+            $("#FellowDetailCustomerCode").html(result.CustomerCode);
+            $("#FellowDetailNationalCode").html(result.NationalCode);
+            $("#FellowDetailBirthdate").html(result.Birthdate);
+            DetailContactInformationGrid("#FellowDetailContactGrid", "#FellowDetailCustomerID");
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        // Kendo Grid
+
+        $("#grid").kendoGrid({
+            height: 650,
+            columns: [
+                { field: "FullName", title: "نام و نام خانوادگی" },
+                { field: "NationalCode", title: "کد ملی" },
+                { field: "PassportNumber", title: "شماره پاسپورت" },
+                {
+                    template:
+                        '<button id="InfoCustomerBtn" onclick="DetailCustomer(' + "'#=ID#'" + ')" class="btn btn-primary"><i class="fa fa-info"></i> اطلاعات </button> | <button id="EditCustomerBtn" onclick="EditCustomer(' + "'#=ID#'" + ')" class="btn btn-warning"><i class="fa fa-pen"></i> ویرایش </button> | <button id="DeleteCustomerBtn" onclick="DeleteCustomer(' + "'#=ID#'" + ')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف </button>', title: "عملیات"
+                }
+            ],
+            toolbar: [
+                { name: "excel", text: "نمایش در Excel" },
+                { name: "pdf", text: "نمایش در PDF" }
+            ],
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                transport: {
+                    read: {
+                        url: "Customer_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            FirstName: { type: "string" },
+                            LastName: { type: "string" },
+                            NationalCode: { type: "string" },
+                            CustomerCode: { type: "number" },
+                            PassportNumber: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            pageable: {
+                pageSize: 50,
+                buttonCount: 1,
+                messages: {
+                    empty: "موردی وجود ندارد",
+                    display: "تعداد کل {2}"
+                }
+            },
+            navigatable: true,
+            selectable: "single row",
+            sortable: {
+                mode: "single"
+            },
+            filterable: true,
+            scrollable: true
+        });
+        function DetailContactInformationGrid(id, contactId) {
+            $(id).kendoGrid({
+                height: 400,
+                width: 1000,
+                columns: [
+                    { field: "Type", title: "نوع" },
+                    { field: "PhoneNumber", title: "شماره" },
+                    { field: "Country", title: "کشور" },
+                    { field: "City", title: "شهر" },
+                    { field: "Address", title: "آدرس" }
+
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "ContactInformations_Read",
+                            data: {
+                                id: $(contactId).val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                PhoneNumber: { type: "string" },
+                                Country: { type: "string" },
+                                City: { type: "string" },
+                                Address: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "single row",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            })
+        }
+        function DetailFellowGrid(id) {
+            FellowGridID = id;
+            $(FellowGridID).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "FullName", title: "نام و نام خانوادگی" },
+                    { field: "NationalCode", title: "کد ملی" },
+                    { field: "PassportNumber", title: "شماره پاسپورت" }
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "Fellows_Read",
+                            data: {
+                                id: $("#DetailCustomerID").val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "date" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "number" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: true,
+                selectable: "single row",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            })
+
+            $(FellowGridID).on("dblclick", "tr.k-state-selected", function (event) {
+                DetailModalIsOpen = false;
+                FellowDetailModalIsOpen = true;
+                $("#FellowsDetailModal").removeAttr('hidden');
+                $("#FellowsDetailModal").iziModal('open');
+
+                var grid = $(FellowGridID).data("kendoGrid");
+                var row = grid.dataItem(grid.select());
+                GetCustomerDetail(row.ID);
+
+            });
+        }
+        function EditContactGrid(id, contactId) {
+            $(id).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "Type", title: "نوع" },
+                    { field: "PhoneNumber", title: "شماره" },
+                    { field: "Country", title: "کشور" },
+                    { field: "City", title: "شهر" },
+                    { field: "Address", title: "آدرس" },
+                    { command: ["destroy"], width: 100 }
+                ],
+                toolbar: [
+                    { name: "create", text: "جدید" },
+                    { name: "save", text: "ذخیره تغییرات" }
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    batch: true,
+                    transport: {
+                        read: {
+                            url: "ContactInformations_Read",
+                            data: {
+                                id: $(contactId).val()
+                            }
+                        },
+                        create: {
+                            url: "ContactInformations_Create",
+                            data: {
+                                personId: $(contactId).val()
+                            }
+                        },
+                        update: {
+                            url: "ContactInformations_Update",
+                            data: {
+                                personId: $(contactId).val()
+                            }
+                        },
+                        destroy: {
+                            url: "ContactInformations_Destroy",
+                            data: {
+                                personId: $(contactId).val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                Type: { type: "string" },
+                                PhoneNumber: { type: "string" },
+                                Country: { type: "string" },
+                                City: { type: "string" },
+                                Address: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                editable: "incell",
+                pageable: {
+                    pageSize: 50,
+                    buttonCount: 1,
+                    messages: {
+                        empty: "موردی وجود ندارد",
+                        display: "تعداد کل {2}"
+                    }
+                },
+                navigatable: true,
+                selectable: "single cell",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            })
+        }
+        function EditFellowGrid(id, customerId) {
+            $(id).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "FullName", title: "نام و نام خانوادگی" },
+                    { field: "FirstName", title: "نام" },
+                    { field: "LastName", title: "نام خانوادگی" },
+                    { field: "NationalCode", title: "کد ملی" },
+                    { field: "Nationality", title: "ملیت" },
+                    { field: "LivingPlace", title: "محل زندگی" },
+                    { field: "PassportNumber", title: "شماره پاسپورت" },
+                    { command: ["edit", "destroy"], width: 180 }
+                ],
+                toolbar: ["create"],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "Fellows_Read",
+                            data: {
+                                id: $(customerId).val()
+                            }
+                        },
+                        create: {
+                            url: "People_Create"
+                        },
+                        update: {
+                            url: "People_Update"
+                        },
+                        destroy: {
+                            url: "People_Destroy"
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                Birthdate: { type: "date" },
+                                Nationality: { type: "string" },
+                                LivingPlace: { type: "string" },
+                                CustomerCode: { type: "number" },
+                                PassportNumber: { type: "string" },
+                                ParentID: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                editable: "popup",
+                pageable: true,
+                navigatable: true,
+                selectable: "single row",
+                filterable: true,
+                scrollable: true
+            })
+
+            var grid = $(id).data("kendoGrid");
+            grid.hideColumn("FirstName");
+            grid.hideColumn("LastName");
+            grid.hideColumn("Nationality");
+            grid.hideColumn("LivingPlace");
+
+        }
+
+
+        function EditContactInformationGrid(id, contactId) {
+            $(id).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "Type", title: "نوع" },
+                    { field: "PhoneNumber", title: "شماره" },
+                    { field: "Country", title: "کشور" },
+                    { field: "City", title: "شهر" },
+                    { field: "Address", title: "آدرس" },
+                    { command: ["destroy"], width: 100 }
+                ],
+                toolbar: [
+                    { name: "create", text: "جدید" },
+                    { name: "save", text: "ذخیره تغییرات" }
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    batch: true,
+                    transport: {
+                        read: {
+                            url: "ContactInformations_Read",
+                            data: {
+                                id: $(contactId).val()
+                            }
+                        },
+                        create: {
+                            url: "ContactInformations_Create",
+                            data: {
+                                personId: $(contactId).val()
+                            }
+                        },
+                        update: {
+                            url: "ContactInformations_Update",
+                            data: {
+                                personId: $(contactId).val()
+                            }
+                        },
+                        destroy: {
+                            url: "ContactInformations_Destroy",
+                            data: {
+                                personId: $(contactId).val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                Type: { type: "string" },
+                                PhoneNumber: { type: "string" },
+                                Country: { type: "string" },
+                                City: { type: "string" },
+                                Address: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                editable: "incell",
+                pageable: {
+                    pageSize: 50,
+                    buttonCount: 1,
+                    messages: {
+                        empty: "موردی وجود ندارد",
+                        display: "تعداد کل {2}"
+                    }
+                },
+                navigatable: true,
+                selectable: "single cell",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            })
+        }
+
+        function EditFellowGrid(id, contactId) {
+            $(id).kendoGrid({
+                height: 400,
+                columns: [
+                    { field: "FullName", title: "نام و نام خانوادگی" },
+                    { field: "PassportNumber", title: "شماره پاسپورت" },
+                    {
+                        template:
+                            '<button style="font-size:12px" id="EditModalDeleteBtn" onclick="C(' + "'#=ID#'" + ')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف </button>', title: "عملیات"
+                    }
+                ],
+                toolbar: [
+                    {
+                        template:
+                            '<button id="CreateNewCustomerBtn" class="k-button k-button-icontext"><i style="margin-left:5px" class="fa fa-plus"></i> اضافه کردن همراه </button> '
+                    },
+                    { name: "excel", text: "نمایش در Excel" },
+                    { name: "pdf", text: "نمایش در PDF" }
+                ],
+                dataSource: {
+                    type: "aspnetmvc-ajax",
+                    transport: {
+                        read: {
+                            url: "Fellows_Read",
+                            data: {
+                                id: $(contactId).val()
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        model: {
+                            id: "ID",
+                            fields: {
+                                ID: { type: "string" },
+                                FirstName: { type: "string" },
+                                LastName: { type: "string" },
+                                NationalCode: { type: "string" },
+                                CustomerCode: { type: "string" },
+                                PassportNumber: { type: "string" }
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    serverSorting: true,
+                },
+                pageable: {
+                    pageSize: 50,
+                    buttonCount: 1,
+                    messages: {
+                        empty: "موردی وجود ندارد",
+                        display: "تعداد کل {2}"
+                    }
+                },
+                navigatable: true,
+                selectable: "single row",
+                sortable: {
+                    mode: "single"
+                },
+                filterable: true,
+                scrollable: true
+            });
+        }
+
+
+    </script>
+
+
+    <script type="text/javascript">
+        // IziModal
+
+        $("#DetailModal").iziModal({
+            width: 900,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                IziModalOnClose();
+            }
+        });
+        $("#FellowsDetailModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                DetailModalIsOpen = true;
+                FellowDetailModalIsOpen = false;
+            }
+        });
+        $("#HostDetailModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                DetailModalIsOpen = true;
+                HostDetailModalIsOpen = false;
+            }
+        });
+        $("#CreateModal").iziModal({
+            width: 800,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                CreateModalIsOpen = false;
+                $("#CreateUserWithCustomer").prop('checked', false);
+                $("#CreateUserEmail").attr('disabled', 'disabled');
+                $("#CreateUserPassword").attr('disabled', 'disabled');
+                $("#CreateUserConfirmPassword").attr('disabled', 'disabled');
+
+                $("#CreateFirstName").val("");
+                $("#CreateLastName").val("");
+                $("#CreateNationalCode").val("");
+                $("#CreateBirthdate").val("");
+                $("#CreateNationality").val("");
+                $("#CreateLivingPlace").val("");
+                $("#CreatePassportNumber").val("");
+                $("#CreateUserEmail").val("");
+                $("#CreateUserPassword").val("");
+                $("#CreateUserConfirmPassword").val("");
+
+
+            }
+        });
+        $("#EditModal").iziModal({
+            width: 800,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                EditModalIsOpen = false;
+                EditIsLockOut = false;
+                EditWasUser = false;
+                EditUserCreate = false;
+                $("#CreateUserWithCustomer").prop('checked', false);
+
+
+                $("#EditFirstName").val("");
+                $("#EditLastName").val("");
+                $("#EditNationalCode").val("");
+                $("#EditBirthdate").val("");
+                $("#EditNationality").val("");
+                $("#EditLivingPlace").val("");
+                $("#EditPassportNumber").val("");
+                $("#EditUserEmail").val("");
+                $("#EditUserPassword").val("");
+                $("#EditUserConfirmPassword").val("");
+
+                $("#EditUserExsit").prop("checked", false);
+                $("#EditUserEmail").attr("disabled", "disabled");
+
+                $("#EditFellowGrid").remove();
+                $("#EditH6Guest").remove();
+
+            }
+        });
+        function IziModalOnClose() {
+
+            DetailModalIsOpen = false;
+            EditModalIsOpen = false;
+            CreateModalIsOpen = false;
+            FellowDetailModalIsOpen = false;
+            FellowGridID = "";
+
+            $("#DetailCustomerID").val("");
+            $("#DetailFullName").html("");
+            $("#DetailCustomerCode").html("");
+            $("#DetailNationalCode").html("");
+            $("#DetailBirthdate").html("");
+            $("#DetailEmail").html("");
+            $("#DetailNationality").html("");
+            $("#DetailLivingPlace").html("");
+            $("#DetailPassportNumber").html("");
+            
+            $("#DetailLockOutEnabled").html("")
+            $("#DetailUserEmail").html("");
+            //$("#DetailReservationFromDate").html(result.ReservationFromDate);
+            //$("#DetailReservationToDate").html("");
+            $("#LockOutIcon").remove();
+
+            $("#EditCustomerID").val("");
+            $("#EditFirstName").val("");
+            $("#EditLastName").val("");
+            $("#EditCustomerCode").val("");
+            $("#EditNationalCode").val("");
+            $("#EditBirthdate").val("");
+            $("#EditEmail").val("");
+            $("#EditNationality").val("");
+            $("#EditLivingPlace").val("");
+            $("#EditPassportNumber").val("");
+            $("#EditReservationFromDate").val("");
+            $("#EditReservationToDate").val("");
+
+            $("#FellowGridInDetail").remove();
+            $("#HostInfoInDetail").remove();
+
+            $("#DetailUserIsActive").prop('checked', false)
+        }
+    </script>
+
+    <script type="text/javascript">
+        // Ajax
+        var CustomerDetailUrl = '@Url.Action("Detail","Customer")';
+        var CustomerCreateUrl = '@Url.Action("Create","Customer")';
+        var CustomerEditUrl = '@Url.Action("Edit","Customer")';
+        var CustomerDeleteUrl = '@Url.Action("Delete","Customer")';
+
+        function GetCustomerDetail(ID) {
+            $.ajax({
+                url: CustomerDetailUrl,
+                type: 'GET',
+                data: {
+                    id: ID
+                },
+                success: function (result) {
+                    if (DetailModalIsOpen)
+                        FillDetailModal(result);
+                    if (FellowDetailModalIsOpen)
+                        FillFellowDetailModal(result);
+                    if (HostDetailModalIsOpen)
+                        FillHostDetailModal(result);
+                    if (EditModalIsOpen)
+                        FillEditModal(result);
+
+
+                },
+                error: function (result) {
+                }
+            })
+
+        }
+        function CreateCustomer() {
+            $.ajax({
+                url: CustomerCreateUrl,
+                type: 'POST',
+                data: {
+                    FirstName: $("#CreateFirstName").val(),
+                    LastName: $("#CreateLastName").val(),
+                    NationalCode: $("#CreateNationalCode").val(),
+                    Birthdate: $("#CreateBirthdate").val(),
+                    Nationality: $("#CreateNationality").val(),
+                    LivingPlace: $("#CreateLivingPlace").val(),
+                    PassportNumber: $("#CreatePassportNumber").val(),
+                    SubmitUser: $("#CreateUserWithCustomer").prop('checked'),
+                    Email: $("#CreateUserEmail").val(),
+                    Password: $("#CreateUserPassword").val(),
+                    ConfirmPassword: $("#CreateUserConfirmPassword").val(),
+                    CreateUser : "true"
+                },
+                success: function (result) {
+                    $("#CreateModal").iziModal('close');
+                    $("#grid").data('kendoGrid').dataSource.read();
+                    iziToast.show({
+                        rtl: true,
+                        title: 'ثبت شد',
+                        color: 'green',
+                        pauseOnHover: false,
+                        timeout: 1100,
+                        position: 'bottomRight',
+                        onClosed: function () {
+                           
+                        }
+
+                    });
+                },
+                error: function (result) {
+
+
+                }
+            })
+        }
+        function EditCustomerAjax() {
+            if (EditWasUser) {
+                $.ajax({
+                    url: CustomerEditUrl,
+                    type: 'POST',
+                    data: {
+                        ID: $("#EditCustomerID").val(),
+                        FirstName: $("#EditFirstName").val(),
+                        LastName: $("#EditLastName").val(),
+                        NationalCode: $("#EditNationalCode").val(),
+                        Birthdate: $("#EditBirthdate").val(),
+                        Nationality: $("#EditNationality").val(),
+                        LivingPlace: $("#EditLivingPlace").val(),
+                        PassportNumber: $("#EditPassportNumber").val(),
+                        SubmitUser : "false",
+                        LockoutEnabledGet: GetEditLockOutState(),
+                        Email: $("#EditUserEmail").val(),
+                        CreateUser: "false",
+                        EditModeStr : "3"
+
+                    },
+                    success: function (result) {
+                        $("#EditModal").iziModal('close');
+                        $("#grid").data('kendoGrid').dataSource.read();
+                        iziToast.show({
+                            rtl: true,
+                            title: 'اعمال شد',
+                            color: 'green',
+                            pauseOnHover: false,
+                            timeout: 1100,
+                            position: 'bottomRight',
+                            onClosed: function () {
+                                debugger;
+                            }
+                        });
+                    },
+                    error: function (result) {
+
+
+                    }
+                })
+            }
+            if (!EditWasUser) {
+                if (!EditUserCreate) {
+                    $.ajax({
+                        url: CustomerEditUrl,
+                        type: 'POST',
+                        data: {
+                            ID: $("#EditCustomerID").val(),
+                            FirstName: $("#EditFirstName").val(),
+                            LastName: $("#EditLastName").val(),
+                            NationalCode: $("#EditNationalCode").val(),
+                            Birthdate: $("#EditBirthdate").val(),
+                            Nationality: $("#EditNationality").val(),
+                            LivingPlace: $("#EditLivingPlace").val(),
+                            PassportNumber: $("#EditPassportNumber").val(),
+                            SubmitUser: "false",
+                            CreateUser: "false",
+                            EditModeStr : "4"
+                        },
+                        success: function (result) {
+                            $("#EditModal").iziModal('close');
+                            $("#grid").data('kendoGrid').dataSource.read();
+                            iziToast.show({
+                                rtl: true,
+                                title: 'اعمال شد',
+                                color: 'green',
+                                pauseOnHover: false,
+                                timeout: 1100,
+                                position: 'bottomRight',
+                                onClosed: function () {
+                                    
+
+                                }
+                            });
+                        },
+                        error: function (result) {
+
+
+                        }
+                    })
+                }
+                else if (EditUserCreate) {
+
+
+                    $.ajax({
+                        url: CustomerEditUrl,
+                        type: 'POST',
+                        data: {
+                            ID: $("#EditCustomerID").val(),
+                            FirstName: $("#EditFirstName").val(),
+                            LastName: $("#EditLastName").val(),
+                            NationalCode: $("#EditNationalCode").val(),
+                            Birthdate: $("#EditBirthdate").val(),
+                            Nationality: $("#EditNationality").val(),
+                            LivingPlace: $("#EditLivingPlace").val(),
+                            PassportNumber: $("#EditPassportNumber").val(),
+                            SubmitUser: "true",
+                            LockoutEnabledGet: GetEditLockOutState(),
+                            Email: $("#EditUserEmail").val(),
+                            Password: $("#EditUserPassword").val(),
+                            ConfirmPassword: $("#EditUserConfirmPassword").val(),
+                            CreateUser: "true",
+                            EditModeStr: "1"
+
+                        },
+                        success: function (result) {
+                            $("#EditModal").iziModal('close');
+                            $("#grid").data('kendoGrid').dataSource.read();
+                            iziToast.show({
+                                rtl: true,
+                                title: 'اعمال شد',
+                                color: 'green',
+                                pauseOnHover: false,
+                                timeout: 1100,
+                                position: 'bottomRight',
+                                onClosed: function () {
+                                    
+
+                                }
+                            });
+                        },
+                        error: function (result) {
+
+
+                        }
+                    })
+
+
+
+                }
+            }
+        }
+
+
+
+
+    </script>
+}

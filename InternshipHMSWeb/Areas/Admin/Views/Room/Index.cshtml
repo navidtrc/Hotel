@@ -1,0 +1,1369 @@
+﻿<style>
+
+
+
+    .container {
+        max-width: 640px;
+        font-size: 13px;
+    }
+
+    ul.ks-cboxtags {
+        list-style: none;
+        padding: 20px;
+    }
+
+        ul.ks-cboxtags li {
+            display: inline;
+        }
+
+            ul.ks-cboxtags li label {
+                display: inline-block;
+                background-color: rgba(255, 255, 255, .9);
+                border: 2px solid rgba(139, 139, 139, .3);
+                color: #adadad;
+                border-radius: 25px;
+                white-space: nowrap;
+                margin: 3px 0px;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+                transition: all .2s;
+            }
+
+            ul.ks-cboxtags li label {
+                padding: 8px 12px;
+                cursor: pointer;
+            }
+
+                ul.ks-cboxtags li label::before {
+                    display: inline-block;
+                    font-style: normal;
+                    font-variant: normal;
+                    text-rendering: auto;
+                    -webkit-font-smoothing: antialiased;
+                    font-family: "Font Awesome 5 Pro";
+                    font-weight: 900;
+                    font-size: 12px;
+                    padding: 2px 6px 2px 2px;
+                    content: "\f067";
+                    transition: transform .3s ease-in-out;
+                }
+
+            ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+                content: "\f00c";
+                transform: rotate(-360deg);
+                transition: transform .3s ease-in-out;
+            }
+
+            ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+                border: 2px solid #1bdbf8;
+                background-color: #12bbd4;
+                color: #fff;
+                transition: all .2s;
+            }
+
+            ul.ks-cboxtags li input[type="checkbox"] {
+                display: absolute;
+            }
+
+            ul.ks-cboxtags li input[type="checkbox"] {
+                position: absolute;
+                opacity: 0;
+            }
+
+                ul.ks-cboxtags li input[type="checkbox"]:focus + label {
+                    border: 2px solid #e9a1ff;
+                }
+</style>
+
+<h2 class="text-muted" style="margin:20px 0 20px 0;font-size:24px"><i class="fa fa-bed"></i> لیست اتاق ها</h2>
+<hr />
+<input type="button" style="margin:10px 0 10px 0" id="NewRoomBtn" class="btn btn-info" value="اتاق جدید" />
+<div class="k-rtl">
+    <div id="grid"></div>
+</div>
+
+<div id="CreateRoomModal" hidden>
+    <input hidden id="CreateRoomID" />
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-hotel"></i> ثبت اتاق </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="">
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                    <li class="active">
+                                        <a style="color:#c75500" data-toggle="tab" href="#CreateRoomBasicInfo" class="nav-link"><i class="fa fa-list"></i> مشخصات اتاق</a>
+                                    </li>
+                                    <li>
+                                        <a style="color:#c75500" data-toggle="tab" href="#CreateRoomFacilities" class="nav-link"><i class="fa fa-list"></i> امکانات</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="font-size:15px">
+                                    <div id="CreateRoomBasicInfo" class="tab-pane active in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-sort-numeric-up"></i> شماره</td>
+                                                        <td><input type="text" id="CreateRoomNumber" class="form-control" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-location"></i> مشخصات مکانی</td>
+                                                        <td><input type="text" id="CreateRoomLocation" class="form-control" /></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-list"></i> نوع اتاق </td>
+                                                        <td><input id="CreateRoomType" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-hotel"></i> در هتل</td>
+                                                        <td><input id="CreateRoomHotel" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="CreateRoomFacilities" class="tab-pane fade in">
+                                        <div class="table-responsive panel">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-space-shuttle"></i> متراژ</td>
+                                                        <td><input type="number" id="FacilitiesSpace" class="form-control" value="0" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-users"></i> ظرفیت</td>
+                                                        <td><input type="number" id="FacilitiesCapacity" class="form-control" value="0" /></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت یک نفره</td>
+                                                        <td><input type="number" id="FacilitiesSingleBed" class="form-control" value="0" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت دو نفره</td>
+                                                        <td><input type="number" id="FacilitiesDoubleBed" class="form-control" value="0" /></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-gamepad"></i>  امکانات دیگر</td>
+                                                        <td>
+                                                            <div class="container">
+                                                                <ul class="ks-cboxtags">
+                                                                    <li><input type="checkbox" id="FacilitiesKitchen" value="Kitchen"><label for="FacilitiesKitchen">آشپزخونه</label></li>
+                                                                    <li><input type="checkbox" id="FacilitiesTerrace" value="Teracce"><label for="FacilitiesTerrace">تراس</label></li>
+                                                                    <li><input type="checkbox" id="FacilitiesTV" value="TV"><label for="FacilitiesTV">تلویزیون</label></li>
+                                                                    <li><input type="checkbox" id="FacilitiesSafeBox" value="SafeBox"><label for="FacilitiesSafeBox">گاو صندوق</label></li>
+                                                                    <li><input type="checkbox" id="FacilitiesWiFi" value="WiFi"><label for="FacilitiesWiFi">Wi-Fi</label></li>
+                                                                    <li><input type="checkbox" id="FacilitiesGamingConsole" value="Console"><label for="FacilitiesGamingConsole">PlayStation</label></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <center>
+                                <span class="text-left">
+                                    <button onclick="SubmitCreateRoom()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-pen"></i> ثبت</button>
+                                    <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                                </span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="EditRoomModal" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-hotel"></i> ویرایش اتاق </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <input hidden id="RoomID" />
+        <input hidden id="FacilitiesID" />
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                <li class="active">
+                                    <a style="color:#c75500" data-toggle="tab" href="#EditRoomBasicInfo" class="nav-link"><i class="fa fa-list"></i> اطلاعات پایه</a>
+                                </li>
+
+                                <li>
+                                    <a style="color:#c75500" data-toggle="tab" href="#EditRoomFacilities" class="nav-link"><i class="fa fa-list"></i> امکانات</a>
+                                </li>
+
+                                <li>
+                                    <a style="color:#c75500" data-toggle="tab" href="#RoomPriceTab" class="nav-link"><i class="fa fa-list"></i> ثبت قیمت</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" style="font-size:15px">
+                                <div id="EditRoomBasicInfo" class="tab-pane active in">
+                                    <div class="table-responsive panel">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-sort-numeric-up"></i> شماره</td>
+                                                    <td><input type="text" id="EditRoomNumber" class="form-control" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-location"></i> مشخصات مکانی</td>
+                                                    <td><input type="text" id="EditRoomLocation" class="form-control" /></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-list"></i> نوع اتاق </td>
+                                                    <td><input id="EditRoomType" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-hotel"></i> در هتل</td>
+                                                    <td><input id="EditRoomHotel" /></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div id="EditRoomFacilities" class="tab-pane fade in">
+                                    <div class="table-responsive panel">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-space-shuttle"></i> متراژ</td>
+                                                    <td><input type="number" id="EditFacilitiesSpace" class="form-control" value="0" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-users"></i> ظرفیت</td>
+                                                    <td><input type="number" id="EditFacilitiesCapacity" class="form-control" value="0" /></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت یک نفره</td>
+                                                    <td><input type="number" id="EditFacilitiesSingleBed" class="form-control" value="0" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت دو نفره</td>
+                                                    <td><input type="number" id="EditFacilitiesDoubleBed" class="form-control" value="0" /></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-gamepad"></i>  امکانات دیگر</td>
+                                                    <td>
+                                                        <div class="container">
+                                                            <ul class="ks-cboxtags">
+                                                                <li><input type="checkbox" id="EditFacilitiesKitchen" value="Kitchen"><label for="EditFacilitiesKitchen">آشپزخونه</label></li>
+                                                                <li><input type="checkbox" id="EditFacilitiesTerrace" value="Teracce"><label for="EditFacilitiesTerrace">تراس</label></li>
+                                                                <li><input type="checkbox" id="EditFacilitiesTV" value="TV"><label for="EditFacilitiesTV">تلویزیون</label></li>
+                                                                <li><input type="checkbox" id="EditFacilitiesSafeBox" value="SafeBox"><label for="EditFacilitiesSafeBox">گاو صندوق</label></li>
+                                                                <li><input type="checkbox" id="EditFacilitiesWiFi" value="WiFi"><label for="EditFacilitiesWiFi">Wi-Fi</label></li>
+                                                                <li><input type="checkbox" id="EditFacilitiesGamingConsole" value="Console"><label for="EditFacilitiesGamingConsole">PlayStation</label></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div id="RoomPriceTab" class="tab-pane active in">
+                                    <div class="table-responsive panel">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-money-bill"></i> قیمت هر شب اقامت</td>
+                                                    <td><input type="text" id="RoomPrice" class="form-control" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar"></i> شروع تاریخ قیمت</td>
+                                                    <td><input readonly type="text" id="RoomPriceFromDate" class="form-control" /></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-calendar-alt"></i> پایان تاریخ قیمت</td>
+                                                    <td>
+                                                        <input readonly type="text" id="RoomPriceToDate" class="form-control" />
+                                                        <button onclick="SubmitNewPrice($('#RoomID').val())" class="btn btn-info" style="margin-top:10px;float:left">ثبت قیمت</button>
+                                                    </td>
+                                                </tr>
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr />
+                        <center>
+                            <span class="text-left">
+                                <button onclick="SubmitEditRoom()" style="width:100px;margin-top:20px" class="btn btn-success"><i class="fa fa-pen"></i> ثبت</button>
+                                <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                            </span>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="DetailRoomModal" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-hotel"></i> اطلاعات اتاق </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="" style="margin-top:2%;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs nav-justified" style="font-size:15px;">
+                                <li class="active">
+                                    <a style="color:#c75500" data-toggle="tab" href="#DetailRoomBasicInfo" class="nav-link"><i class="fa fa-list"></i> اطلاعات پایه</a>
+                                </li>
+                                <li>
+                                    <a style="color:#c75500" data-toggle="tab" href="#DetailRoomFacilities" class="nav-link"><i class="fa fa-list"></i> امکانات</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" style="font-size:15px">
+                                <div id="DetailRoomBasicInfo" class="tab-pane active in">
+                                    <div class="table-responsive panel">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-sort-numeric-up"></i> شماره</td>
+                                                    <td id="DetailRoomNumber"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-location"></i> مشخصات مکانی</td>
+                                                    <td id="DetailRoomLocation"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-list"></i> نوع اتاق </td>
+                                                    <td id="DetailRoomType"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-hotel"></i> در هتل</td>
+                                                    <td id="DetailRoomHotel"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div id="DetailRoomFacilities" class="tab-pane fade in">
+                                    <div class="table-responsive panel">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-space-shuttle"></i> متراژ</td>
+                                                    <td id="DetailFacilitiesSpace"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;font-size:13px"><i class="fa fa-users"></i> ظرفیت</td>
+                                                    <td id="DetailFacilitiesCapacity"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت یک نفره</td>
+                                                    <td id="DetailFacilitiesSingleBed"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-bed"></i> تخت دو نفره</td>
+                                                    <td id="DetailFacilitiesDoubleBed"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="font-family:IRANSansWeb_Bold !important;"><i class="fa fa-gamepad"></i>  امکانات دیگر</td>
+                                                    <td>
+                                                        <div class="container">
+                                                            <ul class="ks-cboxtags">
+                                                                <li><input disabled type="checkbox" id="DetailFacilitiesKitchen" value="Kitchen"><label for="DetailFacilitiesKitchen">آشپزخونه</label></li>
+                                                                <li><input disabled type="checkbox" id="DetailFacilitiesTerrace" value="Teracce"><label for="DetailFacilitiesTerrace">تراس</label></li>
+                                                                <li><input disabled type="checkbox" id="DetailFacilitiesTV" value="TV"><label for="DetailFacilitiesTV">تلویزیون</label></li>
+                                                                <li><input disabled type="checkbox" id="DetailFacilitiesSafeBox" value="SafeBox"><label for="DetailFacilitiesSafeBox">گاو صندوق</label></li>
+                                                                <li><input disabled type="checkbox" id="DetailFacilitiesWiFi" value="WiFi"><label for="DetailFacilitiesWiFi">Wi-Fi</label></li>
+                                                                <li><input disabled type="checkbox" id="DetailFacilitiesGamingConsole" value="Console"><label for="DetailFacilitiesGamingConsole">PlayStation</label></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <center>
+                            <span class="text-left">
+                                <button data-izimodal-close="" style="width:100px;margin-top:20px" class="btn btn-danger"><i class="fa fa-times"></i> انصراف</button>
+                            </span>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="RoomPriceModal" hidden>
+    <div class="iziModal-header" style="background-color:#c75500; margin-bottom:20px">
+        <h2 class="iziModal-header-title"><i class="fa fa-hotel"></i> قیمت اتاق </h2>
+        <div class="iziModal-header-buttons">
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+            <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="">
+            <input hidden id="RoomPrice_RoomID" />
+            <div class="row h-100 justify-content-center align-items-center">
+
+
+               
+
+                    <div class="form-inline col-md-12" style="margin:0 auto;">
+                        <button onclick="GetPreviousPrice()" class="btn btn-secondary"style="margin:0 auto; margin-left:30px !important;"><i class="fa fa-chevron-circle-right"></i> ماه قبل</button>
+                        <h2 id="HeaderTitle" style="margin:0 auto;;font-size:20px;margin:20px"></h2>
+                        <button onclick="GetNextMonthPrice()" class="btn btn-secondary"style="margin:0 auto; margin-right:30px !important;">ماه بعد <i class="fa fa-chevron-circle-left"></i></button>
+                    </div>
+
+                    <div class="form-inline" style="margin-bottom:40px">
+                        <input disabled readonly type="text" id="RoomPricePicker" class="form-control text-center" style="border-radius:0 15px 15px 0 !important" placeholder="انتخاب تاریخ" />
+                        <button onclick="SearchMonthPrice()" class="btn btn-info" style="border-radius:15px 0 0 15px"><i class="fa fa-search"></i></button>
+                    </div>
+
+
+                <table class="table table-bordered table-responsive-lg">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="min-width:170px">
+                                <a class="text-primary" style="font-size:20px" id="HeaderWeek0"></a>
+                            </th>
+                            <th class="text-center" style="min-width:170px">
+                                <a class="text-primary" style="font-size:20px" id="HeaderWeek1"></a>
+                            </th>
+                            <th class="text-center" style="min-width:170px">
+                                <a class="text-primary" style="font-size:20px" id="HeaderWeek2"></a>
+                            </th>
+                            <th class="text-center" style="min-width:170px">
+                                <a class="text-primary" style="font-size:20px" id="HeaderWeek3"></a>
+                            </th>
+                            <th class="text-center" style="min-width:170px">
+                                <a class="text-primary" style="font-size:20px" id="HeaderWeek4"></a>
+                            </th>
+                            <th class="text-center" style="min-width:170px">
+                                <a class="text-primary" style="font-size:20px" id="HeaderWeek5"></a>
+                            </th>
+                            <th class="text-center" style="min-width:170px">
+                                <a class="text-primary" style="font-size:20px" id="HeaderWeek6"></a>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="InputDates">
+                        <tr id="DateRow1"></tr>
+                        <tr id="DateRow2"></tr>
+                        <tr id="DateRow3"></tr>
+                        <tr id="DateRow4"></tr>
+                        <tr id="DateRow5"></tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/PersianKendo.js"></script>
+    <script type="text/javascript">
+        var EditModal = false;
+        var DetailModal = false;
+        var RoomDetailUrl = '@Url.Action("Detail","Room")';
+        var RoomCreateUrl = '@Url.Action("Create","Room")';
+        var RoomEditUrl = '@Url.Action("Edit","Room")';
+        var RoomDeleteUrl = '@Url.Action("Delete","Room")';
+        var RoomSubmitPriceUrl = '@Url.Action("PriceCreate","Room")';
+        var RoomPriceCalendarUrl = '@Url.Action("RoomPriceCalendar", "Room")';
+        var RoomPriceCalendarSearchUrl = '@Url.Action("RoomPriceCalendarSearch", "Room")';
+        var RoomPriceCalendarNextMonthUrl = '@Url.Action("RoomPriceCalendarNextMonth", "Room")';
+        var RoomPriceCalendarPrevoiusMonthUrl = '@Url.Action("RoomPriceCalendarPrevoiusMonth", "Room")';
+        var FacilitiesCreateUrl = '@Url.Action("FacilitiesCreate", "Room")';
+        var FacilitiesEditUrl = '@Url.Action("FacilitiesEdit", "Room")';
+
+        
+
+        var CurrentDate = "";
+        $(document).ready(function () {
+            $("#RoomPriceFromDate").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: false
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+
+                timePicker: {
+                    enabled: false,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+            $("#RoomPriceToDate").persianDatepicker({
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: true
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
+                    }
+                },
+                observer: true,
+                format: 'YYYY/MM/DD',
+            });
+
+            $("#RoomPricePicker").persianDatepicker({
+                viewMode: 'month',
+                dayPickerEnabled: false,
+                initialValue: false,
+                calendar: {
+                    persian: {
+                        locale: 'fa'
+                    }
+                },
+                initialValueType: 'persian',
+                altField: '#inlineExampleAlt',
+                altFormat: 'LLLL',
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: false
+                    }
+                },
+                navigator: {
+                    scroll: {
+                        enabled: false
+                    }
+                },
+
+                timePicker: {
+                    enabled: false,
+                    meridiem: {
+                        enabled: true
+                    }
+
+                },
+                dayPicker: {
+                    enabled: false
+                },
+                observer: false,
+                format: 'YYYY/MM',
+            });
+            DateTimeNow();
+
+        });
+        $("#NewRoomBtn").click(function () {
+            $("#CreateRoomModal").removeAttr('hidden');
+            $("#CreateRoomModal").iziModal('open');
+        })
+
+
+
+        function DateTimeNow() {
+            $.ajax({
+                url: '/Room/DateTimeNow',
+                type: 'GET',
+                success: function (result) {
+                    CurrentDate = result.CurrentDate;
+                },
+                error: function (result) {
+                }
+            });
+        }
+
+        function GenerateHeaderTitle(result) {
+            $("#HeaderTitle").html(result);
+        }
+        function GenerateHeaderWeek(result) {
+            for (let i = 0; i < result.length; i++) {
+                $("#HeaderWeek" + i).html(result[i])
+            }
+        }
+
+
+        function GetPrices(ID) {
+            debugger;
+            $.ajax({
+                url: RoomPriceCalendarUrl,
+                type: 'GET',
+                data: {
+                    roomID: ID,
+                    requestDate: CurrentDate
+                },
+                success: function (result) {
+                    $("#RoomPrice_RoomID").val(ID);
+                    CurrentDate = result.CurrentDay;
+                    GenerateHeaderTitle(result.HeaderTitle)
+                    GenerateHeaderWeek(result.HeaderWeek)
+                    GenerateCalendarDates(result.CalendarPrices)
+                },
+                error: function (result) {
+                }
+            })
+        }
+        
+
+        function SearchMonthPrice() {
+            debugger;
+            var date = $("#RoomPricePicker").val();
+            date = date.replace("۰", "0").replace("۱", "1").replace("۲", "2").replace("۳", "3").replace("۴", "4").replace("۵", "5").replace("۶", "6").replace("۷", "7").replace("۸", "8").replace("۹", "9");
+            date = date + "/01"
+            debugger;
+            $.ajax({
+                url: RoomPriceCalendarSearchUrl,
+                type: 'GET',
+                data: {
+                    roomID: $("#RoomPrice_RoomID").val(),
+                    requestDate: date
+                },
+                success: function (result) {
+                    CurrentDate = result.CurrentDay;
+                    GenerateHeaderTitle(result.HeaderTitle);
+                    GenerateHeaderWeek(result.HeaderWeek);
+                    GenerateCalendarDates(result.CalendarPrices);
+                },
+                error: function (result) {
+                }
+            })
+
+        }
+
+        function GetNextMonthPrice() {
+            $("#RoomPricePicker").val("");
+            debugger;
+            $.ajax({
+                url: RoomPriceCalendarNextMonthUrl,
+                type: 'GET',
+                data: {
+                    roomID: $("#RoomPrice_RoomID").val(),
+                    requestDate: CurrentDate
+                },
+                success: function (result) {
+                    CurrentDate = result.CurrentDay;
+                    GenerateHeaderTitle(result.HeaderTitle);
+                    GenerateHeaderWeek(result.HeaderWeek);
+                    GenerateCalendarDates(result.CalendarPrices);
+                },
+                error: function (result) {
+                }
+            })
+        }
+
+        function GetPreviousPrice() {
+            $("#RoomPricePicker").val("");
+            debugger;
+            $.ajax({
+                url: RoomPriceCalendarPrevoiusMonthUrl,
+                type: 'GET',
+                data: {
+                    roomID: $("#RoomPrice_RoomID").val(),
+                    requestDate: CurrentDate
+                },
+                success: function (result) {
+                    CurrentDate = result.CurrentDay;
+                    GenerateHeaderTitle(result.HeaderTitle);
+                    GenerateHeaderWeek(result.HeaderWeek);
+                    GenerateCalendarDates(result.CalendarPrices);
+                },
+                error: function (result) {
+                }
+            })
+        }
+
+        function GenerateTableTd(result,i) {
+            return $("<td />").addClass('text-center').append(
+                $('<h6 />').attr('style', 'font-size:20px').html(result[i].Data[0].PersianDay)
+            ).append(
+                $('<div />').addClass('col-md-12').attr('style', 'margin-top:5px').append(
+                    $('<input />').addClass('form-control').addClass('text-right').attr('id', result[i].Data[0].Date).val(result[i].Data[0].Price)
+                )
+            )
+        }
+
+        function ClearCalendar() {
+            $("#DateRow1").empty();
+            $("#DateRow2").empty();
+            $("#DateRow3").empty();
+            $("#DateRow4").empty();
+            $("#DateRow5").empty();
+        }
+
+        function GenerateCalendarDates(result) {
+            ClearCalendar();
+
+            for (var i = 0; i < result.length; i++) {
+                if (i < 7) {
+                    let tr = $("#DateRow1")
+                    let td = GenerateTableTd(result, i);
+                    tr.append(td);
+
+                }
+                else if (i > 6 && i < 14) {
+                    let tr = $("#DateRow2")
+                    let td = GenerateTableTd(result, i);
+                    tr.append(td);
+
+                }
+                else if (i > 13 && i < 21) {
+                    let tr = $("#DateRow3")
+                    let td = GenerateTableTd(result, i);
+                    tr.append(td);
+
+                }
+                else if (i > 20 && i < 28) {
+                    let tr = $("#DateRow4")
+                    let td = GenerateTableTd(result, i);
+                    tr.append(td);
+
+                }
+                else if (i > 27 ) {
+                    let tr = $("#DateRow5")
+                    let td = GenerateTableTd(result, i);
+                    tr.append(td);
+
+                }
+            }
+
+            $("#InputDates input").keydown(function (e) {
+
+                if (e.keyCode == 13) {
+                    debugger;
+                    $.ajax({
+                        url: RoomSubmitPriceUrl,
+                        type: 'POST',
+                        data: {
+                            RoomID: $("#RoomPrice_RoomID").val(),
+                            Price: $(this).val(),
+                            Date: $(this).attr('id')
+                        },
+                        success: function (result) {
+
+
+                            iziToast.show({
+                                rtl: true,
+                                title: 'قیمت جدید این اتاق ثبت شد',
+                                color: 'green',
+                                pauseOnHover: false,
+                                timeout: 2000,
+                                position: 'bottomRight',
+                                onClosed: function () {
+                                }
+
+                            });
+
+                        },
+                        error: function (result) {
+
+
+                        }
+                    })
+                    $(this).attr('style','background-color:#a3d5a7')
+
+                }
+
+            })
+        }
+
+
+
+        function RoomPriceCalendar(ID) {
+            $("#RoomPriceModal").removeAttr('hidden');
+            $("#RoomPriceModal").iziModal('open');
+            GetPrices(ID);
+
+
+        }
+        function SubmitNewPrice(ID) {
+            $.ajax({
+                url: RoomSubmitPriceUrl,
+                type: 'POST',
+                data: {
+                    RoomID: ID,
+                    Price: $("#RoomPrice").val(),
+                    FromDate: $("#RoomPriceFromDate").val(),
+                    ToDate: $("#RoomPriceToDate").val(),
+                },
+                success: function (result) {
+                    $("#RoomPrice").val("");
+                    $("#RoomPriceFromDate").val("");
+                    $("#RoomPriceToDate").val("");
+
+                    iziToast.show({
+                        rtl: true,
+                        title: 'قیمت جدید این اتاق ثبت شد',
+                        color: 'green',
+                        pauseOnHover: false,
+                        timeout: 2000,
+                        position: 'bottomRight',
+                        onClosed: function () {
+                        }
+
+                    });
+
+                },
+                error: function (result) {
+
+
+                }
+            })
+        }
+        function RoomDetail(ID) {
+            $.ajax({
+                url: RoomDetailUrl,
+                type: 'GET',
+                data: {
+                    id: ID
+                },
+                success: function (result) {
+                    if (EditModal) {
+                        FillEditModal(result);
+                    }
+                    if (DetailModal) {
+                        FillDetailModal(result);
+                    }
+                },
+                error: function (result) {
+                }
+            })
+        }
+        function RoomEdit(ID) {
+            EditModal = true;
+            $("#EditRoomModal").removeAttr('hidden');
+            $("#EditRoomModal").iziModal('open');
+            RoomDetail(ID);
+        }
+        function FillEditModal(result) {
+            $("#RoomID").val(result.ID);
+            $("#EditRoomNumber").val(result.Number);
+            $("#EditRoomLocation").val(result.Location);
+
+            var dropdownlist1 = $("#EditRoomType").data("kendoDropDownList");
+            dropdownlist1.select(function (dataItem) {
+                return dataItem.Type === result.Type;
+            });
+
+            var dropdownlist2 = $("#EditRoomHotel").data("kendoDropDownList");
+            dropdownlist2.select(function (dataItem) {
+                return dataItem.Name === result.Hotel;
+            });
+            FillFacilitiesEditModal(result);
+        }
+
+
+        function FillFacilitiesEditModal(result) {
+            debugger;
+            $("#FacilitiesID").val(result.FacilitiesID);
+            $("#EditFacilitiesSingleBed").val(result.SingleBed);
+            $("#EditFacilitiesDoubleBed").val(result.DoubleBed);
+            $("#EditFacilitiesSpace").val(result.Space);
+            $("#EditFacilitiesCapacity").val(result.Capacity);
+            $("#EditFacilitiesKitchen").prop('checked', Boolean(parseInt(result.Kitchen,10)));
+            $("#EditFacilitiesTerrace").prop('checked', Boolean(parseInt(result.Terrace, 10)));
+            $("#EditFacilitiesTV").prop('checked', Boolean(parseInt(result.TV, 10)));
+            $("#EditFacilitiesWiFi").prop('checked', Boolean(parseInt(result.WiFi, 10)));
+            $("#EditFacilitiesSafeBox").prop('checked', Boolean(parseInt(result.SafeBox, 10)));
+            $("#EditFacilitiesGamingConsole").prop('checked', Boolean(parseInt(result.GamingConsole, 10)));
+        }
+        function FillFacilitiesDetailModal(result) {
+            debugger;
+            $("#DetailFacilitiesSingleBed").html(result.SingleBed);
+            $("#DetailFacilitiesDoubleBed").html(result.DoubleBed);
+            $("#DetailFacilitiesSpace").html(result.Space);
+            $("#DetailFacilitiesCapacity").html(result.Capacity);
+            $("#DetailFacilitiesKitchen").prop('checked', Boolean(parseInt(result.Kitchen, 10)));
+            $("#DetailFacilitiesTerrace").prop('checked', Boolean(parseInt(result.Terrace, 10)));
+            $("#DetailFacilitiesTV").prop('checked', Boolean(parseInt(result.TV, 10)));
+            $("#DetailFacilitiesWiFi").prop('checked', Boolean(parseInt(result.WiFi, 10)));
+            $("#DetailFacilitiesSafeBox").prop('checked', Boolean(parseInt(result.SafeBox, 10)));
+            $("#DetailFacilitiesGamingConsole").prop('checked', Boolean(parseInt(result.GamingConsole, 10)));
+        }
+
+
+
+        function RoomInfo(ID) {
+            DetailModal = true;
+            $("#DetailRoomModal").removeAttr('hidden');
+            $("#DetailRoomModal").iziModal('open');
+            RoomDetail(ID);
+        }
+        function FillDetailModal(result) {
+            $("#RoomID").val(result.ID);
+            $("#DetailRoomNumber").html(result.Number);
+            $("#DetailRoomLocation").html(result.Location);
+            $("#DetailRoomType").html(result.Type);
+            $("#DetailRoomHotel").html(result.Hotel);
+            FillFacilitiesDetailModal(result)
+        }
+        function RoomDelete(ID) {
+            if (confirm('آیا از حذف این اتاق مطمئن هستید؟')) {
+                $.ajax({
+                    url: RoomDeleteUrl,
+                    type: 'POST',
+                    data: {
+                        id: ID
+                    },
+                    success: function (result) {
+                        $("#grid").data('kendoGrid').dataSource.read();
+                    },
+                    error: function (result) {
+                    }
+                })
+            }
+        }
+        function SubmitCreateRoom() {
+            $.ajax({
+                url: RoomCreateUrl,
+                type: 'POST',
+                data: {
+                    Number: $("#CreateRoomNumber").val(),
+                    Location: $("#CreateRoomLocation").val(),
+                    Type: $("#CreateRoomType").val(),
+                    Hotel: $("#CreateRoomHotel").val()
+                },
+                success: function (result) {
+                    debugger;
+                    $("#CreateRoomModal").iziModal('close');
+                    $("#grid").data('kendoGrid').dataSource.read();
+                    $("#CreateRoomID").val(result.RoomID);
+                    SubmitFacilities(result.RoomID);
+                },
+                error: function (result) {
+
+
+                }
+            })
+        }
+        function SubmitFacilities(roomID) {
+            debugger
+            $.ajax({
+                url: FacilitiesCreateUrl,
+                type: 'POST',
+                data: {
+                    SingleBed: $("#FacilitiesSingleBed").val(),
+                    DoubleBed: $("#FacilitiesDoubleBed").val(),
+                    Space: $("#FacilitiesSpace").val(),
+                    Capacity: $("#FacilitiesCapacity").val(),
+                    Kitchen: $("#FacilitiesKitchen").prop('checked'),
+                    Terrace: $("#FacilitiesTerrace").prop('checked'),
+                    TV: $("#FacilitiesTV").prop('checked'),
+                    WiFi: $("#FacilitiesWiFi").prop('checked'),
+                    SafeBox: $("#FacilitiesSafeBox").prop('checked'),
+                    GamingConsole: $("#FacilitiesGamingConsole").prop('checked'),
+                    RoomID: roomID
+
+                },
+                success: function (result) {
+
+                },
+                error: function (result) {
+
+
+                }
+            })
+        }
+        function SubmitEditFacilities() {
+            $.ajax({
+                url: FacilitiesEditUrl,
+                type: 'POST',
+                data: {
+                    ID: $("#FacilitiesID").val(),
+                    SingleBed: $("#EditFacilitiesSingleBed").val(),
+                    DoubleBed: $("#EditFacilitiesDoubleBed").val(),
+                    Space: $("#EditFacilitiesSpace").val(),
+                    Capacity: $("#EditFacilitiesCapacity").val(),
+                    Kitchen: $("#EditFacilitiesKitchen").prop('checked'),
+                    Terrace: $("#EditFacilitiesTerrace").prop('checked'),
+                    TV: $("#EditFacilitiesTV").prop('checked'),
+                    WiFi: $("#EditFacilitiesWiFi").prop('checked'),
+                    SafeBox: $("#EditFacilitiesSafeBox").prop('checked'),
+                    GamingConsole: $("#EditFacilitiesGamingConsole").prop('checked'),
+
+
+                },
+                success: function (result) {
+
+                },
+                error: function (result) {
+
+
+                }
+            })
+        }
+
+        function SubmitEditRoom() {
+            $.ajax({
+                url: RoomEditUrl,
+                type: 'POST',
+                data: {
+                    ID: $("#RoomID").val(),
+                    FacilitiesID: $("#FacilitiesID").val(),
+                    Number: $("#EditRoomNumber").val(),
+                    Location: $("#EditRoomLocation").val(),
+                    Type: $("#EditRoomType").val(),
+                    Hotel: $("#EditRoomHotel").val()
+                },
+                success: function (result) {
+                    SubmitEditFacilities();
+                    $("#EditRoomModal").iziModal('close');
+                    $("#grid").data('kendoGrid').dataSource.read();
+                },
+                error: function (result) {
+
+
+                }
+            })
+        }
+
+
+    </script>
+    <script type="text/javascript">
+        $("#CreateRoomModal").iziModal({
+            width: 800,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                EditModal = false;
+                DetailModal = false;
+                $("#CreateRoomNumber").val("");
+                $("#CreateRoomLocation").val("");
+
+
+                $("#FacilitiesSingleBed").val(0);
+                $("#FacilitiesDoubleBed").val(0);
+                $("#FacilitiesSpace").val(0);
+                $("#FacilitiesCapacity").val(0);
+                $("#FacilitiesKitchen").prop('checked', 'false');
+                $("#FacilitiesTerrace").prop('checked', 'false');
+                $("#FacilitiesTV").prop('checked', 'false');
+                $("#FacilitiesWiFi").prop('checked', 'false');
+                $("#FacilitiesSafeBox").prop('checked', 'false');
+                $("#FacilitiesGamingConsole").prop('checked', 'false');
+
+
+            }
+        });
+        $("#EditRoomModal").iziModal({
+            width: 800,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                EditModal = false;
+                $("#RoomID").val("");
+                $("#EditRoomNumber").val("");
+                $("#EditRoomLocation").val("");
+
+                $("#EditFacilitiesSingleBed").val(0);
+                $("#EditFacilitiesDoubleBed").val(0);
+                $("#EditFacilitiesSpace").val(0);
+                $("#EditFacilitiesCapacity").val(0);
+                $("#EditFacilitiesKitchen").prop('checked', false);
+                $("#EditFacilitiesTerrace").prop('checked', false);
+                $("#EditFacilitiesTV").prop('checked', false);
+                $("#EditFacilitiesWiFi").prop('checked', false);
+                $("#EditFacilitiesSafeBox").prop('checked', false);
+                $("#EditFacilitiesGamingConsole").prop('checked', false);
+
+            }
+        });
+        $("#DetailRoomModal").iziModal({
+            width: 700,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onClosed: function () {
+                DetailModal = false;
+                $("#RoomID").val("");
+                $("#DetailRoomNumber").html("");
+                $("#DetailRoomLocation").html("");
+                $("#DetailRoomType").html("");
+                $("#DetailRoomHotel").html("");
+
+
+                $("#DetailFacilitiesSingleBed").html("");
+                $("#DetailFacilitiesDoubleBed").html("");
+                $("#DetailFacilitiesSpace").html("");
+                $("#DetailFacilitiesCapacity").html("");
+                $("#DetailFacilitiesKitchen").prop('checked', false);
+                $("#DetailFacilitiesTerrace").prop('checked', false);
+                $("#DetailFacilitiesTV").prop('checked', false);
+                $("#DetailFacilitiesWiFi").prop('checked', false);
+                $("#DetailFacilitiesSafeBox").prop('checked', false);
+                $("#DetailFacilitiesGamingConsole").prop('checked', false);
+
+            }
+        });
+        $("#RoomPriceModal").iziModal({
+            width: 1300,
+            height: 800,
+            rtl: true,
+            background: '#ffffff',
+            closeOnEscape: false,
+            overlayClose: false,
+            onOpened: function () {
+                $("#RoomPricePicker").removeAttr('disabled');
+
+            },
+            onClosed: function () {
+                $("#RoomPricePicker").attr('disabled', 'disabled');
+                $("#RoomPricePicker").val("");
+
+                $("#RoomPrice_RoomID").val("");
+                $("#HeaderTitle").html("");
+                $("#HeaderWeek0").html("");
+                $("#HeaderWeek1").html("");
+                $("#HeaderWeek2").html("");
+                $("#HeaderWeek3").html("");
+                $("#HeaderWeek4").html("");
+                $("#HeaderWeek5").html("");
+                $("#HeaderWeek6").html("");
+                ClearCalendar();
+                DateTimeNow();
+            }
+        });
+    </script>
+
+    <script>
+        $("#CreateRoomType").kendoDropDownList({
+            dataTextField: "Type",
+            dataValueField: "value",
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                batch: true,
+                transport: {
+                    read: {
+                        url: "RoomType_List_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            Type: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            }
+
+        });
+        $("#CreateRoomHotel").kendoDropDownList({
+            dataTextField: "Name",
+            dataValueField: "value",
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                batch: true,
+                transport: {
+                    read: {
+                        url: "HotelData_List_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            Name: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            index: 0
+        });
+        $("#EditRoomType").kendoDropDownList({
+            dataTextField: "Type",
+            dataValueField: "value",
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                batch: true,
+                transport: {
+                    read: {
+                        url: "RoomType_List_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            Type: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            }
+
+        });
+        $("#EditRoomHotel").kendoDropDownList({
+            dataTextField: "Name",
+            dataValueField: "value",
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                batch: true,
+                transport: {
+                    read: {
+                        url: "HotelData_List_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            Name: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            index: 0
+        });
+        $("#grid").kendoGrid({
+            height: 700,
+            columns: [
+                { field: "Number", title: "شماره اتاق", width: 50 },
+                { field: "Location", title: "مکان", width: 100 },
+                { field: "Type", title: "نوع", width: 50 },
+                {
+                    template:
+                        '<button id="RoomInfoBtn" onclick="RoomInfo(' + "'#=ID#'" + ')" class="btn btn-primary"><i class="fa fa-info"></i> اطلاعات </button> | <button id="RoomEditBtn" onclick="RoomEdit(' + "'#=ID#'" + ')" class="btn btn-warning"><i class="fa fa-pen"></i> ویرایش </button> | <button id="RoomPriceCalendarBtn" onclick="RoomPriceCalendar(' + "'#=ID#'" + ')" class="btn btn-info"><i class="fa fa-money-bill"></i> قیمت </button> | <button id="RoomDeleteBtn" onclick="RoomDelete(' + "'#=ID#'" + ')" class="btn btn-danger"><i class="fa fa-trash"></i> حذف </button>', title: "عملیات", width: 100
+                }
+            ],
+            toolbar: ["excel", "pdf"],
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                transport: {
+                    read: {
+                        url: "Room_List_Read"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "ID",
+                        fields: {
+                            ID: { type: "string" },
+                            Number: { type: "number" },
+                            Location: { type: "string" }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverSorting: true,
+            },
+            columnMenu: true,
+            pageable: true,
+            navigatable: true,
+            selectable: "single row",
+            sortable: {
+                mode: "single"
+            },
+            filterable: true,
+            scrollable: true
+        })
+    </script>
+}

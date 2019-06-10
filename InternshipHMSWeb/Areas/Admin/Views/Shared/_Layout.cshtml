@@ -1,0 +1,137 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css-rtl")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="@Url.Content("~/Content/kendo/2019.1.220/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2019.1.220/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2019.1.220/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo/2019.1.220/kendo.rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/fontawesomepro.css" rel="stylesheet" />
+    <link href="~/Content/iziModal.css" rel="stylesheet" />
+    <link href="~/Content/iziToast.css" rel="stylesheet" />
+    <link href="~/Content/persian-datepicker.css" rel="stylesheet" />
+
+</head>
+<body class="rtl" style="background-color:#f7f7f7">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="min-height:50px">
+        <a onclick="openNav()"><i class="fa fa-2x fa-bars text-white"></i></a>
+        @*<a class="navbar-brand" href="#">Navbar</a>*@
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto"></ul>
+            <div>
+                <img src="~/Content/Images/UserAvatar.png" style="width:40px;height:40px" />
+            </div>
+            <a style="margin-right:20px" href="/Home/Index" class="text-white"><i class="fa fa-2x fa-home"></i></a>
+
+            <a href="/Admin/Employee/UserEdit?id=@User.Identity.GetUserId()" style="margin:0 20px 0 30px"><i class="fa fa-2x fa-cog text-white"></i></a>
+            <i style="margin-left:30px" class="fa fa-grip-lines-vertical text-white"></i>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right", action = "/Account/LogOff" }))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-2x fa-sign-out text-white"></i></a>
+            }
+        </div>
+    </nav>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn text-white" onclick="closeNav()"><i class="fa fa-times-circle"></i></a>
+        <div class="">
+            <div class="" style="margin:10px">
+                <img class="mx-auto d-block" src="~/Content/Images/UserAvatar.png" style="width:45px;height:45px" />
+            </div>
+            <a class="text-white text-center">@User.Identity.GetUserName()</a>
+        </div>
+
+        <hr />
+        <ul id="sidebarnav" class="offset-1 text-white">
+
+            <li class="head-item-space"><i class="fa fa-home-alt"></i> اصلی</li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/Home/Index" aria-expanded="false"><i class="fa fa-tachometer-alt"></i> داشبورد <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="fa fa-envelope"></i> صندوق ورودی <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+
+            <li class="head-item-space"><i class="fa fa-hotel"></i> هتل ها</li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/HotelData/Index" aria-expanded="false"><i class="fa fa-list"></i> لیست هتل ها <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+
+
+            @*<li class="head-item-space"><i class="fa fa-cog"></i> تنظیمات</li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/Employee/Index" aria-expanded="false"><i class="fa fa-user"></i> کاربران سیستم <i class="fa fa-chevron-left float-left"></i></a>
+            </li>*@
+           
+            <li class="head-item-space"><i class="fa fa-cog"></i> تنظیمات</li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/Employee/Index" aria-expanded="false"><i class="fa fa-user"></i> کاربران سیستم <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+
+            <li class="head-item-space"><i class="fa fa-plane"></i> مسافران</li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/Customer/Index" aria-expanded="false"><i class="fa fa-passport"></i> مدیریت مسافران <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/Reservation/Index" aria-expanded="false"><i class="fa fa-pencil-ruler"></i> رزرواسیون <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/Checking/Index" aria-expanded="false"><i class="fa fa-arrows"></i> ثبت ورود و خروج <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+
+            <li class="head-item-space"><i class="fa fa-home-heart"></i> اتاق</li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/Room/Index" aria-expanded="false"><i class="fa fa-list"></i> لیست اتاق ها <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+            <li class="items-space">
+                <a class="has-arrow waves-effect waves-dark" href="/Admin/RoomType/Index" aria-expanded="false"><i class="fa fa-list"></i> نوع اتاق ها <i class="fa fa-chevron-left float-left"></i></a>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+
+    <div id="main">
+        @RenderBody()
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap-rtl")
+    <script src="~/Scripts/Slider.js"></script>
+    <script src="~/Scripts/fontawesomepro.js"></script>
+
+
+    <script>var jq1124 = jQuery.noConflict();</script>
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/jquery.min.js")"></script>
+
+    <script src="~/Scripts/persian-date.js"></script>
+    <script src="~/Scripts/persian-datepicker.js"></script>
+
+
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/angular.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2019.1.220/kendo.all.min.js")"></script>
+    <script src="~/Scripts/kendo/2019.1.220/kendo.aspnetmvc.min.js"></script>
+    <script src="~/Scripts/iziModal.js"></script>
+    <script src="~/Scripts/iziToast.js"></script>
+
+
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
