@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
 using System.Web.Mvc;
@@ -24,6 +26,33 @@ namespace InternshipHMSWeb.Controllers
         public HomeApiController(IUnitOfWork UnitOfWork) : base(UnitOfWork)
         {
         }
+
+
+        //[HttpPost]
+        //public void Upload()
+        //{
+
+        //    var context = new HttpContextWrapper(HttpContext.Current);
+        //    HttpRequestBase request = context.Request;
+
+        //    for (int i = 0; i < request.Files.Count; i++)
+        //    {
+        //        var file = request.Files[i];
+        //        var fileName = Path.GetFileName(file.FileName);
+
+        //        byte[] fileData = null;
+        //        using (var binaryReader = new BinaryReader(request.Files[i].InputStream))
+        //        {
+        //            fileData = binaryReader.ReadBytes(request.Files[i].ContentLength);
+        //        }
+        //        // Save fileName as File Name
+        //        // Save fileData as File Data
+
+        //    }
+
+        //}
+
+
         [HttpGet]
         public IHttpActionResult CheckAuthentication()
         {
@@ -86,7 +115,7 @@ namespace InternshipHMSWeb.Controllers
                     var result = _unitOfWork.Customer_List.Add(CustomerMapper.Map(customer));
                     if (result.Succeeded)
                     {
-                         return Ok();
+                        return Ok();
                     }
                 }
                 if (customer.CheckSubmitUserCustomer)
@@ -102,7 +131,7 @@ namespace InternshipHMSWeb.Controllers
         }
 
         [HttpGet]
-        public DataSourceResult RoomsInDate_Read([System.Web.Http.ModelBinding.ModelBinder(typeof(WebApiDataSourceRequestModelBinder))]DataSourceRequest request,string FromDate,string ToDate)
+        public DataSourceResult RoomsInDate_Read([System.Web.Http.ModelBinding.ModelBinder(typeof(WebApiDataSourceRequestModelBinder))]DataSourceRequest request, string FromDate, string ToDate)
         {
             return _unitOfWork.Room_List.GetRoomsForReservationInDate(request, PersianDateConvertor.ConvertToGregorian(FromDate).Date, PersianDateConvertor.ConvertToGregorian(ToDate).Date, null);
             //return service;

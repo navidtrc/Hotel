@@ -10,8 +10,10 @@ using Microsoft.AspNet.Identity;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -24,6 +26,28 @@ namespace InternshipHMSWeb.Controllers
         public HomeController(IUnitOfWork UnitOfWork) : base(UnitOfWork)
         {
         }
+
+        //[HttpPost]
+        //public void Upload()
+        //{
+
+        //    for (int i = 0; i < Request.Files.Count; i++)
+        //    {
+        //        var file = Request.Files[i];
+        //        var fileName = Path.GetFileName(file.FileName);
+
+        //        byte[] fileData = null;
+        //        using (var binaryReader = new BinaryReader(Request.Files[i].InputStream))
+        //        {
+        //            fileData = binaryReader.ReadBytes(Request.Files[i].ContentLength);
+        //        }
+        //        // Save fileName as File Name
+        //        // Save fileData as File Data
+
+        //    }
+
+        //}
+
 
         //[HttpPost]
         //private HttpCookie CreateTokenCookie()

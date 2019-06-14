@@ -83,6 +83,47 @@
 
 @section scripts{
 
+
+    @*<script type="text/javascript">
+
+
+        var formData = null;
+
+        $(document).ready(function () {
+            formData = new FormData();
+        });
+
+        function FormDataFunc(id) {
+            
+            var totalFiles = document.getElementById(id).files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById(id).files[i];
+                formData.append(id, file);
+            }
+        }
+
+        function PostData() {
+
+            $.ajax({
+                type: "POST",
+                //url: '/Home/Upload',
+                url: '/api/HomeApi/Upload',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function () {
+                    alert('success');
+                },
+                error: function (xhr, status, errorThrown) {
+                    alert('fail');
+                }
+            });
+        };
+
+    </script>*@
+
+
     <script>
         var FellowsArray = [];
         var SelectedFellows = '[]';
@@ -603,7 +644,7 @@
                                 FromDate: $("#ModalCheckin_date").val(),
                                 ToDate: $("#ModalCheckout_date").val()
                             },
-                            
+
                         }
                     },
                     schema: {

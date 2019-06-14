@@ -87,8 +87,8 @@
                         @Html.AntiForgeryToken()
                         <input hidden value="@User.Identity.GetUserId()" id="UserId" />
                         <div class="row" style="float:left">
-                        <div>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { style = "font-size:20px" })</div>
-                        <a href="javascript:document.getElementById('logoutForm').submit()" style="font-size:15px; margin-right:10px; margin-top:5px;"><i class="fa fa-sign-out"></i></a>
+                            <div>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { style = "font-size:20px" })</div>
+                            <a href="javascript:document.getElementById('logoutForm').submit()" style="font-size:15px; margin-right:10px; margin-top:5px;"><i class="fa fa-sign-out"></i></a>
 
                         </div>
                     }
@@ -141,6 +141,55 @@
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
                                     <input readonly type="text" id="checkout_date" class="form-control bg-white">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @*<input type="file" id="imageUploadForm1" name="image1" onchange="FormDataFunc(id)" multiple="multiple" />
+                                    <input type="file" id="imageUploadForm2" name="image2" onchange="FormDataFunc(id)" multiple="multiple" />
+                                    <input type="file" id="imageUploadForm3" name="image3" onchange="FormDataFunc(id)" multiple="multiple" />
+                                    <input type="file" id="imageUploadForm4" name="image4" onchange="FormDataFunc(id)" multiple="multiple" />
+
+
+                                    <input type="button" value="post" onclick="PostData()" />*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 </div>
                             </div>
 
@@ -234,6 +283,8 @@
                 <div class="col-md-7">
                     <h2 class="heading text-white" data-aos="fade">منوی رستوران</h2>
                     <p class="text-white" data-aos="fade" data-aos-delay="100">بهترین کیفیت غذا را با ما تجربه خواهید کرد</p>
+
+
                 </div>
             </div>
             <div class="food-menu-tabs" data-aos="fade">
@@ -860,7 +911,7 @@
     </div>
 
     <div id="ReservationStatusModal" hidden>
-        
+
         <div class="container" style="margin:30px">
             <h4 class="text-success">شماره رزرو شما: <span id="ReservationNumberStatus"></span></h4>
             <p class="text-warning">شما 24 ساعت فرصت دارید تا رزرو خود را قطعی کنید</p>
