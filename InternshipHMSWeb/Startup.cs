@@ -23,7 +23,7 @@ namespace InternshipHMSWeb
         public void Configuration(IAppBuilder app)
         {
             app.MapSignalR();
-
+            //test
 
             ConfigureAuth(app);
             app.UseOAuthAuthorizationServer(SmObjectFactory.Container.GetInstance<AppOAuthOptions>());
