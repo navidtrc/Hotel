@@ -22,3 +22,11 @@ C:\Users\n.tafreshi\Desktop\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\In
 C:\Users\n.tafreshi\Desktop\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.csproj.CoreCompileInputs.cache
 C:\Users\n.tafreshi\Desktop\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.dll
 C:\Users\n.tafreshi\Desktop\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.pdb
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\bin\Debug\InternshipHMSLibrary.dll
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\bin\Debug\InternshipHMSLibrary.pdb
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.csprojAssemblyReference.cache
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.ResourcesFiles.Resources.resources
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.csproj.GenerateResource.cache
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.dll
+C:\Users\Navid\Documents\Projects\NavidTafreshiHotel\InternshipHMSLibrary\obj\Debug\InternshipHMSLibrary.pdb
